@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="1channel Automation" preserve-order="true" verbose="0" configfailurepolicy="continue">
+
+	<test name="E2E-TestRun">
+		<classes>
+			<class name="com.test.channelplay.RunCucumberTest" /> 
+		</classes>	
+	</test> 
+	
+	<test name="E2E-ReRun">
+		<classes>
+			<class name="com.test.channelplay.ReRunCucumberTest" /> 
+		</classes>	
+	</test> 
+	
+</suite> <!-- Suite -->
