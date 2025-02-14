@@ -1,6 +1,6 @@
 package com.test.channelplay.stepDefinition;
 
-import com.test.channelplay.object.Assistive_Login;
+import com.test.channelplay.object.AssistiveLogin;
 import com.test.channelplay.object.ProductForm_Object;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
@@ -14,7 +14,7 @@ public class ProductForm_Steps extends DriverBase {
 
     ProductForm_Object ProductForm = new ProductForm_Object();
     CommonUtils commonUtils = new CommonUtils();
-    Assistive_Login login = new Assistive_Login();
+    AssistiveLogin login = new AssistiveLogin();
 
 
     @Given("user logged in to Assistive project")

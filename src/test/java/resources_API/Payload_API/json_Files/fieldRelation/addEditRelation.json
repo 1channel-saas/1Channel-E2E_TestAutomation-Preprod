@@ -1,0 +1,24 @@
+[
+  {
+    "attributeId": 69405,
+    "parentLookupId": 219761,
+    "children": [
+      {
+        "childAttributeId": 76393,
+        "childLookupValueId": 226340,
+        "isActive": 1
+      },
+      {
+        "childAttributeId": 76393,
+        "childLookupValueId": 226341,
+        "isActive": 1
+      },
+      {
+        "childAttributeId": 76393,
+        "childLookupValueId": 226342,
+        "isActive": 1
+      }
+    ],
+    "projectId": 436
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "projectId": 436,
+  "moduleType": "module_type",
+  "attributeId": "attribute_id",
+  "attributeTypeId": 1,
+  "fieldVisibilityConfig": [
+    {
+      "projectId": 436,
+      "roleId": "admin",
+      "moduleType": "module_type",
+      "fieldVisibility": "3",
+      "attributeId": "attribute_id",
+      "parentDataListId": null,
+      "value": null
+    },
+    {
+      "projectId": 436,
+      "roleId": "TL",
+      "moduleType": "module_type",
+      "fieldVisibility": "2",
+      "attributeId": "attribute_id",
+      "parentDataListId": null,
+      "value": 227983
+    },
+    {
+      "projectId": 436,
+      "roleId": "user",
+      "moduleType": "module_type",
+      "fieldVisibility": "1",
+      "attributeId": "attribute_id",
+      "parentDataListId": null,
+      "value": null
+    }
+  ]
+}

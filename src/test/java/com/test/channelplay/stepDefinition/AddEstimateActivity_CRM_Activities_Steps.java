@@ -1,7 +1,7 @@
 package com.test.channelplay.stepDefinition;
 
 import com.test.channelplay.object.AddEstimateActivity_CRM_Activities_Object;
-import com.test.channelplay.object.Assistive_Login;
+import com.test.channelplay.object.AssistiveLogin;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
 import com.test.channelplay.utils.GetProperty;
@@ -9,12 +9,11 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.en_scouse.An;
 
 public class AddEstimateActivity_CRM_Activities_Steps extends DriverBase {
 
     AddEstimateActivity_CRM_Activities_Object estimate = new AddEstimateActivity_CRM_Activities_Object();
-    Assistive_Login login = new Assistive_Login();
+    AssistiveLogin login = new AssistiveLogin();
     CommonUtils commonUtils = new CommonUtils();
 
 

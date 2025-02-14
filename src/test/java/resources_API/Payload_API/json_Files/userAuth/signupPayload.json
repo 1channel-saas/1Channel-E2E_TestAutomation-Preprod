@@ -1,0 +1,33 @@
+{
+  "_isEditMode": false,
+  "_userId": 0,
+  "username": "user_name",
+  "userName": "",
+  "firstName": "first_name",
+  "lastName": "last_name",
+  "password": "password_hash",
+  "email": "email_id",
+  "roles": [],
+  "fullname": "",
+  "accessToken": "access_token",
+  "refreshToken": "refresh_token",
+  "pic": "./assets/media/users/default.jpg",
+  "occupation": "",
+  "companyName": "",
+  "phone": "",
+  "address": {
+    "addressLine": "",
+    "city": "",
+    "state": "",
+    "postCode": ""
+  },
+  "socialNetworks": {
+    "linkedIn": "",
+    "facebook": "",
+    "twitter": "",
+    "instagram": ""
+  },
+  "userProject": [],
+  "userId": "",
+  "region": ""
+}

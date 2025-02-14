@@ -1,11 +1,10 @@
 package com.test.channelplay.stepDefinition;
 
-import com.test.channelplay.object.Assistive_Login;
+import com.test.channelplay.object.AssistiveLogin;
 import com.test.channelplay.object.UserList_Object;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
 import com.test.channelplay.utils.GetProperty;
-import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -15,7 +14,7 @@ import org.testng.Assert;
 public class UserList_Steps extends DriverBase {
 
     UserList_Object userlist = new UserList_Object();
-    Assistive_Login login = new Assistive_Login();
+    AssistiveLogin login = new AssistiveLogin();
     CommonUtils commonUtils = new CommonUtils();
 
     @Given("user loggedIn to Assistive project under Admin User")

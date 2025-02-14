@@ -2,7 +2,7 @@ package com.test.channelplay.stepDefinition;
 
 
 import com.test.channelplay.object.AddEstimateActivity_ContactsDashboard_Object;
-import com.test.channelplay.object.Assistive_Login;
+import com.test.channelplay.object.AssistiveLogin;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
 import com.test.channelplay.utils.GetProperty;
@@ -13,7 +13,7 @@ import io.cucumber.java.en.When;
 
 public class AddEstimateActivity_ContactsDashboard_Steps extends DriverBase {
 
-    Assistive_Login login = new Assistive_Login();
+    AssistiveLogin login = new AssistiveLogin();
     CommonUtils commonUtils = new CommonUtils();
     AddEstimateActivity_ContactsDashboard_Object estimate = new AddEstimateActivity_ContactsDashboard_Object();
 

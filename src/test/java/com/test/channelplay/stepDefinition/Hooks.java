@@ -1,6 +1,5 @@
 package com.test.channelplay.stepDefinition;
 
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.test.channelplay.utils.DriverBase;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -9,9 +8,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class Hooks extends DriverBase {
 
@@ -24,7 +20,7 @@ public class Hooks extends DriverBase {
     {
         driverBase = new DriverBase();
         driver = driverBase.initialize(System.getProperty("browser"));
-        System.out.println("Getting the Driver information");
+        System.out.println("Getting the Driver information...");
     }
 
     @After(order = 2)
@@ -37,11 +33,6 @@ public class Hooks extends DriverBase {
 
     @After(order = 1)
     public void tearDown() {
-
-        /*ExtentReports extent = new ExtentReports();
-        ExtentSparkReporter spark = new ExtentSparkReporter("target/ExtentReport/spark.html");
-        extent.attachReporter(spark); */
-
         driver.quit();
     }
 

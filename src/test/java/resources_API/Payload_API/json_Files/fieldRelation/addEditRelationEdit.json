@@ -1,0 +1,54 @@
+[
+  {
+    "parentLookupId": 219760,
+    "parentLookupValue": "Customer",
+    "children": [
+      {
+        "childAttributeId": 69586,
+        "childLookupValueId": 219862,
+        "childLookupValue": "T1",
+        "isActive": 1
+      },
+      {
+        "childAttributeId": 69586,
+        "childLookupValueId": 219863,
+        "childLookupValue": "T2",
+        "isActive": 1
+      },
+      {
+        "childAttributeId": 69586,
+        "childLookupValueId": 219864,
+        "childLookupValue": "T3",
+        "isActive": 1
+      }
+    ],
+    "attributeId": 69405,
+    "projectId": 436
+  },
+  {
+    "parentLookupId": 219761,
+    "parentLookupValue": "Partner",
+    "children": [
+      {
+        "childAttributeId": 76393,
+        "childLookupValueId": 226340,
+        "childLookupValue": "dept 1",
+        "isActive": 1
+      },
+      {
+        "childAttributeId": 76393,
+        "childLookupValueId": 226341,
+        "childLookupValue": "dept 2",
+        "isActive": 1
+      },
+      {
+        "childAttributeId": 76393,
+        "childLookupValueId": 226342,
+        "childLookupValue": "dept 3",
+        "isActive": 1
+      }
+    ],
+    "attributeId": 69405,
+    "projectId": 436
+  }
+]

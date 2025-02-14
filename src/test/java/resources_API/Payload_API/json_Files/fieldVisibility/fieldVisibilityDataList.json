@@ -1,0 +1,53 @@
+{
+  "projectId": 436,
+  "moduleType": 2,
+  "attributeId": 79150,
+  "attributeTypeId": 18,
+  "fieldVisibilityConfig": [
+    {
+      "projectId": 436,
+      "roleId": 1170,
+      "moduleType": 2,
+      "fieldVisibility": "1",
+      "attributeId": 79150,
+      "parentDataListId": null,
+      "value": 221458
+    },
+    {
+      "projectId": 436,
+      "roleId": 1170,
+      "moduleType": 2,
+      "fieldVisibility": "1",
+      "attributeId": 69651,
+      "parentDataListId": 79150,
+      "value": 221471
+    },
+    {
+      "projectId": 436,
+      "roleId": 1355,
+      "moduleType": 2,
+      "fieldVisibility": "3",
+      "attributeId": 79150,
+      "parentDataListId": null,
+      "value": null
+    },
+    {
+      "projectId": 436,
+      "roleId": 1171,
+      "moduleType": 2,
+      "fieldVisibility": "2",
+      "attributeId": 79150,
+      "parentDataListId": null,
+      "value": null
+    },
+    {
+      "projectId": 436,
+      "roleId": 1171,
+      "moduleType": 2,
+      "fieldVisibility": "2",
+      "attributeId": 69651,
+      "parentDataListId": 79150,
+      "value": null
+    }
+  ]
+}

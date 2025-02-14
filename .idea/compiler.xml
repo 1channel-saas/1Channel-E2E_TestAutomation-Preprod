@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="channelplay-automated-testing" />
+        <module name="Assistive-Portal-UI-Automation-Preprod" />
       </profile>
     </annotationProcessing>
   </component>

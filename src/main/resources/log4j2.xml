@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%highlight{%d{yyyy-MM-dd HH:mm:ss} %-5p (%c{1}:%L) - %m%n%throwable}{FATAL=white, ERROR=red, WARN=yellow, INFO=blue, DEBUG=green, TRACE=cyan}"/>
+        </Console>
+        <RollingFile  name="RollingFileAppender" fileName="appLogger.log" filePattern="logs/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p [%t] (%F:%L) - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+<!--            <AppenderRef ref="RollingFileAppender"/>-->
+        </Root>
+
+        <Logger name="com.test.channelplay.feature" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.test.channelplay.stepDefinition" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.test.channelplay.object" level="TRACE" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.test.channelplay.stepDefinition.Hooks" level="TRACE" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.test" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="com.test.channelplay.utils" level="TRACE" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+
+
+        <Logger name="org.apache.http" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.wire" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.headers" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.client" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.impl.client" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.impl.conn" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.impl.execchain" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.client.protocol" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.conn.ssl" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.impl.auth" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.apache.http.auth" level="OFF" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+
+
+        <Logger name="io.netty" level="WARN" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.openqa.selenium" level="WARN" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="org.testng" level="WARN" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="io.cucumber" level="WARN" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="io.github.bonigarcia.wdm" level="WARN" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+
+    </Loggers>
+</Configuration>

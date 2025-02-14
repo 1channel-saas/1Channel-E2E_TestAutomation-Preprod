@@ -1,7 +1,6 @@
 package com.test.channelplay.stepDefinition;
 
-import com.beust.jcommander.JCommander;
-import com.test.channelplay.object.Assistive_Login;
+import com.test.channelplay.object.AssistiveLogin;
 import com.test.channelplay.object.DetailedActivityReport_Object;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
@@ -14,7 +13,7 @@ import io.cucumber.java.en.When;
 public class DetailedActivityReport_Steps extends DriverBase {
 
     CommonUtils commonUtils = new CommonUtils();
-    Assistive_Login login = new Assistive_Login();
+    AssistiveLogin login = new AssistiveLogin();
     DetailedActivityReport_Object detailedActivityReport = new DetailedActivityReport_Object();
 
 

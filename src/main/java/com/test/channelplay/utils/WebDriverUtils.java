@@ -7,13 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-
 import static java.lang.String.format;
 
 
 public class WebDriverUtils extends DriverBase {
 
-    private static final Logger logger = LoggerFactory.getLogger( WebDriverUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebDriverUtils.class);
 
     public <T> T until(ExpectedCondition<T> condition) {
         WebDriverWait webDriverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(Constants.TIMINGS_EXPLICIT_TIMEOUT));

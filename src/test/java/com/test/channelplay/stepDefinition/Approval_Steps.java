@@ -1,7 +1,7 @@
 package com.test.channelplay.stepDefinition;
 
 import com.test.channelplay.object.Approval_Object;
-import com.test.channelplay.object.Assistive_Login;
+import com.test.channelplay.object.AssistiveLogin;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
 import com.test.channelplay.utils.GetProperty;
@@ -12,7 +12,7 @@ import io.cucumber.java.en.When;
 
 public class Approval_Steps extends DriverBase {
     Approval_Object approval = new Approval_Object();
-    Assistive_Login login = new Assistive_Login();
+    AssistiveLogin login = new AssistiveLogin();
     CommonUtils commonUtils = new CommonUtils();
 
     @Given("user logged in to Assistive project under approval")

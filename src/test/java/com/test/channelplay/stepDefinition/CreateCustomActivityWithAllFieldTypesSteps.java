@@ -1,6 +1,6 @@
 package com.test.channelplay.stepDefinition;
 
-import com.test.channelplay.object.Assistive_Login;
+import com.test.channelplay.object.AssistiveLogin;
 import com.test.channelplay.object.CreateCustomActivityWithAllFieldTypesObject;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
@@ -12,7 +12,7 @@ public class CreateCustomActivityWithAllFieldTypesSteps extends DriverBase {
 
     CommonUtils commonUtils = new CommonUtils();
     CreateCustomActivityWithAllFieldTypesObject createCustomActivityWithAllFieldTypesObject = new CreateCustomActivityWithAllFieldTypesObject();
-    Assistive_Login login = new Assistive_Login();
+    AssistiveLogin login = new AssistiveLogin();
 
     @Given("after login to CRM user will be on the Activities screen under Admin menu")
     public void afterLoginToCRMUserWillBeOnTheActivitiesScreenUnderAdminMenu() {

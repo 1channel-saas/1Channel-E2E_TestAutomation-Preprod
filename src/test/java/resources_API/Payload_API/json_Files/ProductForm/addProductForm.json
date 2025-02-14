@@ -1,0 +1,16 @@
+{
+  "name": "productFormName",
+  "projectId": "project_id",
+  "productFormView": 2,
+  "summaryFieldsForApp": [
+    -1
+  ],
+  "summaryTotalField": 1,
+  "allowDiscounts": 0,
+  "discountType": [],
+  "allowDiscountAt": [],
+  "isActive": 1,
+  "displayOrder": 1,
+  "userTime": "user_time",
+  "transTimeZone": "IST"
+}

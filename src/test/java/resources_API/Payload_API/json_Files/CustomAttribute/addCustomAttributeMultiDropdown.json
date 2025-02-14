@@ -1,0 +1,80 @@
+{
+  "attributeName": "multiDropdown",
+  "projectId": "project_id",
+  "parentAttribId": null,
+  "parentFormId": null,
+  "instructions": "",
+  "mandatoryFlag": 0,
+  "moduleType": "module_type",
+  "fieldSpec": 2,
+  "displayOrder": 99999,
+  "hasUniqueValues": 0,
+  "attributeType": {
+    "typeName": "Multi Select Dropdown",
+    "id": 2
+  },
+  "characterType": 1,
+  "minCharacters": null,
+  "maxCharacters": null,
+  "allowBrowsing": 0,
+  "maxImagesAllowed": null,
+  "minDigits": null,
+  "maxDigits": null,
+  "minNumber": null,
+  "maxNumber": null,
+  "documentType": "",
+  "referenceDocumentUrl": null,
+  "isOptionsAlphabetically": 0,
+  "calculationFormula": null,
+  "lookupValues": [
+    {
+      "id": null,
+      "lookupValue": "A",
+      "isActive": 1,
+      "stageId": null
+    },
+    {
+      "id": null,
+      "lookupValue": "B",
+      "isActive": 1,
+      "stageId": null
+    },
+    {
+      "id": null,
+      "lookupValue": "C",
+      "isActive": 1,
+      "stageId": null
+    },
+    {
+      "id": null,
+      "lookupValue": "D",
+      "isActive": 1,
+      "stageId": null
+    },
+    {
+      "id": null,
+      "lookupValue": "E",
+      "isActive": 1,
+      "stageId": null
+    }
+  ],
+  "dateAttributes": null,
+  "parentDataListId": null,
+  "addDataListDependentFields": 0,
+  "dependentFilelds": null,
+  "parentFieldValues": null,
+  "showAllDataListValues": null,
+  "status": 1,
+  "attributeIdentifierName": "customer.multiDropdown",
+  "otpValidation": 0,
+  "decimalFlag": 0,
+  "isAllowQuantityTransfer": 0,
+  "productQuantityTransferDetail": null,
+  "allowPreviousForm": 0,
+  "previousFormActivity": null,
+  "addValidation": 0,
+  "regexExpression": null,
+  "errorMessage": null,
+  "userTime": "2024-09-20 21:55:27",
+  "transTimeZone": "IST"
+}

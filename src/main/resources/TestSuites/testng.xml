@@ -4,14 +4,14 @@
 
 	<test name="E2E-TestRun">
 		<classes>
-			<class name="com.test.channelplay.RunCucumberTest" /> 
+			<class name="com.test.channelplay.cucumber.Options.RunCucumberTest"/>
 		</classes>	
 	</test> 
 	
 	<test name="E2E-ReRun">
 		<classes>
-			<class name="com.test.channelplay.ReRunCucumberTest" /> 
+			<class name="com.test.channelplay.cucumber.Options.ReRunCucumberTest"/>
 		</classes>	
 	</test> 
 	
-</suite> <!-- Suite -->
+</suite>

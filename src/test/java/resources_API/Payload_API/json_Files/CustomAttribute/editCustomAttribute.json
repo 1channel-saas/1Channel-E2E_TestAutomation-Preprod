@@ -1,0 +1,80 @@
+{
+  "id": "attribute_id",
+  "attributeName": "attribute_name",
+  "projectId": "project_id",
+  "parentAttribId": null,
+  "parentFormId": null,
+  "instructions": "",
+  "mandatoryFlag": 0,
+  "moduleType": "module_type",
+  "fieldSpec": 2,
+  "displayOrder": 99999,
+  "hasUniqueValues": 0,
+  "attributeType": {
+    "id": 2,
+    "typeName": "Multi Select Dropdown",
+    "isActive": 1,
+    "displayOrder": 5
+  },
+  "characterType": 1,
+  "minCharacters": null,
+  "maxCharacters": null,
+  "allowBrowsing": 0,
+  "maxImagesAllowed": null,
+  "numericValidationType": 0,
+  "minDigits": null,
+  "maxDigits": null,
+  "minNumber": null,
+  "maxNumber": null,
+  "documentType": "",
+  "referenceDocumentUrl": null,
+  "isOptionsAlphabetically": 0,
+  "calculationFormula": null,
+  "lookupValues": [
+    {
+      "id": "lookup_id1",
+      "lookupValue": "lookup_val1",
+      "isActive": 1,
+      "stageId": null
+    },
+    {
+      "id": "lookup_id2",
+      "lookupValue": "lookup_val2",
+      "isActive": 1,
+      "stageId": null
+    },
+    {
+      "id": "lookup_id3",
+      "lookupValue": "lookup_val3",
+      "isActive": 1,
+      "stageId": null
+    },
+    {
+      "id": null,
+      "lookupValue": "F",
+      "isActive": 1,
+      "stageId": null
+    }
+  ],
+  "dateAttributes": {
+    "stdLookupAttribute": {}
+  },
+  "parentDataListId": null,
+  "addDataListDependentFields": 0,
+  "dependentFilelds": null,
+  "parentFieldValues": null,
+  "showAllDataListValues": null,
+  "status": 1,
+  "attributeIdentifierName": "customer.multiDropdown3",
+  "otpValidation": 0,
+  "decimalFlag": 0,
+  "isAllowQuantityTransfer": 0,
+  "productQuantityTransferDetail": null,
+  "allowPreviousForm": 0,
+  "previousFormActivity": null,
+  "addValidation": 0,
+  "regexExpression": null,
+  "errorMessage": null,
+  "userTime": "2024-09-21 01:22:54",
+  "transTimeZone": "IST"
+}
