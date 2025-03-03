@@ -5,8 +5,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -103,5 +110,65 @@ public class CommonUtils extends DriverBase {
             e.printStackTrace();
         }
     }
+
+
+    //  method to fetch all xlsx files under Files directory
+    public static List<File> getAllXlsxFiles(String directoryFilePath) {
+        File folder = new File(directoryFilePath);
+        List<File> fileList = new ArrayList<>();
+
+        if (folder.exists() && folder.isDirectory()) {
+            File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".xlsx"));
+            if (files != null) {
+                for (File file : files) {
+                    fileList.add(file);
+                }
+            }
+        } else {
+            System.out.println("Directory does not exist: " + directoryFilePath);
+        }
+
+        return fileList;
+    }
+
+
+    //  method to move Files to another directory
+    public void moveFiles(String sourceDir, String fileName, String targetDir) {
+        File sourceFile = new File(sourceDir + File.separator + fileName);
+        File targetFolder = new File(targetDir);
+        File targetFile = new File(targetFolder, fileName);
+
+        try {
+            Files.move(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            logger.info("File moved to: {}", targetFile.getAbsolutePath());
+        } catch (IOException e) {
+            logger.warn("Error moving file: {}", e.getMessage());
+        }
+    }
+
+
+    //  method to delete files from certain directory if exceeds certain count
+    public void enforceFileCountLimit(File targetFolder, int maxFileCount) {
+        File[] targetFiles = targetFolder.listFiles();
+
+        if (targetFiles != null && targetFiles.length > maxFileCount) {
+            // Sort files by oldest first
+            Arrays.sort(targetFiles, Comparator.comparingLong(File::lastModified));
+
+            int filesToDelete = targetFiles.length - maxFileCount;
+            logger.info("Deleting {} oldest files to maintain file count limit of {}.", filesToDelete, maxFileCount);
+
+            for (int i = 0; i < filesToDelete; i++) {
+                Path filePath = targetFiles[i].toPath();
+                try {
+                    Files.delete(filePath);
+                    logger.info("Deleted old file: {}", targetFiles[i].getName());
+                } catch (IOException e) {
+                    logger.warn("Failed to delete file: {}. Reason: {}", targetFiles[i].getName(), e.getMessage());
+                }
+            }
+        }
+    }
+
 
 }

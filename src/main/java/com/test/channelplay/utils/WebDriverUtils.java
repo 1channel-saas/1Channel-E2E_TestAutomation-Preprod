@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+
 import static java.lang.String.format;
 
 
@@ -54,5 +55,6 @@ public class WebDriverUtils extends DriverBase {
         Select select= new Select(element);
         select.selectByVisibleText(text);
     }
+
 
 }

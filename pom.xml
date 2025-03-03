@@ -18,7 +18,7 @@
         <maven.surefire.version>3.0.0-M5</maven.surefire.version>
         <guava>31.1-jre</guava>
         <aspectj.version>1.9.4</aspectj.version>
-        <commons-io.version>2.8.0</commons-io.version>
+        <commons-io.version>2.18.0</commons-io.version>
         <testng.version>7.8.0</testng.version>
         <allure.version>2.13.8</allure.version>
         <allure-maven.version>2.12.0</allure-maven.version>
@@ -122,6 +122,13 @@
             <artifactId>guava</artifactId>
             <version>${guava}</version>
         </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
