@@ -481,7 +481,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
 
         if (recordCountStage != serial_no_custMasterCount) {
             int recordMismatchInMaster = recordCountStage - serial_no_custMasterCount;
-            log.warn("Mismatch in record count. {} records were NOT uploaded to Customer Master table", recordMismatchInMaster);
+            log.warn("Mismatch in record count. {} records out of {} were NOT uploaded to Customer Master table", recordMismatchInMaster, recordCountStage);
         } else {
             assertEquals(recordCountStage, serial_no_custMasterCount);
         }

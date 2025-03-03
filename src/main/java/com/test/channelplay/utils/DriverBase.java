@@ -23,7 +23,8 @@ public class DriverBase {
     public WebDriver initialize(String browserName)
     {
         if(browserName.equals("chrome")) {
-            WebDriverManager.chromedriver().clearDriverCache().setup();
+            //WebDriverManager.chromedriver().clearDriverCache().setup();
+            WebDriverManager.chromedriver().setup();
 
             //  Set Chrome preferences for auto-downloading files
             HashMap<String, Object> chromePrefs = new HashMap<>();
