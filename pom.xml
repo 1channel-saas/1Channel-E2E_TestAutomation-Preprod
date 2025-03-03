@@ -270,7 +270,7 @@
                         <allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
                     </systemPropertyVariables>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/main/resources/testSuites/${testsuite}.xml</suiteXmlFile>
+                        <suiteXmlFile>src/main/resources/TestSuites/${testsuite}.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
                 <dependencies>
