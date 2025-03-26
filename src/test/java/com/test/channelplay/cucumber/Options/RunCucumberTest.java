@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 
-
 //@RunWith(Cucumber.class)
 @CucumberOptions (
 		features = {"src/test/resources/com/test/channelplay/feature"},

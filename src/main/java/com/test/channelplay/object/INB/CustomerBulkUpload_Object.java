@@ -284,14 +284,16 @@ public class CustomerBulkUpload_Object extends DriverBase {
     }
 
     public void verifyEmailReceivedForSuccessfulBulkUploadWithAttachmentForINB() {
+        String parentWindow = getDriver().getWindowHandle();
+        String oneChannelWindowURL = getDriver().getCurrentUrl();
+
         String url = GetProperty.value("mailVerify_bulkUpload");
         getDriver().navigate().to(url);
-        commonutils.sleep(2000);
+        commonutils.sleep(1000);
 
         mailer_HomeSignIn_button.click();
         commonutils.sleep(1000);
         // Switch to new window
-        String parentWindow = getDriver().getWindowHandle();
         Set<String> handles =  getDriver().getWindowHandles();
         for(String windowHandle  : handles)
         {
@@ -299,14 +301,18 @@ public class CustomerBulkUpload_Object extends DriverBase {
             {
                 getDriver().switchTo().window(windowHandle);
                 commonutils.sleep(1000);
+                System.out.println("Entered into new window");
 
                 //  perform emailer operations on new window
                 performEmailerTask();
                 System.out.println("Entered into new performEmailerTask method");
 
                 //  close the child window
+                commonutils.sleep(1000);
                 getDriver().close();
                 getDriver().switchTo().window(parentWindow);
+                System.out.println("Switched back to parent window");
+                getDriver().navigate().to(oneChannelWindowURL);
             }
         }
     }
@@ -363,10 +369,10 @@ public class CustomerBulkUpload_Object extends DriverBase {
             CustomerUploadStatus_email.click();
             commonutils.sleep(1000);
             String email_datetime = mailer_Inbox_email_dateTime.getText();
-            System.out.println("Email Date and Time: " + email_datetime);
+            System.out.println("Email Date and Time on UI: " + email_datetime);
             //  Convert email timestamp to LocalDateTime
             LocalDateTime emailTestStartDateTime = convertEmailDateTime(email_datetime);
-            System.out.println("Email Date and Time: " + emailTestStartDateTime);
+            System.out.println("formatted Email Date and Time: " + emailTestStartDateTime);
             commonutils.sleep(1000);
 
             if (emailTestStartDateTime.isAfter(UITestStartDateTime) || emailTestStartDateTime.isEqual(UITestStartDateTime)) {

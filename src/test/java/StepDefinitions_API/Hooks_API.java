@@ -30,7 +30,7 @@ public class Hooks_API extends CommonUtils_API {
 
 
 
-    @After(order = 0)
+    @After(order = 2)
     public void getFailedScenario(Scenario scenario) {
         if (scenario.isFailed()) {
             LOGGER.error("Failed scenario: {}", scenario.getName());
@@ -47,7 +47,8 @@ public class Hooks_API extends CommonUtils_API {
 
 
 //    @AfterAll(order = 2) // need to import org.junit.jupiter.api. part of jUnit 5
-    @AfterSuite
+    //@AfterSuite
+    @After(order = 0)
     public static void closeDBConnections() {
         try {
             DBConnection.closeConnections();

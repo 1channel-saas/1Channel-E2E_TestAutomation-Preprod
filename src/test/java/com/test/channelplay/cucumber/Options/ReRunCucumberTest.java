@@ -7,6 +7,5 @@ import io.cucumber.testng.*;
 plugin = {"pretty", "rerun:target/rerun.txt", "timeline:target/timeline"}, monochrome=true)
 
 
-public class ReRunCucumberTest extends AbstractTestNGCucumberTests{
-	
+public class ReRunCucumberTest extends AbstractTestNGCucumberTests {
 }

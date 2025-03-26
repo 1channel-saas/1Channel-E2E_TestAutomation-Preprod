@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+
 public class Hooks extends DriverBase {
 
     private static final Logger logger = LoggerFactory.getLogger(Hooks.class);
@@ -26,7 +28,8 @@ public class Hooks extends DriverBase {
         logger.info("Driver initialized: {}", driver);
     }
 
-    @After(order = 0)
+
+    @After(order = 1)
     public void addDataAndClose(io.cucumber.java.Scenario scenario) {
         if (scenario.isFailed() && driver instanceof TakesScreenshot) {
             addScreenshot(scenario);
@@ -34,11 +37,13 @@ public class Hooks extends DriverBase {
         addPageLink(scenario);
     }
 
-    @After(order = 1)
+
+    @After(order = 0)
     public void tearDown() {
         if (driver != null) {
             driver.quit();
             killChromeDriverProcess();
+            driver = null;
             logger.info("Closing driver...");
         }
     }
@@ -49,6 +54,7 @@ public class Hooks extends DriverBase {
             logger.warn("Failed to kill chromedriver process: {}", e.getMessage());
         }
     }
+
 
     private void addPageLink(io.cucumber.java.Scenario scenario) {
         scenario.log(String.format("Test page: %s", driver.getCurrentUrl()));
@@ -61,17 +67,26 @@ public class Hooks extends DriverBase {
     }
 
     public void clearCacheForBrowser(String browserName) {
+        String cachePath = System.getProperty("user.home") + "/.cache/selenium";
+        File cacheDir = new File(cachePath);
+
         switch (browserName.toLowerCase()) {
             case "chrome":
                 WebDriverManager.chromedriver().clearDriverCache();
-                logger.info("ChromeDriver cache cleared.");
+                logger.info("clearing ChromeDriver cache...");
                 break;
             case "firefox":
                 WebDriverManager.firefoxdriver().clearDriverCache();
-                logger.info("FirefoxDriver cache cleared.");
+                logger.info("clearing GeckoDriver cache...");
                 break;
             default:
                 logger.info("No cache clearing available for browser: {}", browserName);
+        }
+        //  Verify if cache was actually deleted
+        if (!cacheDir.exists() || cacheDir.list().length == 0) {
+            logger.info("Cache successfully deleted for browser: {}", browserName);
+        } else {
+            logger.warn("Cache directory still exists after clearing: {}", cachePath);
         }
     }
 

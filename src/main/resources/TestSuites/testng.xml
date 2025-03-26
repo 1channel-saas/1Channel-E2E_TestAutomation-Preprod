@@ -8,10 +8,10 @@
 		</classes>	
 	</test> 
 	
-	<test name="E2E-ReRun">
-		<classes>
-			<class name="com.test.channelplay.cucumber.Options.ReRunCucumberTest"/>
-		</classes>	
-	</test> 
-	
+<!--	<test name="E2E-ReRun">-->
+<!--		<classes>-->
+<!--			<class name="com.test.channelplay.cucumber.Options.ReRunCucumberTest"/>-->
+<!--		</classes>	-->
+<!--	</test> -->
+
 </suite>

@@ -44,6 +44,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
             trans_created_int_custMaster,trans_updated_int_custMaster;
     int defaultProjectId, projectId_IGSSL, projectId_Collection, currentProjectId, primaryAttributeId, currentPrimaryAttributeId,
             recordCountStage = 0, dataUploadedInExcel, missingSerialCount = 0;
+    boolean missingCounter = false;
     LoginResponse_pojo loginResponsePojo;
     private final GetApiResponseObject getApiResponseObject;
     private Connection preprodConnection;
@@ -185,6 +186,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
                 "FROM " + tableName + "\n" +
                 "WHERE updated_by = " + assignedUserId + "\n" +
                 "AND trans_updated_int = " + uploadDate + " \n" +
+                "AND trans_created_on > '" + testStartTime + "'\n" +
                 "ORDER BY trans_created_on ASC";
         System.out.println("Executing trans_created_on query: " + trans_created_onInStage_query + "\n");
 
@@ -241,7 +243,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
                 "WHERE updated_by = " + assignedUserId + "\n" +
                 "AND trans_updated_int = " + uploadDate + " \n" +
                 "AND trans_created_on BETWEEN '" + testStartTime + "' AND '" + trans_created_on_stage + "'";
-        System.out.println("Query to fetch All data from Customer Master table: " + serialNo_stage_query);
+        System.out.println("Query to fetch All data from Customer Stage table: " + serialNo_stage_query);
 
         try {
             resultSet = executeQuery(serialNo_stage_query, preprodConnection);
@@ -402,14 +404,47 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
     public void validateWhetherBulkUploadPerformedBySavedUnderTableFromStagingTableWithTestAccountsAndForINB(String assignedUserId, String tableName, String AccNo1, String AccNo2, String AccNo3, String AccNo4, String AccNo5, String uploadDateTime, String uploadDate) {
         preprodConnection = DBConnection.getPreprodConnection();
 
-        String uploadDataInCustMaster_query = "SELECT serial_no, project_id, is_active, created_by, updated_by, trans_created_on, trans_updated_on,\n" +
-                "trans_created_int, trans_updated_int\n" +
+        String uploadDataInCustMaster_query = "SELECT serial_no, is_active, created_by, updated_by, trans_created_on, trans_updated_on\n" +
                 "FROM " + tableName + "\n" +
-                "WHERE updated_by = " + assignedUserId + "\n" +
+                "WHERE project_id = " + INBProjectId + "\n" +
+                //"WHERE updated_by = " + assignedUserId + "\n" +
                 "AND response_data ->> 'F68721' = ANY(ARRAY['" + AccNo1 + "', '" + AccNo2 + "', '" + AccNo3 + "', '" + AccNo4 + "', '" + AccNo5 + "'])\n" +
-                "AND trans_created_int = " + uploadDate + " \n" +
+                //"AND trans_created_int = " + uploadDate + " \n" +
                 "ORDER BY trans_created_on DESC";
         System.out.println("Query to fetch test data from Customer Master table: " + uploadDataInCustMaster_query);
+
+        List<Map<String, String>> results = new ArrayList<>();
+
+        try {
+            resultSet = executeQuery(uploadDataInCustMaster_query, preprodConnection);
+            while (resultSet.next()) {
+                Map<String, String> rows = new HashMap<>();
+                rows.put("serial_no", resultSet.getString("serial_no"));
+                rows.put("is_active", resultSet.getString("is_active"));
+                rows.put("created_by", resultSet.getString("created_by"));
+                rows.put("updated_by", resultSet.getString("updated_by"));
+                rows.put("trans_created_on", resultSet.getString("trans_created_on"));
+                rows.put("trans_updated_on", resultSet.getString("trans_updated_on"));
+                results.add(rows);
+
+                //  Stores retrieved serial_no values in a Set for further validation
+                //retrievedSerialNumbers.add(resultSet.getString("serial_no"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch data from database after query execution", e);
+        } finally {
+            closeResultSet(resultSet);
+        }
+        for (Map<String, String> row : results) {
+            String serial_no_testMaster = row.get("serial_no");
+            String testIs_active = row.get("is_active");
+            String created_by = row.get("created_by");
+            String updated_by = row.get("updated_by");
+            String trans_created_on = row.get("trans_created_on");
+            String trans_updated_on = row.get("trans_updated_on");
+            System.out.println("Serial_noTestMaster: " + serial_no_testMaster + ", is_active: " + testIs_active + ", created_by: " + created_by + ", updated_by: " + updated_by + ", trans_created_on: " + trans_created_on + ", trans_updated_on: " + trans_updated_on);
+        }
     }
 
     @Then("validate all data actually uploaded by {string} saved under {string} table with {string} for INB")
@@ -424,7 +459,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
                 "FROM " + tableName + "\n" +
                 "WHERE updated_by = " + assignedUserId + "\n" +
                 "AND trans_updated_int = " + uploadDate + " \n" +
-                "AND trans_updated_on > '" + trans_created_on_stage + "'\n" +
+                "AND trans_updated_on > '" + testStartTime + "'\n" +
                 "ORDER BY trans_updated_on ASC";
         System.out.println("Query to fetch All data from Customer Master table: " + uploadAllDataInCustMaster_query);
 
@@ -480,6 +515,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
         log.info("Total records uploaded to Customer Master table: {}", serial_no_custMasterCount);
 
         if (recordCountStage != serial_no_custMasterCount) {
+            missingCounter = true;
             int recordMismatchInMaster = recordCountStage - serial_no_custMasterCount;
             log.warn("Mismatch in record count. {} records out of {} were NOT uploaded to Customer Master table", recordMismatchInMaster, recordCountStage);
         } else {
@@ -487,40 +523,42 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
         }
 
         //  getting missing serial numbers (assuming stageSerialNos contains all serialNos/AccNos)
-        Set<String> missingAccNosInMaster = new HashSet<>(stageAccountNos);
-        missingAccNosInMaster.removeAll(fetchedAccNos_Master);
+        if (missingCounter) {
+            Set<String> missingAccNosInMaster = new HashSet<>(stageAccountNos);
+            missingAccNosInMaster.removeAll(fetchedAccNos_Master);
 
-        //  Convert Set<String> to a properly formatted SQL ARRAY string
-        String formattedMissingAccNosInMaster = missingAccNosInMaster.stream()
-                .map(serial -> "'" + serial + "'").collect(Collectors.joining(", "));
+            //  Convert Set<String> to a properly formatted SQL ARRAY string
+            String formattedMissingAccNosInMaster = missingAccNosInMaster.stream()
+                    .map(serial -> "'" + serial + "'").collect(Collectors.joining(", "));
 
-        //  query to get all missing serial numbers corresponds to missing account numbers in master table
-        String missingSerialNoInMaster_query = "SELECT serial_no\n" +
-                "FROM channelplay_aurora.b2b_company_master\n" +
-                "WHERE response_data ->> 'F68721' ilike ANY(ARRAY[" + formattedMissingAccNosInMaster + "])";
+            //  query to get all missing serial numbers corresponds to missing account numbers in master table
+            String missingSerialNoInMaster_query = "SELECT serial_no\n" +
+                    "FROM channelplay_aurora.b2b_company_master\n" +
+                    "WHERE response_data ->> 'F68721' ilike ANY(ARRAY[" + formattedMissingAccNosInMaster + "])";
 
-        System.out.println("Query to fetch missing SerialNos in Master: " + missingSerialNoInMaster_query);
+            System.out.println("Query to fetch missing SerialNos in Master: " + missingSerialNoInMaster_query);
 
-        List<String> missingSerialNosInMaster = new ArrayList<>();
+            List<String> missingSerialNosInMaster = new ArrayList<>();
 
-        try {
-            resultSet = executeQuery(missingSerialNoInMaster_query, preprodConnection);
-            while (resultSet.next()) {
-                String missingSerialNoMaster = resultSet.getString("serial_no");
-                missingSerialNosInMaster.add(missingSerialNoMaster);
+            try {
+                resultSet = executeQuery(missingSerialNoInMaster_query, preprodConnection);
+                while (resultSet.next()) {
+                    String missingSerialNoMaster = resultSet.getString("serial_no");
+                    missingSerialNosInMaster.add(missingSerialNoMaster);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to fetch data from database after query execution", e);
+            } finally {
+                closeResultSet(resultSet);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to fetch data from database after query execution", e);
-        } finally {
-            closeResultSet(resultSet);
-        }
 
-        if (!missingSerialNosInMaster.isEmpty()) {
-            log.error("Serial nos - {} for account nos - {} respectively NOT uploaded to the master table", missingSerialNosInMaster, missingAccNosInMaster);
-            softAssert.fail("Mismatch in record count. for Account Nos - '" + missingAccNosInMaster + "' corresponds to Serial Nos - '" + missingSerialNosInMaster + "'");
+            if (!missingSerialNosInMaster.isEmpty()) {
+                log.error("Serial nos - {} for account nos - {} respectively NOT uploaded to the master table", missingSerialNosInMaster, missingAccNosInMaster);
+                softAssert.fail("Mismatch in record count. for Account Nos - '" + missingAccNosInMaster + "' corresponds to Serial Nos - '" + missingSerialNosInMaster + "'");
+            }
         } else {
-            log.info("All records from stage were successfully uploaded to the master table");
+            log.info("Great! All records from stage were successfully uploaded to the master table");
         }
 
         //  assert that is_active is 1 for each record
@@ -538,7 +576,6 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
     public void getAPISoftAssert2() {
         softAssert.assertAll();
     }*/
-
 
 
 }
