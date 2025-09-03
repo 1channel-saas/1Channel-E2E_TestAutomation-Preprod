@@ -2,7 +2,11 @@ package pojo_API.ResponsePojo.Setting;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateActivitySettingResp_pojo {
 
@@ -10,172 +14,121 @@ public class CreateActivitySettingResp_pojo {
     private String message;
     private ResponseDataPojo responseData;
 
-    public int getStatusCode() {
-        return statusCode;
-    }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public ResponseDataPojo getResponseData() {
-        return responseData;
-    }
-
-    public void setResponseData(ResponseDataPojo responseData) {
-        this.responseData = responseData;
-    }
-
-
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ResponseDataPojo {
+        @Setter
         private String userTime;
+        @Setter
         private String transTimeZone;
+        @Setter
         private int activityId;
+        @Setter
         private String activityName;
+        @Setter
         private Integer displayOrder;   // Nullable fields should be Integer instead of int
+        @Setter
         private Integer allowForCompanies;
+        @Setter
         private Integer allowForOpportunities;
+        @Setter
         private Integer allowForActivities;
+        @Setter
         private Integer allowForDialer;
+        @Setter
         private Integer allowGeofence;
+        @Setter
         private Integer geofenceDistance;
+        @Setter
         private String serialKey;
+        @Setter
         private Boolean defaultActivity;
+        @Setter
         private Boolean active;
         private Integer projectId;
+        @Setter
         private String activityTypeIdentifier;
+        @Setter
         private Integer captureLiveLocation;
+        @Setter
         private Boolean opportunityEnabled;
+        @Setter
         private String activeFor;
+        @Setter
         private String selectedIdList;
+        @Setter
         private String startDate;
+        @Setter
         private String endDate;
+        @Setter
         private String startTime;
+        @Setter
         private String endTime;
+        @Setter
         private String additionalFilter;
+        @Setter
         private Boolean allowUserToAssignOther;
+        @Setter
         private String advanceSetting;
+        @Setter
         private Boolean anyTransactionPerformed;
+        @Setter
         private String additionalEntityFilterList;
 
         public String getUserTime() {
             return userTime;
         }
 
-        public void setUserTime(String userTime) {
-            this.userTime = userTime;
-        }
-
         public String getTransTimeZone() {
             return transTimeZone;
-        }
-
-        public void setTransTimeZone(String transTimeZone) {
-            this.transTimeZone = transTimeZone;
         }
 
         public int getActivityId() {
             return activityId;
         }
 
-        public void setActivityId(int activityId) {
-            this.activityId = activityId;
-        }
-
         public String getActivityName() {
             return activityName;
-        }
-
-        public void setActivityName(String activityName) {
-            this.activityName = activityName;
         }
 
         public Integer getDisplayOrder() {
             return displayOrder;
         }
 
-        public void setDisplayOrder(Integer displayOrder) {
-            this.displayOrder = displayOrder;
-        }
-
         public Integer getAllowForCompanies() {
             return allowForCompanies;
-        }
-
-        public void setAllowForCompanies(Integer allowForCompanies) {
-            this.allowForCompanies = allowForCompanies;
         }
 
         public Integer getAllowForOpportunities() {
             return allowForOpportunities;
         }
 
-        public void setAllowForOpportunities(Integer allowForOpportunities) {
-            this.allowForOpportunities = allowForOpportunities;
-        }
-
         public Integer getAllowForActivities() {
             return allowForActivities;
-        }
-
-        public void setAllowForActivities(Integer allowForActivities) {
-            this.allowForActivities = allowForActivities;
         }
 
         public Integer getAllowForDialer() {
             return allowForDialer;
         }
 
-        public void setAllowForDialer(Integer allowForDialer) {
-            this.allowForDialer = allowForDialer;
-        }
-
         public Integer getAllowGeofence() {
             return allowGeofence;
-        }
-
-        public void setAllowGeofence(Integer allowGeofence) {
-            this.allowGeofence = allowGeofence;
         }
 
         public Integer getGeofenceDistance() {
             return geofenceDistance;
         }
 
-        public void setGeofenceDistance(Integer geofenceDistance) {
-            this.geofenceDistance = geofenceDistance;
-        }
-
         public String getSerialKey() {
             return serialKey;
-        }
-
-        public void setSerialKey(String serialKey) {
-            this.serialKey = serialKey;
         }
 
         public Boolean getDefaultActivity() {
             return defaultActivity;
         }
 
-        public void setDefaultActivity(Boolean defaultActivity) {
-            this.defaultActivity = defaultActivity;
-        }
-
         public Boolean getActive() {
             return active;
-        }
-
-        public void setActive(Boolean active) {
-            this.active = active;
         }
 
         public Integer getProjectId() {
@@ -183,7 +136,6 @@ public class CreateActivitySettingResp_pojo {
         }
 
         public void setProjectId(Integer projectId) {
-            projectId =
             this.projectId = projectId;
         }
 
@@ -191,113 +143,58 @@ public class CreateActivitySettingResp_pojo {
             return activityTypeIdentifier;
         }
 
-        public void setActivityTypeIdentifier(String activityTypeIdentifier) {
-            this.activityTypeIdentifier = activityTypeIdentifier;
-        }
-
         public Integer getCaptureLiveLocation() {
             return captureLiveLocation;
-        }
-
-        public void setCaptureLiveLocation(Integer captureLiveLocation) {
-            this.captureLiveLocation = captureLiveLocation;
         }
 
         public Boolean getOpportunityEnabled() {
             return opportunityEnabled;
         }
 
-        public void setOpportunityEnabled(Boolean opportunityEnabled) {
-            this.opportunityEnabled = opportunityEnabled;
-        }
-
         public String getActiveFor() {
             return activeFor;
-        }
-
-        public void setActiveFor(String activeFor) {
-            this.activeFor = activeFor;
         }
 
         public String getSelectedIdList() {
             return selectedIdList;
         }
 
-        public void setSelectedIdList(String selectedIdList) {
-            this.selectedIdList = selectedIdList;
-        }
-
         public String getStartDate() {
             return startDate;
-        }
-
-        public void setStartDate(String startDate) {
-            this.startDate = startDate;
         }
 
         public String getEndDate() {
             return endDate;
         }
 
-        public void setEndDate(String endDate) {
-            this.endDate = endDate;
-        }
-
         public String getStartTime() {
             return startTime;
-        }
-
-        public void setStartTime(String startTime) {
-            this.startTime = startTime;
         }
 
         public String getEndTime() {
             return endTime;
         }
 
-        public void setEndTime(String endTime) {
-            this.endTime = endTime;
-        }
-
         public String getAdditionalFilter() {
             return additionalFilter;
-        }
-
-        public void setAdditionalFilter(String additionalFilter) {
-            this.additionalFilter = additionalFilter;
         }
 
         public Boolean getAllowUserToAssignOther() {
             return allowUserToAssignOther;
         }
 
-        public void setAllowUserToAssignOther(Boolean allowUserToAssignOther) {
-            this.allowUserToAssignOther = allowUserToAssignOther;
-        }
-
         public String getAdvanceSetting() {
             return advanceSetting;
-        }
-
-        public void setAdvanceSetting(String advanceSetting) {
-            this.advanceSetting = advanceSetting;
         }
 
         public Boolean getAnyTransactionPerformed() {
             return anyTransactionPerformed;
         }
 
-        public void setAnyTransactionPerformed(Boolean anyTransactionPerformed) {
-            this.anyTransactionPerformed = anyTransactionPerformed;
-        }
-
         public String getAdditionalEntityFilterList() {
             return additionalEntityFilterList;
         }
 
-        public void setAdditionalEntityFilterList(String additionalEntityFilterList) {
-            this.additionalEntityFilterList = additionalEntityFilterList;
-        }
     }
 
 }

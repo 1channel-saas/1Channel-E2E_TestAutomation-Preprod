@@ -29,11 +29,11 @@ public class WebDriverUtils extends DriverBase {
 
     public WebElement waitUntilVisible(WebDriver webDriver, WebElement element, Duration wait) {
         try {
-            new FluentWait<>(webDriver)
-                    .withTimeout(wait)
-                    .pollingEvery(Duration.ofMillis(2))
-                    .ignoring(NoSuchElementException.class, StaleElementReferenceException.class)
-                    .until(driver -> element.isDisplayed());
+        new FluentWait<>(webDriver)
+                .withTimeout(wait)
+                .pollingEvery(Duration.ofMillis(2))
+                .ignoring(NoSuchElementException.class, StaleElementReferenceException.class)
+                .until(driver -> element.isDisplayed());
         } catch (org.openqa.selenium.TimeoutException te) {
             System.out.println(format("Element %s still not visible after %s", element, wait));
         }

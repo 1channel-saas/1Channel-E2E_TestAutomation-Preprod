@@ -4,6 +4,7 @@ import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
 import com.test.channelplay.utils.GetProperty;
 import com.test.channelplay.utils.WebDriverUtils;
+import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -67,11 +68,12 @@ public class CustomerBulkUpload_Object extends DriverBase {
 
 
     //  Emailer xpath expressions
-    @FindBy(xpath = "//a[contains(@class, 'btn') and @data-bi-ecn='Sign in' and @data-bi-cn='signin' and contains(@href, 'LinkID=2125442')]/span[text()='Sign in']")
+//    @FindBy(xpath = "//div[@class='slider__overflow']/ancestor::div[@class='dropdown']/following-sibling::div/child::a/span[contains(text(), 'Sign in')]")
+    @FindBy(xpath = "//div[@class='dropdown']/following-sibling::div[@class='button-group']//span[contains(text(), 'Sign in')]")
     WebElement mailer_HomeSignIn_button;
     @FindBy(xpath = "//input[@id='i0116' and @type='email']")
     WebElement mailer_EnterEmailId;
-    @FindBy(xpath = "//button[@type='submit' and @id='idSIButton9' and text()='Next']")
+    @FindBy(xpath = "//input[@type='submit' and @id='idSIButton9']")
     WebElement mailer_EnterEmailId_Next_button;
     @FindBy(xpath = "//input[@type='password' and @id='i0118' and @name='passwd']")
     WebElement mailer_EnterPassword;
@@ -83,9 +85,9 @@ public class CustomerBulkUpload_Object extends DriverBase {
     WebElement mailer_Logo;
     @FindBy(xpath = "//span[text()='Inbox']")
     WebElement mailer_Inbox;
-    @FindBy(xpath = "//div[@class='DrnCK l8Tnu']/descendant::div[@class='AL_OM l8Tnu I1wdR']")
+    @FindBy(xpath = "//div[@class='wide-content-host']/descendant::div[@data-testid='SentReceivedSavedTime']")
     WebElement mailer_Inbox_email_dateTime;
-    @FindBy(xpath = "//span[@title='Customers Upload Status']/ancestor::div[@class='NTPm6 idxFD HynGd WWy1F']/following-sibling::div/descendant::div[contains(text(), '_upload Customer.xlsx')]")
+    @FindBy(xpath = "//span[@title='Customers Upload Status']/parent::div/following-sibling::div/descendant::div[contains(text(), '_upload Customer.xlsx')]")
     WebElement mailer_inbox_CustomerUploadStatus_email_Attachment;
     @FindBy(xpath = "//button/descendant::span[text()='Open in Excel']")
     WebElement mailer_inbox_email_Attachment_OpenInExcel_button;
@@ -99,15 +101,21 @@ public class CustomerBulkUpload_Object extends DriverBase {
     WebElement mailer_inbox_Select_button;
     @FindBy(xpath = "(//i[@data-icon-name='CheckMark'])[1]")
     WebElement mailer_inbox_Select_All_checkbox;
-    @FindBy(xpath = "(//span[@role='presentation' and @class='FLwLv']/i)[5]")
-    WebElement mailer_inbox_DeleteAll_button;
+    @FindBy(xpath = "//button[text()='Empty folder']")
+    WebElement mailer_inbox_DeleteAllEmail_button;
+    @FindBy(xpath = "//span[text()='Enjoy your empty inbox.']")
+    WebElement mailer_EmptyInbox_message;
 
 
 
     public CustomerBulkUpload_Object() {
         PageFactory.initElements(getDriver(), this);
     }
-    private static String totalRecords_value, totalRecordsValCounterStr, ErrorFound_value, testStartTime;
+    private static String totalRecords_value;
+    private static String totalRecordsValCounterStr;
+    private static String ErrorFound_value; //  Getter Setter method to extract TestStartTime at time of file upload over UI
+    @Setter
+    private static String testStartTime;
     private int totalExcelRowCount = 0;
     static int totalRecordsVal;
     static int totalRecordsValCounter = 0;
@@ -186,10 +194,6 @@ public class CustomerBulkUpload_Object extends DriverBase {
         setTestStartTime(testStartTime);
     }
 
-    //  Getter Setter method to extract TestStartTime at time time of file upload over UI
-    public static void setTestStartTime(String testStart_time) {
-        testStartTime = testStart_time;
-    }
     public String getTestStartTime() {
         return testStartTime;
     }
@@ -287,10 +291,12 @@ public class CustomerBulkUpload_Object extends DriverBase {
         String parentWindow = getDriver().getWindowHandle();
         String oneChannelWindowURL = getDriver().getCurrentUrl();
 
-        String url = GetProperty.value("mailVerify_bulkUpload");
+        String url = GetProperty.value("mailVerifyURL");
         getDriver().navigate().to(url);
-        commonutils.sleep(1000);
+        //commonutils.sleep(5000);
 
+        webDriverUtils.waitUntilVisible(getDriver(), mailer_HomeSignIn_button, Duration.ofSeconds(20));
+        webDriverUtils.actionsToMoveToElement(getDriver(), mailer_HomeSignIn_button);
         mailer_HomeSignIn_button.click();
         commonutils.sleep(1000);
         // Switch to new window
@@ -343,7 +349,7 @@ public class CustomerBulkUpload_Object extends DriverBase {
         webDriverUtils.waitUntilVisible(getDriver(), mailer_Logo, Duration.ofSeconds(10));
 
         String currMailerUrl = getDriver().getCurrentUrl();
-        Assert.assertTrue(currMailerUrl.contains("https://outlook.office365.com/mail/"));
+        Assert.assertTrue(currMailerUrl.contains("outlook.office.com/mail"));
 
         if (!(mailer_Inbox.isDisplayed())) {
             mailer_Show_Navigation_button.click();
@@ -378,7 +384,7 @@ public class CustomerBulkUpload_Object extends DriverBase {
             if (emailTestStartDateTime.isAfter(UITestStartDateTime) || emailTestStartDateTime.isEqual(UITestStartDateTime)) {
                 log.info("Email received at {} after test start time {}", emailTestStartDateTime, UITestStartDateTime);
                 mailer_inbox_CustomerUploadStatus_email_Attachment.click();
-                webDriverUtils.waitUntilVisible(getDriver(), mailer_inbox_email_Attachment_OpenInExcel_button, Duration.ofSeconds(5));
+                //webDriverUtils.waitUntilVisible(getDriver(), mailer_inbox_email_Attachment_OpenInExcel_button, Duration.ofSeconds(5));
                 mailer_inbox_email_attachment_Download_button.click();
                 log.info("Downloading attachment...");
                 mailer_Attachement_Close_button.click();
@@ -390,11 +396,17 @@ public class CustomerBulkUpload_Object extends DriverBase {
         commonutils.sleep(2000);
 
         //  deleting all emails from inbox at the end of emailer operations
-        mailer_inbox_Select_button.click();
-        webDriverUtils.waitUntilVisible(getDriver(), mailer_inbox_Select_All_checkbox, Duration.ofSeconds(5));
-        mailer_inbox_Select_All_checkbox.click();
-        webDriverUtils.waitUntilVisible(getDriver(), mailer_inbox_DeleteAll_button, Duration.ofSeconds(5));
-        mailer_inbox_DeleteAll_button.click();
+        if (mailer_inbox_Select_button != null) {
+            mailer_inbox_Select_button.click();
+            commonutils.sleep(1000);
+            mailer_inbox_Select_All_checkbox.click();
+            commonutils.sleep(1000);
+            mailer_inbox_DeleteAllEmail_button.click();
+            commonutils.sleep(1000);
+            webDriverUtils.waitUntilVisible(getDriver(), mailer_EmptyInbox_message, Duration.ofSeconds(3));
+        } else {
+            log.warn("Select button is null, skipping focused inbox cleanup");
+        }
         commonutils.sleep(1000);
 
 
@@ -464,23 +476,51 @@ public class CustomerBulkUpload_Object extends DriverBase {
     public void waitForEmailToReceive(int maxWaitTimeMinutes, int pollIntervalSeconds) {
         int elapsedTime = 0;
         boolean emailFound = false;
+        int maxWaitTimeSeconds = maxWaitTimeMinutes * 60;
+        
+        log.info("Starting to wait for email. Max wait time: {} minutes ({} seconds)", maxWaitTimeMinutes, maxWaitTimeSeconds);
 
-        while (elapsedTime < maxWaitTimeMinutes * 60) {
-            List<WebElement> emailList = getDriver().findElements(By.xpath("//span[text()='Customers Upload Status']"));
-
-            if (!emailList.isEmpty()) {
-                log.info("Email received! Processing...");
-                emailFound = true;
-                break;
+        // Set implicit wait to a shorter duration for findElements
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        
+        while (elapsedTime < maxWaitTimeSeconds) {
+            log.info("Checking for email... Elapsed time: {} seconds / {} seconds", elapsedTime, maxWaitTimeSeconds);
+            
+            try {
+                // Add page refresh to avoid stale page
+                if (elapsedTime > 0 && elapsedTime % 30 == 0) {
+                    log.info("Refreshing page to check for new emails...");
+                    getDriver().navigate().refresh();
+                    commonutils.sleep(2000); // Wait for page to load after refresh
+                }
+                
+                List<WebElement> emailList = getDriver().findElements(By.xpath("//span[text()='Customers Upload Status']"));
+                
+                if (!emailList.isEmpty()) {
+                    log.info("Email received! Found {} matching emails. Processing...", emailList.size());
+                    emailFound = true;
+                    break;
+                }
+            } catch (Exception e) {
+                log.error("Error while checking for email at line " + Thread.currentThread().getStackTrace()[1].getLineNumber() + ": ", e);
+                e.printStackTrace();
+                // Don't break on error, continue checking
             }
 
-            log.info("Email not found yet. Retrying in {} seconds...", pollIntervalSeconds);
+            log.info("Email not found yet. Waiting {} seconds before retry... (Elapsed: {}/{})", pollIntervalSeconds, elapsedTime, maxWaitTimeSeconds);
             commonutils.sleep(pollIntervalSeconds * 1000);
             elapsedTime += pollIntervalSeconds;
         }
 
+        // Reset implicit wait to default
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        
         if (!emailFound) {
-            log.error("Timed out waiting for email. No matching email received within {} minutes.", maxWaitTimeMinutes);
+            String errorMsg = String.format("Timed out waiting for email. No matching email received within %d minutes (%d seconds elapsed).", maxWaitTimeMinutes, elapsedTime);
+            log.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        } else {
+            log.info("Email found successfully after {} seconds", elapsedTime);
         }
     }
 

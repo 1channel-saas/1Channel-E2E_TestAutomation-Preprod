@@ -25,6 +25,7 @@
         <jackson.version>2.10.1</jackson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <browser>chrome</browser>
+<!--        <browser>firefox</browser>-->
         <headless>false</headless>
         <environment>PreProd</environment>
         <parallel>methods</parallel>
@@ -42,7 +43,7 @@
         <log4j-slf4j2-impl.version>2.23.1</log4j-slf4j2-impl.version>
         <slf4j-api.version>2.0.16</slf4j-api.version>
 
-<!--          Dependencies imported from API framework..-->
+<!--          Dependencies for from API framework..-->
         <junit.version>4.13.2</junit.version>
         <rest-assured.version>5.5.0</rest-assured.version>
         <cucumber.junit.version>7.18.0</cucumber.junit.version>
@@ -230,6 +231,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -239,6 +241,8 @@
                     <encoding>UTF-8</encoding>
                     <source>9</source>
                     <target>9</target>
+                    <debug>true</debug>
+                    <debuglevel>lines,vars,source</debuglevel>
                 </configuration>
             </plugin>
 
@@ -247,6 +251,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
+                    <!--Allow the build to continue to verify phase even if tests fail-->
+                    <testFailureIgnore>true</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
@@ -281,8 +287,43 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.8.2</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                         <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>cucumber-jvm-example</projectName>
+                            <!-- optional,as per documentation set this to "true" to bypass generation of Cucumber Reports entirely, defaults to false if not specified -->
+                            <skip>false</skip>
+                            <!-- output directory for the generated report -->
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <!-- optional, defaults to outputDirectory if not specified -->
+                            <inputDirectory>${project.build.directory}/jsonReports</inputDirectory>
+                            <jsonFiles>
+                                <!-- supports wildcard or name pattern -->
+                                <param>**/*.json</param>
+                            </jsonFiles>
+                            <!-- optional, set true to group features by its Ids -->
+                            <mergeFeaturesById>false</mergeFeaturesById>
+                            <!-- optional, set true to get a final report with latest results of the same test from different test runs -->
+                            <mergeFeaturesWithRetest>false</mergeFeaturesWithRetest>
+                            <!-- optional, set true to fail build on test failures -->
+                            <checkBuildResult>false</checkBuildResult>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>chrome</id>

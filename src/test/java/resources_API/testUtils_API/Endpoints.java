@@ -98,6 +98,7 @@ public enum Endpoints {
 
     //  Configuration endpoints #
     assistant("/setting/api/configuration/assistant"),
+    getCompanySettings_AccSetUp("/setting/api/company/getCompanySettings"),
 
 
     //  Custom Type #
@@ -181,7 +182,7 @@ public enum Endpoints {
     approvalFetchActionOptions("/transactions/api/approvals/fetchActionOptions"),
 
     //  Company #
-    getCompanySettings("/transactions/api/company/getCompanySettings"),     // not found
+    getCompanySettings("/transactions/api/company/getCompanySettings"),
     getAllActivitiesComp("/transactions/api/company/getAllActivities"),     // not found
     getFrontImageComp("/transactions/api/company/getFrontImage/{projectId}/{companyId}/{imgName}"),     // not found
     addEditCompany("/transactions/api/company/addEditCompany"),

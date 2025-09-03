@@ -23,7 +23,10 @@ public class Hooks extends DriverBase {
     public void driverSetup() {
         //driverBase = new DriverBase();
         //driver = driverBase.initialize(System.getProperty("browser"));
-        clearCacheForBrowser(System.getProperty("browser", "chrome"));
+        //  Only clear cache if explicitly requested or on first run
+        if (Boolean.parseBoolean(System.getProperty("clearCache", "false"))) {
+            clearCacheForBrowser(System.getProperty("browser", "chrome"));
+        }
         driver = initialize(System.getProperty("browser"));
         logger.info("Driver initialized: {}", driver);
     }
@@ -39,14 +42,23 @@ public class Hooks extends DriverBase {
 
 
     @After(order = 0)
-    public void tearDown() {
+    public void tearDown(io.cucumber.java.Scenario scenario) {
         if (driver != null) {
-            driver.quit();
-            killChromeDriverProcess();
-            driver = null;
-            logger.info("Closing driver...");
+            try {
+                // Always quit the driver to prevent orphaned browser instances
+                driver.quit();
+                logger.info("Driver quit successfully for scenario: {}", scenario.getName());
+            } catch (Exception e) {
+                logger.warn("Failed to quit driver properly: {}", e.getMessage());
+                // Force kill if normal quit fails
+                killChromeDriverProcess();
+            } finally {
+                driver = null;
+                tdriver.remove(); // Clear ThreadLocal reference
+            }
         }
     }
+    
     private void killChromeDriverProcess() {
         try {
             Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe /T");

@@ -7,7 +7,8 @@ import org.apache.commons.lang3.BooleanUtils;
     import org.openqa.selenium.firefox.FirefoxBinary;
     import org.openqa.selenium.firefox.FirefoxDriver;
     import org.openqa.selenium.firefox.FirefoxOptions;
-    import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.DesiredCapabilities;
     import io.github.bonigarcia.wdm.WebDriverManager;
 
     import java.io.File;
@@ -48,12 +49,27 @@ public class DriverBase {
         }
         else if (browserName.equals("firefox")) {
             WebDriverManager.firefoxdriver().setup();
-            FirefoxBinary firefoxBinary = new FirefoxBinary();
+
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            firefoxOptions.setAcceptInsecureCerts(true);
+            firefoxOptions.setHeadless(BooleanUtils.toBoolean(System.getProperty("headless")));
+
+            FirefoxProfile firefoxProfile = new FirefoxProfile();
+            firefoxProfile.setAcceptUntrustedCertificates(true);
+            firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
+            firefoxProfile.setPreference("browser.download.folderList", 2);
+            firefoxProfile.setPreference("browser.download.dir", downloadFilepath);
+            firefoxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/pdf");
+            firefoxProfile.setPreference("pdfjs.disabled", true);
+
+            firefoxOptions.setProfile(firefoxProfile);
+
+        /*    FirefoxBinary firefoxBinary = new FirefoxBinary();
             firefoxBinary.addCommandLineOptions("--accept_untrusted_certs");
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.setBinary(firefoxBinary);
             firefoxOptions.setHeadless(BooleanUtils.toBoolean(System.getProperty("headless")));
-            firefoxOptions.setAcceptInsecureCerts(true);
+            firefoxOptions.setAcceptInsecureCerts(true);*/
             driver = new FirefoxDriver(firefoxOptions);
         }
 

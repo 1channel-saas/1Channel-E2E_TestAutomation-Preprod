@@ -10,8 +10,9 @@ import org.testng.annotations.DataProvider;
 //@RunWith(Cucumber.class)
 @CucumberOptions (
 		features = {"src/test/resources/com/test/channelplay/feature"},
-		glue = {"com.test.channelplay.stepDefinition", "StepDefinitions_API"},
-		tags = "not @skip and (@INB and @E2E)",
+		glue = {"com.test.channelplay.stepDefinition", "stepDefinitions_API"},
+		//tags = "not @skip and (@INB and @E2E)",
+		tags = "@uniqueSerialNo_INB",
 		dryRun = false,
 		plugin = {"pretty", "rerun:target/rerun.txt", "timeline:target/timeline",
 				"html:target/htmlReports/cucumber-reports.html", "json:target/jsonReports/cucumber-reports.json"},

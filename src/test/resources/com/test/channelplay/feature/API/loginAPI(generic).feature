@@ -6,6 +6,10 @@ Feature: This is generic Login api feature which can be used for all other APIs 
     When user submit "loginAPI" with "POST" request for login
 
 
+  Scenario: submit login api for portal with test user credentials
+    When user submit "loginAPI" with "POST" request for login with testUser creds
+
+
   Scenario: submit login api for loyalty
     When user submit "loginAPI" with "POST" request for loyalty
 
