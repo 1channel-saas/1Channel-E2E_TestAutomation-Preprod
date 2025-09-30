@@ -1,9 +1,9 @@
 @INB
-@customerBulkUpload
+@E2E
 Feature: Upload customers from excel from 'Bulk Upload' option under Add button dropdown for CRM -> Customers for INB
 
 
-  @E2E
+  @customerBulkUpload
   Scenario Outline: Add Customer through Bulk Upload for project IGSSL Collection (projectId - 433)
 
 ##    API

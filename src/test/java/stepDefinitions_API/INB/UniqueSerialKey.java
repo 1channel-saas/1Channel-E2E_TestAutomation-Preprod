@@ -41,7 +41,7 @@ public class UniqueSerialKey extends CommonUtils_API {
         preprodConnection = DBConnection.getPreprodConnection();
         
         //  Check if there are any records for this project_id
-        String checkRecordsQuery = "SELECT COUNT(*) as total_count FROM " + tableName + 
+        String checkRecordsQuery = "SELECT COUNT(*) as total_count FROM " + tableName +
                                   " WHERE project_id = " + project_id;
         System.out.println("Checking total records: " + checkRecordsQuery);
         

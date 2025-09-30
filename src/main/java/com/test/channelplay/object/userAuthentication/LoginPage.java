@@ -1,11 +1,7 @@
 package com.test.channelplay.object.userAuthentication;
 
-import com.test.channelplay.utils.CommonUtils;
-import com.test.channelplay.utils.DriverBase;
-import com.test.channelplay.utils.GetProperty;
-import com.test.channelplay.utils.WebDriverUtils;
+import com.test.channelplay.utils.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -14,8 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class LoginPage extends DriverBase {
@@ -66,21 +60,21 @@ public class LoginPage extends DriverBase {
     WebElement resetPassword_email_submitButton;
     @FindBy(xpath = "//span[text()='Okay']")
     WebElement resetPassword_email_okayButton;
-    @FindBy(xpath = "//div[@class='dropdown']/following-sibling::div[@class='button-group']//span[contains(text(), 'Sign in')]")
+    @FindBy(xpath = Constants.mailer_HomeSignIn_button)
     WebElement mailer_HomeSignIn_button;
-    @FindBy(xpath = "//input[@id='i0116' and @type='email']")
+    @FindBy(xpath = Constants.mailer_EnterEmailId)
     WebElement mailer_EnterEmailId;
-    @FindBy(xpath = "//input[@type='submit' and @id='idSIButton9']")
+    @FindBy(xpath = Constants.mailer_EnterEmailId_Next_button)
     WebElement mailer_EnterEmailId_Next_button;
-    @FindBy(xpath = "//input[@type='password' and @id='i0118' and @name='passwd']")
+    @FindBy(xpath = Constants.mailer_EnterPassword)
     WebElement mailer_EnterPassword;
-    @FindBy(xpath = "//input[@type='submit' and @id='idSIButton9' and @value='Sign in']")
+    @FindBy(xpath = Constants.mailer_SignIn_button)
     WebElement mailer_SignIn_button;
-    @FindBy(xpath = "//input[@type='submit' and @id='idSIButton9' and @value='Yes']")
+    @FindBy(xpath = Constants.staySignedIn_Yes_button)
     WebElement staySignedIn_Yes_button;
-    @FindBy(xpath = "//button/descendant::span[text()='Home']/ancestor::div[@class='VvU3M']/preceding-sibling::div/button")
-    WebElement mailer_Show_Navigation_button;
-    @FindBy(xpath = "//span[text()='Inbox']")
+    @FindBy(xpath = Constants.mailer_Logo)
+    WebElement mailer_Logo;
+    @FindBy(xpath = Constants.mailer_Inbox)
     WebElement mailer_Inbox;
     @FindBy(xpath = "//a[text()='Reset Password']")
     WebElement resetPasswordLinkInEmail;
@@ -92,6 +86,8 @@ public class LoginPage extends DriverBase {
     WebElement resetPassWindow_ConfirmPasswordField;
     @FindBy(xpath = "//button[text()='Sign In']")
     WebElement resetPassWindow_SignInButton;
+    @FindBy(xpath = "//button/descendant::span[text()='Home']/ancestor::div[@class='VvU3M']/preceding-sibling::div/button")
+    WebElement mailer_Show_Navigation_button;
 
     WebDriverUtils webDriverUtils = new WebDriverUtils();
     CommonUtils commonUtils = new CommonUtils();

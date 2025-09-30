@@ -1,5 +1,6 @@
 @INB
 @DB
+@E2E
 @useCase_Scenarios
 Feature: Serial Nos for all Customers and Users should be unique in DB - validation for INB
 

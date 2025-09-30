@@ -10,16 +10,19 @@ import org.testng.annotations.DataProvider;
 //@RunWith(Cucumber.class)
 @CucumberOptions (
 		features = {"src/test/resources/com/test/channelplay/feature"},
-		glue = {"com.test.channelplay.stepDefinition", "stepDefinitions_API"},
+//		glue = {"com/test/channelplay/stepDefinition", "com.test.channelplay.stepDefinition_Mobile", "stepDefinitions_API"},
+		glue = {"com.test.channelplay.stepDefinition", "com.test.channelplay.stepDefinition_Mobile", "stepDefinitions_API"},
 		//tags = "not @skip and (@INB and @E2E)",
-		tags = "@uniqueSerialNo_INB",
+		tags = "@useCase_Scenarios or @offsiteActivity",
 		dryRun = false,
 		plugin = {"pretty", "rerun:target/rerun.txt", "timeline:target/timeline",
-				"html:target/htmlReports/cucumber-reports.html", "json:target/jsonReports/cucumber-reports.json"},
+				"html:target/htmlReports/cucumber-reports.html", "json:target/jsonReports/cucumber-reports.json",
+				"io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"},
 		monochrome=true
 		)
 
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
+
 	private static final Logger logger = LoggerFactory.getLogger(RunCucumberTest.class);
 
 	@Override
@@ -34,5 +37,5 @@ public class RunCucumberTest extends AbstractTestNGCucumberTests {
 		RestAssured.reset();    //clean up any resource utilized during test
 		logger.info("All Features and Scenarios under test are completed!...");
 	}
-	
+
 }

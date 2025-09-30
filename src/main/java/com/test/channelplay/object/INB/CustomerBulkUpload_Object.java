@@ -1,9 +1,6 @@
 package com.test.channelplay.object.INB;
 
-import com.test.channelplay.utils.CommonUtils;
-import com.test.channelplay.utils.DriverBase;
-import com.test.channelplay.utils.GetProperty;
-import com.test.channelplay.utils.WebDriverUtils;
+import com.test.channelplay.utils.*;
 import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -25,6 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CustomerBulkUpload_Object extends DriverBase {
+
     private static final Logger log = LoggerFactory.getLogger(CustomerBulkUpload_Object.class);
     CommonUtils commonutils = new CommonUtils();
     WebDriverUtils webDriverUtils = new WebDriverUtils();
@@ -68,22 +66,21 @@ public class CustomerBulkUpload_Object extends DriverBase {
 
 
     //  Emailer xpath expressions
-//    @FindBy(xpath = "//div[@class='slider__overflow']/ancestor::div[@class='dropdown']/following-sibling::div/child::a/span[contains(text(), 'Sign in')]")
-    @FindBy(xpath = "//div[@class='dropdown']/following-sibling::div[@class='button-group']//span[contains(text(), 'Sign in')]")
+    @FindBy(xpath = Constants.mailer_HomeSignIn_button)
     WebElement mailer_HomeSignIn_button;
-    @FindBy(xpath = "//input[@id='i0116' and @type='email']")
+    @FindBy(xpath = Constants.mailer_EnterEmailId)
     WebElement mailer_EnterEmailId;
-    @FindBy(xpath = "//input[@type='submit' and @id='idSIButton9']")
+    @FindBy(xpath = Constants.mailer_EnterEmailId_Next_button)
     WebElement mailer_EnterEmailId_Next_button;
-    @FindBy(xpath = "//input[@type='password' and @id='i0118' and @name='passwd']")
+    @FindBy(xpath = Constants.mailer_EnterPassword)
     WebElement mailer_EnterPassword;
-    @FindBy(xpath = "//input[@type='submit' and @id='idSIButton9' and @value='Sign in']")
+    @FindBy(xpath = Constants.mailer_SignIn_button)
     WebElement mailer_SignIn_button;
-    @FindBy(xpath = "//input[@type='submit' and @id='idSIButton9' and @value='Yes']")
+    @FindBy(xpath = Constants.staySignedIn_Yes_button)
     WebElement staySignedIn_Yes_button;
-    @FindBy(xpath = "//img[@id = 'O365_MainLink_TenantLogoImg']")
+    @FindBy(xpath = Constants.mailer_Logo)
     WebElement mailer_Logo;
-    @FindBy(xpath = "//span[text()='Inbox']")
+    @FindBy(xpath = Constants.mailer_Inbox)
     WebElement mailer_Inbox;
     @FindBy(xpath = "//div[@class='wide-content-host']/descendant::div[@data-testid='SentReceivedSavedTime']")
     WebElement mailer_Inbox_email_dateTime;
@@ -111,6 +108,7 @@ public class CustomerBulkUpload_Object extends DriverBase {
     public CustomerBulkUpload_Object() {
         PageFactory.initElements(getDriver(), this);
     }
+
     private static String totalRecords_value;
     private static String totalRecordsValCounterStr;
     private static String ErrorFound_value; //  Getter Setter method to extract TestStartTime at time of file upload over UI
@@ -295,7 +293,7 @@ public class CustomerBulkUpload_Object extends DriverBase {
         getDriver().navigate().to(url);
         //commonutils.sleep(5000);
 
-        webDriverUtils.waitUntilVisible(getDriver(), mailer_HomeSignIn_button, Duration.ofSeconds(20));
+        webDriverUtils.waitUntilVisible(getDriver(), mailer_HomeSignIn_button, Duration.ofSeconds(10));
         webDriverUtils.actionsToMoveToElement(getDriver(), mailer_HomeSignIn_button);
         mailer_HomeSignIn_button.click();
         commonutils.sleep(1000);

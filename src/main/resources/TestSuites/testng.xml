@@ -6,7 +6,17 @@
 		<classes>
 			<class name="com.test.channelplay.cucumber.Options.RunCucumberTest"/>
 		</classes>	
-	</test> 
+	</test>
+	
+	<!-- Use this for mobile-only test runs -->
+<!--	<test name="Mobile-TestRun">-->
+<!--		<classes>-->
+<!--			<class name="com.test.channelplay.cucumber.Options.RunCucumberTest">-->
+<!--				<parameter name="cucumber.filter.tags" value="@mobile"/>-->
+<!--			</class>-->
+<!--		</classes>-->
+<!--	</test>-->
+
 	
 <!--	<test name="E2E-ReRun">-->
 <!--		<classes>-->

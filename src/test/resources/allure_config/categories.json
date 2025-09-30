@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Product Defects",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*AssertionError.*",
+    "traceRegex": ".*"
+  },
+  {
+    "name": "Test Defects",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*NoSuchElementException.*|.*TimeoutException.*",
+    "traceRegex": ".*"
+  },
+  {
+    "name": "Environment Issues",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*WebDriverException.*|.*ConnectException.*",
+    "traceRegex": ".*"
+  },
+  {
+    "name": "Mobile App Issues",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*AppiumException.*|.*MobileElement.*",
+    "traceRegex": ".*"
+  },
+  {
+    "name": "API Issues",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*RestAssured.*|.*StatusCode.*",
+    "traceRegex": ".*"
+  }
+]

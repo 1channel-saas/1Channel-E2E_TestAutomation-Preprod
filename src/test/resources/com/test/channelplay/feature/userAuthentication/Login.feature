@@ -1,5 +1,6 @@
 @CRMPortal
 @userAuthentication
+@E2E
 Feature: CRM Portal User Authentication
 
 
@@ -7,6 +8,7 @@ Feature: CRM Portal User Authentication
     Given User launches 1Channel CRM
 
 
+  # UI
   @loginAuth
   Scenario Outline: Successful login with valid credentials
 
@@ -24,6 +26,7 @@ Feature: CRM Portal User Authentication
 
 
 
+  # UI
   @loginFieldValidation
   Scenario Outline: Login field validation
 
@@ -43,6 +46,7 @@ Feature: CRM Portal User Authentication
 
 
 
+  # UI
   @loginNegativeTest
   Scenario Outline: Failed login with invalid credentials
 
@@ -64,6 +68,7 @@ Feature: CRM Portal User Authentication
 
 
 
+  # UI
   @loginPasswordMasking
   Scenario: Password field security
 
@@ -74,9 +79,9 @@ Feature: CRM Portal User Authentication
 
 
 
-  @API
+  # API
   @portalLogin
-  Scenario Outline: submit login api and verify whether login is successful
+  Scenario Outline: submit login api and verify whether login is successful and validate response data
 
     Given add loginAPI payload with "<username>" and "<password>"
     When user submit "loginAPI" with "POST" request for loginPortal
@@ -94,7 +99,7 @@ Feature: CRM Portal User Authentication
 
 
 #  @skip
-  @API
+  # API
   @confirmLogin
   Scenario: submit confirmLogin api and verify whether login is successful
 

@@ -1,6 +1,6 @@
 package com.test.channelplay.stepDefinition;
 
-import com.test.channelplay.object.userAuthentication.AssistiveLoginObject;
+import com.test.channelplay.object.CRMPortalLoginObject;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
 import com.test.channelplay.utils.GetProperty;
@@ -33,7 +33,7 @@ public class CommonStepDefinitions_UI extends DriverBase {
 
     CommonUtils commonUtils = new CommonUtils();
     WebDriverUtils webDriverUtils = new WebDriverUtils();
-    AssistiveLoginObject login = new AssistiveLoginObject();
+    CRMPortalLoginObject login = new CRMPortalLoginObject();
 
     public CommonStepDefinitions_UI() {
         PageFactory.initElements(getDriver(), this);
@@ -41,10 +41,11 @@ public class CommonStepDefinitions_UI extends DriverBase {
 
 
     //  gherkin: User launches 1Channel CRM
-    @Given("User launches 1Channel CRM")
+    @Given("User launches 1Channel CRM portal")
     public void userLaunches1ChannelCRM() {
         getDriver().get(GetProperty.value("appUrl"));
         commonUtils.validatePage("Assistive");
+        commonUtils.sleep(3000);
     }
 
 

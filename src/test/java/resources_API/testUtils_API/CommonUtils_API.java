@@ -285,7 +285,7 @@ public class CommonUtils_API {
 
     //  ** methos for sessionTimeout
 //    sessionTimeout() method actively checks the session every minute, useful if the session to expire before scheduled time.
-//    currently not in use as only one scenario required to handle session.
+//    currently not in use AddActivity_testUserSteps only one scenario required to handle session.
     public void sessionTimeout() {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 

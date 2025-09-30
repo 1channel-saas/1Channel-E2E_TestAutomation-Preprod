@@ -9,9 +9,9 @@
   <url>http://maven.apache.org</url>
   
       <properties>
-        <cucumber.version>6.8.1</cucumber.version>
-        <selenium.version>4.0.0-alpha-7</selenium.version>
-        <selenium-devtools.version>4.0.0-alpha-7</selenium-devtools.version>
+        <cucumber.version>6.11.0</cucumber.version>
+        <selenium.version>4.23.0</selenium.version>
+        <selenium-devtools.version>4.23.0</selenium-devtools.version>
         <webdriver.version>5.9.2</webdriver.version>
         <hamcrest.version>2.2</hamcrest.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
@@ -20,9 +20,9 @@
         <aspectj.version>1.9.4</aspectj.version>
         <commons-io.version>2.18.0</commons-io.version>
         <testng.version>7.8.0</testng.version>
-        <allure.version>2.13.8</allure.version>
+        <allure.version>2.25.0</allure.version>
         <allure-maven.version>2.12.0</allure-maven.version>
-        <jackson.version>2.10.1</jackson.version>
+        <jackson.version>2.16.0</jackson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <browser>chrome</browser>
 <!--        <browser>firefox</browser>-->
@@ -43,15 +43,23 @@
         <log4j-slf4j2-impl.version>2.23.1</log4j-slf4j2-impl.version>
         <slf4j-api.version>2.0.16</slf4j-api.version>
 
-<!--          Dependencies for from API framework..-->
+<!--          Dependencies for API and DB framework..-->
         <junit.version>4.13.2</junit.version>
         <rest-assured.version>5.5.0</rest-assured.version>
-        <cucumber.junit.version>7.18.0</cucumber.junit.version>
+        <cucumber.junit.version>6.11.0</cucumber.junit.version>
         <poi-ooxml.version>5.3.0</poi-ooxml.version>
         <poi.version>5.3.0</poi.version>
         <json-path.version>5.5.0</json-path.version>
         <json.version>20240303</json.version>
         <postgresql.version>42.7.3</postgresql.version>
+
+<!--         Dependencies for mobile Appium framework..-->
+        <appium.version>9.3.0</appium.version>
+        <appium_flutterfinder.version>1.0.9</appium_flutterfinder.version>
+<!--        ##    AI -> CV & OCR Dependencies-->
+        <opencv.version>4.9.0-0</opencv.version>
+        <tesseract.version>5.15.0</tesseract.version>
+        <javacv.version>1.5.10</javacv.version>
     </properties>
 
     <dependencies>
@@ -170,7 +178,7 @@
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-devtools-v86</artifactId>
+            <artifactId>selenium-devtools-v127</artifactId>
             <version>${selenium-devtools.version}</version>
         </dependency>
 
@@ -221,6 +229,56 @@
             <version>${postgresql.version}</version>
         </dependency>
 
+        <!-- Appium for Mobile Automation -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>${appium.version}</version>
+        </dependency>
+        
+        <!-- Flutter Driver for Flutter apps -->
+        <dependency>
+            <groupId>io.github.ashwithpoojary98</groupId>
+            <artifactId>appium_flutterfinder_java</artifactId>
+            <version>${appium_flutterfinder.version}</version>
+        </dependency>
+
+        <!-- Jackson for JSON processing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- AI/Computer Vision Dependencies -->
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>${opencv.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>${tesseract.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>${javacv.version}</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -233,6 +291,32 @@
         </resources>
 
         <plugins>
+            <!-- Maven Clean Plugin - Cleans test flow screenshots on mvn clean -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>allure-results</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <!-- Clean test flow screenshots -->
+                        <fileset>
+                            <directory>screenshots/test_flow</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -252,7 +336,7 @@
                 <version>${maven.surefire.version}</version>
                 <configuration>
                     <!--Allow the build to continue to verify phase even if tests fail-->
-                    <testFailureIgnore>true</testFailureIgnore>
+                    <testFailureIgnore>false</testFailureIgnore>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
@@ -318,6 +402,27 @@
                             <!-- optional, set true to fail build on test failures -->
                             <checkBuildResult>false</checkBuildResult>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Allure Maven Plugin -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure-maven.version}</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>allure-report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

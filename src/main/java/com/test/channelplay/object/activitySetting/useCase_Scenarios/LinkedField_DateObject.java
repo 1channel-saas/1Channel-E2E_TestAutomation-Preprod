@@ -21,7 +21,7 @@ public class LinkedField_DateObject extends DriverBase {
 
     @FindBy(xpath = Constants.Admin_menu)
     WebElement Admin_menu_ele;
-    @FindBy(xpath = Constants.Activities_subMenu)
+    @FindBy(xpath = Constants.AdminActivities_subMenu)
     WebElement Activities_subMenu_ele;
     @FindBy(xpath = "//h5[text()=' Activities ']")
     WebElement activitiesPageHeader;

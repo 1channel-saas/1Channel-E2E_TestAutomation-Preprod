@@ -1,0 +1,25 @@
+{
+  "templatePath" : "templates\\AI_images\\current/offsiteactivity_description_field_ai.png",
+  "hash" : "0000000000000000111111111111111111111111111111111111111111111111",
+  "width" : 974,
+  "height" : 527,
+  "aspectRatio" : 1.8481973434535104,
+  "elementType" : "AI",
+  "capturedDate" : 1758406781701,
+  "elementName" : "offsiteActivity_description_field",
+  "dominantColors" : [ "#FFFFFF", "#F5F7FD", "#E2DFFF" ],
+  "relativePosition" : {
+    "x" : 0.049074074074074076,
+    "y" : 0.54,
+    "width" : 0.9018518518518519,
+    "height" : 0.21958333333333332
+  },
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "offsite_activity_description_field", "offsiteactivityDescriptionField", "offsiteactivity_description_field" ],
+  "successCount" : 0,
+  "failureCount" : 0,
+  "lastUsed" : 1758406781701,
+  "successRate" : 0.0
+}

@@ -1,0 +1,20 @@
+{
+  "templatePath" : "templates\\manual_captured_images\\Screenshot_1758315325.png",
+  "hash" : "0011111111111111111111111111111101111111111111111111111111111111",
+  "width" : 1003,
+  "height" : 487,
+  "aspectRatio" : 2.059548254620123,
+  "elementType" : "Manual",
+  "capturedDate" : 1758315552346,
+  "elementName" : "Screenshot_1758315325",
+  "dominantColors" : [ "#FFFFFF", "#F5F7FD" ],
+  "relativePosition" : null,
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "screenshot_1758315325", "screenshot1758315325", "offsiteactivity_description_field" ],
+  "successCount" : 1,
+  "failureCount" : 0,
+  "lastUsed" : 1758315618798,
+  "successRate" : 1.0
+}

@@ -1,0 +1,25 @@
+{
+  "templatePath" : "templates\\AI_images\\current/performdate_calendar_today_date_ai.png",
+  "hash" : "0000000000000000001111000111111001111110011111100000000000000000",
+  "width" : 1080,
+  "height" : 2400,
+  "aspectRatio" : 0.45,
+  "elementType" : "AI",
+  "capturedDate" : 1758505572018,
+  "elementName" : "performDate_calendar_today_date",
+  "dominantColors" : [ "#ECE6F0", "#143275", "#707174" ],
+  "relativePosition" : {
+    "x" : 0.0,
+    "y" : 0.0,
+    "width" : 1.0,
+    "height" : 1.0
+  },
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "performdate_calendar_today_date", "performdateCalendarTodayDate", "perform_date_calendar_today_date" ],
+  "successCount" : 0,
+  "failureCount" : 0,
+  "lastUsed" : 1758505572018,
+  "successRate" : 0.0
+}

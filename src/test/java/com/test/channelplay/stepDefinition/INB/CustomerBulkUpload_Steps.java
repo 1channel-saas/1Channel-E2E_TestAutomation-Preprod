@@ -1,7 +1,6 @@
 package com.test.channelplay.stepDefinition.INB;
 
-import stepDefinitions_API.INB.CustomerBulkUpload_APISteps;
-import com.test.channelplay.object.userAuthentication.AssistiveLoginObject;
+import com.test.channelplay.object.CRMPortalLoginObject;
 import com.test.channelplay.object.INB.CustomerBulkUpload_Object;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.DriverBase;
@@ -18,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class CustomerBulkUpload_Steps extends DriverBase {
 
     CustomerBulkUpload_Object custBulkUpload = new CustomerBulkUpload_Object();
-    AssistiveLoginObject login = new AssistiveLoginObject();
+    CRMPortalLoginObject login = new CRMPortalLoginObject();
     CommonUtils commonUtils = new CommonUtils();
 
 

@@ -1,4 +1,4 @@
-package StepDefinitions_API;
+package stepDefinitions_API;
 
 import io.cucumber.java.*;
 import org.slf4j.Logger;

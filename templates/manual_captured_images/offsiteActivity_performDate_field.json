@@ -1,0 +1,20 @@
+{
+  "templatePath" : "templates\\manual_captured_images\\offsiteActivity_performDate_field.png",
+  "hash" : "0000000000000000000000001111111111111111111111111111111100000000",
+  "width" : 1005,
+  "height" : 264,
+  "aspectRatio" : 3.8068181818181817,
+  "elementType" : "Manual",
+  "capturedDate" : 1758483981160,
+  "elementName" : "offsiteActivity_performDate_field",
+  "dominantColors" : [ "#F5F7FD", "#FFFFFF", "#181818" ],
+  "relativePosition" : null,
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "offsite_activity_perform_date_field", "offsiteactivity_performdate_field", "offsiteactivityPerformdateField" ],
+  "successCount" : 0,
+  "failureCount" : 0,
+  "lastUsed" : 1758483981160,
+  "successRate" : 0.0
+}

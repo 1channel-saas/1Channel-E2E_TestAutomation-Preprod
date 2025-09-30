@@ -4,6 +4,8 @@ import com.test.channelplay.utils.DriverBase;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import com.test.channelplay.utils.ScreenshotHelper;
+import com.test.channelplay.utils.WebTestFlowScreenshotManager;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -19,16 +21,18 @@ public class Hooks extends DriverBase {
     //private DriverBase driverBase;
 
 
-    @Before
+    @Before(value = "@web")
     public void driverSetup() {
         //driverBase = new DriverBase();
         //driver = driverBase.initialize(System.getProperty("browser"));
-        //  Only clear cache if explicitly requested or on first run
-        if (Boolean.parseBoolean(System.getProperty("clearCache", "false"))) {
+        try {
             clearCacheForBrowser(System.getProperty("browser", "chrome"));
+            driver = initialize(System.getProperty("browser"));
+            logger.info("Driver initialized: {}", driver);
+        } catch (Exception e) {
+            logger.error("Failed to initialize Web driver: {}", e.getMessage());
+            throw new RuntimeException("Web driver initialization failed, NullPointerException", e);
         }
-        driver = initialize(System.getProperty("browser"));
-        logger.info("Driver initialized: {}", driver);
     }
 
 
@@ -42,23 +46,14 @@ public class Hooks extends DriverBase {
 
 
     @After(order = 0)
-    public void tearDown(io.cucumber.java.Scenario scenario) {
+    public void tearDown() {
         if (driver != null) {
-            try {
-                // Always quit the driver to prevent orphaned browser instances
-                driver.quit();
-                logger.info("Driver quit successfully for scenario: {}", scenario.getName());
-            } catch (Exception e) {
-                logger.warn("Failed to quit driver properly: {}", e.getMessage());
-                // Force kill if normal quit fails
-                killChromeDriverProcess();
-            } finally {
-                driver = null;
-                tdriver.remove(); // Clear ThreadLocal reference
-            }
+            driver.quit();
+            killChromeDriverProcess();
+            driver = null;
+            logger.info("Closing driver...");
         }
     }
-    
     private void killChromeDriverProcess() {
         try {
             Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe /T");
@@ -69,8 +64,10 @@ public class Hooks extends DriverBase {
 
 
     private void addPageLink(io.cucumber.java.Scenario scenario) {
-        scenario.log(String.format("Test page: %s", driver.getCurrentUrl()));
-        scenario.log(String.format("Test Browser: %s", System.getProperty("browser")));
+        if (driver != null) {
+            scenario.log(String.format("Test page: %s", driver.getCurrentUrl()));
+            scenario.log(String.format("Test Browser: %s", System.getProperty("browser")));
+        }
     }
 
     private void addScreenshot(io.cucumber.java.Scenario scenario) {

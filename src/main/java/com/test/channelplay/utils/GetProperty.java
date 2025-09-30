@@ -13,6 +13,7 @@ public class GetProperty {
     private static final Logger Log = LoggerFactory.getLogger(GetProperty.class);
     private static final String ENVIRONMENT = "environment";
     private static String value = null;
+    private static boolean environmentLoggedForScenario = false;
     String envValue;
 
     public static String value(String key) {
@@ -78,8 +79,15 @@ public class GetProperty {
                 envValue = null;
                 break;
         }
-        Log.info("Environment value is: {}", env);
+        if (!environmentLoggedForScenario) {
+            Log.info("Test Environment: {}", env);
+            environmentLoggedForScenario = true;
+        }
         return envValue;
+    }
+
+    public static void resetEnvironmentLog() {
+        environmentLoggedForScenario = false;
     }
 
 }

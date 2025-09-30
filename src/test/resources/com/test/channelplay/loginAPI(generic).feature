@@ -7,7 +7,7 @@ Feature: This is generic Login api feature which can be used for all other APIs 
 
 
   Scenario: submit login api for portal with test creds
-  When user submit "loginAPI" with "POST" request for login with testUser creds
+    When user submit "loginAPI" with "POST" request for login with testUser creds
 
 
   Scenario: submit login api for loyalty

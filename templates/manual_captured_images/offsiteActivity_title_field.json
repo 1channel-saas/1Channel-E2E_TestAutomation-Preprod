@@ -1,0 +1,20 @@
+{
+  "templatePath" : "templates\\manual_captured_images\\offsiteActivity_title_field.png",
+  "hash" : "0000000000000000000000001111111101111111111111111111111100000000",
+  "width" : 1002,
+  "height" : 242,
+  "aspectRatio" : 4.140495867768595,
+  "elementType" : "Manual",
+  "capturedDate" : 1758408567502,
+  "elementName" : "offsiteActivity_title_field",
+  "dominantColors" : [ "#FFFFFF", "#F5F7FD", "#9E9E9E" ],
+  "relativePosition" : null,
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "offsiteactivity_title_field", "offsite_activity_title_field", "offsiteactivityTitleField" ],
+  "successCount" : 0,
+  "failureCount" : 0,
+  "lastUsed" : 1758408567502,
+  "successRate" : 0.0
+}

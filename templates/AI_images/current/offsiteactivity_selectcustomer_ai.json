@@ -1,0 +1,25 @@
+{
+  "templatePath" : "templates\\AI_images\\current/offsiteactivity_selectcustomer_ai.png",
+  "hash" : "0000000000000000011111100111111001111110011111100000000000000000",
+  "width" : 1080,
+  "height" : 2400,
+  "aspectRatio" : 0.45,
+  "elementType" : "AI",
+  "capturedDate" : 1758533035423,
+  "elementName" : "offsiteActivity_SelectCustomer",
+  "dominantColors" : [ "#E1E1E1", "#E0E1E1", "#143275" ],
+  "relativePosition" : {
+    "x" : 0.0,
+    "y" : 0.0,
+    "width" : 1.0,
+    "height" : 1.0
+  },
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "offsiteactivity_selectcustomer", "offsite_activity_select_customer", "offsiteactivitySelectcustomer" ],
+  "successCount" : 0,
+  "failureCount" : 0,
+  "lastUsed" : 1758533035423,
+  "successRate" : 0.0
+}

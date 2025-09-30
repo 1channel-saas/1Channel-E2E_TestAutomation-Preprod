@@ -50,7 +50,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
     private Connection preprodConnection;
     ResultSet resultSet;
     SoftAssert softAssert = new SoftAssert();
-    List<String> stageAccountNos = new ArrayList<>();    // stores serial numbers from staging table as future step utility
+    List<String> stageAccountNos = new ArrayList<>();    // stores serial numbers from staging table AddActivity_testUserSteps future step utility
     CustomerBulkUpload_Object custBulkUpload = new CustomerBulkUpload_Object();
     private final CommonUtils_API commonUtils = CommonUtils_API.getInstance();
 
@@ -163,7 +163,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
 
     @And("validate response data for checkPrimaryAttribute for INB")
     public void validateResponseDataForCheckPrimaryAttributeForINB() {
-        //  assert that attributeId of ACCT_NO field is coming as Primary AttributeId in checkPrimaryAttribute api response
+        //  assert that attributeId of ACCT_NO field is coming AddActivity_testUserSteps Primary AttributeId in checkPrimaryAttribute api response
         currentPrimaryAttributeId = getJsonPath(checkPrimaryAttributeResponse.asString(), "primaryAttributeId");
         assertEquals(primaryAttributeId, currentPrimaryAttributeId);
     }
@@ -237,7 +237,7 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
             assertEquals(excelRowCount, recordCountStage);
         }
 
-        //  getting all uploaded account numbers from the staging table for further validation/ Acc no is mentioned as SerialNo in stage table
+        //  getting all uploaded account numbers from the staging table for further validation/ Acc no is mentioned AddActivity_testUserSteps SerialNo in stage table
         String serialNo_stage_query = "SELECT serial_no\n" +
                 "FROM " + tableName + "\n" +
                 "WHERE updated_by = " + assignedUserId + "\n" +

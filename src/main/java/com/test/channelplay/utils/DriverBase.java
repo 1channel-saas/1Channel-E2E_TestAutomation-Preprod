@@ -1,19 +1,18 @@
 package com.test.channelplay.utils;
 
 import org.apache.commons.lang3.BooleanUtils;
-    import org.openqa.selenium.WebDriver;
-    import org.openqa.selenium.chrome.ChromeDriver;
-    import org.openqa.selenium.chrome.ChromeOptions;
-    import org.openqa.selenium.firefox.FirefoxBinary;
-    import org.openqa.selenium.firefox.FirefoxDriver;
-    import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
-    import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
-    import java.io.File;
-    import java.time.Duration;
-    import java.util.HashMap;
+import java.io.File;
+import java.time.Duration;
+import java.util.HashMap;
 
 public class DriverBase {
     private WebDriver driver;
@@ -39,7 +38,9 @@ public class DriverBase {
             chromeOptions.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--disable-in-process-stack-traces", "--disable-crash-reporter", "--disable-logging", "--log-level=3", "--ignore-certificate-errors", "--unsafely-treat-insecure-origin-as-secure");
             chromeOptions.setExperimentalOption("prefs", chromePrefs);
             chromeOptions.setAcceptInsecureCerts(true);
-            chromeOptions.setHeadless(BooleanUtils.toBoolean(System.getProperty("headless")));
+            if (BooleanUtils.toBoolean(System.getProperty("headless"))) {
+                chromeOptions.addArguments("--headless=new");
+            }
             chromeOptions.addArguments("--window-size=1920x1080"); //should be enabled for Jenkins
             chromeOptions.addArguments("--remote-allow-origins=*");
 
@@ -52,7 +53,9 @@ public class DriverBase {
 
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.setAcceptInsecureCerts(true);
-            firefoxOptions.setHeadless(BooleanUtils.toBoolean(System.getProperty("headless")));
+            if (BooleanUtils.toBoolean(System.getProperty("headless"))) {
+                firefoxOptions.addArguments("--headless");
+            }
 
             FirefoxProfile firefoxProfile = new FirefoxProfile();
             firefoxProfile.setAcceptUntrustedCertificates(true);
@@ -68,7 +71,9 @@ public class DriverBase {
             firefoxBinary.addCommandLineOptions("--accept_untrusted_certs");
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             firefoxOptions.setBinary(firefoxBinary);
-            firefoxOptions.setHeadless(BooleanUtils.toBoolean(System.getProperty("headless")));
+            if (BooleanUtils.toBoolean(System.getProperty("headless"))) {
+                firefoxOptions.addArguments("--headless");
+            }
             firefoxOptions.setAcceptInsecureCerts(true);*/
             driver = new FirefoxDriver(firefoxOptions);
         }
