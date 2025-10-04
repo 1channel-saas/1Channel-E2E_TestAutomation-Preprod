@@ -1,6 +1,5 @@
 package stepDefinitions_API.login_Microservice;
 
-import com.test.channelplay.utils.GetProperty;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -112,7 +111,7 @@ public class UserAuthenticationSteps extends CommonUtils_API {
         //  submitting resetPassword api generates UUID token internally which are not exposed in response. Therefore we are using specific email and
         //  corresponding token from assistive_controller_qa (from b2b_reset_password_tokens).
         //  We are assuming that this token is already available in our test environment.
-        String resetPassUserEmail = "resetpass@mailinator.com";
+        String resetPassUserEmail = GetProperty_API.value("testEmailId");
         String resetPassPayload = String.format("{ \"email\": \"%s\"}", resetPassUserEmail);
         reqspec = given().spec(commonUtils.requestSpec("resetPassword")).body(resetPassPayload);
         resspec = responseSpec();
@@ -148,9 +147,9 @@ public class UserAuthenticationSteps extends CommonUtils_API {
     public void addRequestForUpdatePassword() {
         //  we are using same signup payload for update password AddActivity_testUserSteps json structure is same. Only change placeholder values when required.
         updatePassPayload = readJsonFile("src/test/java/resources_API/payload_API/json_Files/userAuth/signupPayload.json");
-        updatePassUserEmail = "resetpass@mailinator.com";
+        updatePassUserEmail = GetProperty_API.value("testEmailId");
         generatedUsername = updatePassUserEmail;
-        generatedPassword = "123456789";
+        generatedPassword = GetProperty_API.value("testEmailPassword");
         generatedFirstName = "";
         generatedLastName = "";
         generatedEmail = updatePassUserEmail;
@@ -206,7 +205,7 @@ public class UserAuthenticationSteps extends CommonUtils_API {
     @Then("fetch otp from DB table {string} for forgotPasswordAPI_Mobile")
     public void fetchOtpFromDBTableForForgotPasswordAPI_Mobile(String tableName) {
         preprodConnection = DBConnection.getControllerConnection();
-        String mobileNoOtp = GetProperty.value("mobileNo_forgotPassword");
+        String mobileNoOtp = GetProperty_API.value("mobileNumber");
 
         String fetchOtpFromDB_query = "SELECT id, user_email, user_id, phone_number, otp\n" +
                 "FROM " + tableName + " \n" +

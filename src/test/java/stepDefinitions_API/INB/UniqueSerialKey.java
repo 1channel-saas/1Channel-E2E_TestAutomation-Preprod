@@ -33,7 +33,7 @@ public class UniqueSerialKey extends CommonUtils_API {
 
     //  scenario - uniqueSerialNo_INB
 
-    @When("validate all serial_Nos are unique for {string} for users under {string} table for INB")
+    @When("validate all user serial_Nos are unique for project_id {string} for users under {string} table for INB")
     public void validateAllSerial_NosAreUniqueForForUsersUnderTableForINB(String project_id, String tableName) {
         System.out.println("\n========== Processing Project ID: " + project_id + " ==========");
         System.out.println("Table Name: " + tableName);
@@ -121,6 +121,7 @@ public class UniqueSerialKey extends CommonUtils_API {
             //  Handle null/blank duplicates with WARNING
             if (!nullOrBlankDuplicates.isEmpty()) {
                 System.out.println("\n[WARNING] Null or blank serial numbers found with duplicates:");
+                log.warn("Null or blank serial numbers found with duplicates:");
                 for (Map<String, String> row : nullOrBlankDuplicates) {
                     String serialNo = row.get("serial_no_display");
                     String occurrence = row.get("occurrence");
@@ -138,6 +139,7 @@ public class UniqueSerialKey extends CommonUtils_API {
             //  Handle valid key duplicates with ERROR and assertion failure
             if (!validKeyDuplicates.isEmpty()) {
                 System.err.println("\n[ERROR] Valid serial keys found with duplicates:");
+                log.error("Valid serial keys found with duplicates:");
                 StringBuilder errorMessage = new StringBuilder();
                 errorMessage.append("Duplicate valid serial keys found for project_id ").append(project_id).append(":\n");
                 
@@ -148,8 +150,9 @@ public class UniqueSerialKey extends CommonUtils_API {
                     String isActive = row.get("active");
                     String owner = row.get("owner_id");
                     
-                    String errorLine = String.format("  [ERROR] Serial No: %s, User ID: %s, Active: %s, Owner: %s, Occurrence: %s",
+                    String errorLine = String.format(" [ERROR] Serial No: %s, User ID: %s, Active: %s, Owner: %s, Occurrence: %s",
                                                     serialNo, userId, isActive, owner, occurrence);
+                    log.error("Serial No: {}, User ID: {}, Active: {}, Owner: {}, Occurrence: {}", serialNo, userId, isActive, owner, occurrence);
                     System.err.println(errorLine);
                     errorMessage.append(errorLine).append("\n");
                 }
@@ -161,7 +164,7 @@ public class UniqueSerialKey extends CommonUtils_API {
         System.out.println("========== Completed Project ID: " + project_id + " ==========\n");
     }
 
-    @Then("validate all serial_Nos are unique for {string} for customers under {string} table for INB")
+    @Then("validate all customer serial_Nos are unique for project_id {string} for customers under {string} table for INB")
     public void validateAllSerial_NosAreUniqueForForCustomersUnderTableForINB(String project_id, String tableName) {
         System.out.println("\n========== Processing Customer Serial Numbers for Project ID: " + project_id + " ==========");
         System.out.println("Table Name: " + tableName);
@@ -202,7 +205,7 @@ public class UniqueSerialKey extends CommonUtils_API {
                 "    GROUP BY serial_no\n" +
                 "    HAVING COUNT(*) > 1\n" +
                 ") dup ON c.serial_no IS NOT DISTINCT FROM dup.serial_no\n" +
-                "WHERE c.project_id = " + project_id+ " \n" +
+                "WHERE c.project_id = " + project_id + " \n" +
                 "ORDER BY dup.occurrence DESC, c.id;";
         System.out.println("\nExecuting customer duplicate check query: " + serialNoOccurance_query);
 
@@ -253,6 +256,7 @@ public class UniqueSerialKey extends CommonUtils_API {
             //  Handle null/blank duplicates with WARNING
             if (!nullOrBlankDuplicates.isEmpty()) {
                 System.out.println("\n[WARNING] Null or blank customer serial numbers found with duplicates:");
+                log.warn("Null or blank customer serial numbers found with duplicates:");
                 for (Map<String, String> row : nullOrBlankDuplicates) {
                     String serialNo = row.get("serial_no_display");
                     String companyId = row.get("id");
@@ -274,6 +278,7 @@ public class UniqueSerialKey extends CommonUtils_API {
             //  Handle valid key duplicates with ERROR and assertion failure
             if (!validKeyDuplicates.isEmpty()) {
                 System.err.println("\n[ERROR] Valid customer serial keys found with duplicates:");
+                log.error("Valid customer serial keys found with duplicates:");
                 StringBuilder errorMessage = new StringBuilder();
                 errorMessage.append("Duplicate valid customer serial keys found for project_id ").append(project_id).append(":\n");
 

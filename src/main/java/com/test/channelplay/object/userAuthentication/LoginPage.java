@@ -89,6 +89,9 @@ public class LoginPage extends DriverBase {
     @FindBy(xpath = "//button/descendant::span[text()='Home']/ancestor::div[@class='VvU3M']/preceding-sibling::div/button")
     WebElement mailer_Show_Navigation_button;
 
+
+
+
     WebDriverUtils webDriverUtils = new WebDriverUtils();
     CommonUtils commonUtils = new CommonUtils();
     private String currentUserEmail; // Store the logged-in user's email
@@ -280,7 +283,7 @@ public class LoginPage extends DriverBase {
     }
 
     public void errorMessageShouldBeDisplayedAndValidateWith(String err_message, String test_description) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         WebElement errorElement;
         
         System.out.println("Expected error: " + err_message);
@@ -351,9 +354,6 @@ public class LoginPage extends DriverBase {
 
     public void showorhidePasswordToggleShouldBeAvailable() {
         try {
-            // Check if toggle icon exists
-            WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
-            
             // Try multiple possible selectors for the password toggle
             WebElement toggleIcon = null;
             

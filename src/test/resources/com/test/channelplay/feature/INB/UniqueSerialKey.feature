@@ -9,8 +9,8 @@ Feature: Serial Nos for all Customers and Users should be unique in DB - validat
   Scenario Outline: Validate serial key uniqueness in DB for customers and users
 
 ##    DB
-    When validate all serial_Nos are unique for "<project_id>" for users under "channelplay_aurora.b2b_user_prj_role_owner_assign" table for INB
-    Then validate all serial_Nos are unique for "<project_id>" for customers under "channelplay_aurora.b2b_company_master" table for INB
+    When validate all user serial_Nos are unique for project_id "<project_id>" for users under "channelplay_aurora.b2b_user_prj_role_owner_assign" table for INB
+    Then validate all customer serial_Nos are unique for project_id "<project_id>" for customers under "channelplay_aurora.b2b_company_master" table for INB
 
     Examples:
       |project_id|

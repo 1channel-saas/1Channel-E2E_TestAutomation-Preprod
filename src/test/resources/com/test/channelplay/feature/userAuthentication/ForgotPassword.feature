@@ -1,11 +1,10 @@
-@CRMPortal
+@web @E2E
 @userAuthentication
-@E2E
 @forgotPassword
 Feature: 1Channel Forgot Password feature test for both UI and API with both via email and mobile. Also validates DB changes where applicable.
 
   Background:
-    Given User launches 1Channel CRM
+    Given User launches 1Channel CRM portal
 
 
   @forgotPasswordUI
@@ -14,7 +13,7 @@ Feature: 1Channel Forgot Password feature test for both UI and API with both via
 ##    UI
     When click on Forgot Password link
     Then navigate to emailer and perform password reset operation with selecting "<resetIdentifier>"
-#    Then enter user email and new password at login page and click on Signin button
+    Then enter user email and new password at login page and click on Signin button
 
     Examples:
       |resetIdentifier|

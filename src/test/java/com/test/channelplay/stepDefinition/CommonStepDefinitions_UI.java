@@ -45,7 +45,7 @@ public class CommonStepDefinitions_UI extends DriverBase {
     public void userLaunches1ChannelCRM() {
         getDriver().get(GetProperty.value("appUrl"));
         commonUtils.validatePage("Assistive");
-        commonUtils.sleep(3000);
+        commonUtils.sleep(2000);
     }
 
 
@@ -53,14 +53,14 @@ public class CommonStepDefinitions_UI extends DriverBase {
     @When("User logs in with generic credentials")
     public void userLogsInWithGenericCredentials() {
         login.loginToCRM(GetProperty.value("genericUsername"),GetProperty.value("genericPassword"));
-        try {
-            WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
-            wait.until(ExpectedConditions.visibilityOf(confirmLoginWindow));
-            confirmLogin_YES_button.click();
-            commonUtils.sleep(2000);
-        } catch (Exception e) {
-            System.out.println("Confirm Login window not displayed, proceeding with login.");
-        }
+//        try {
+//            WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+//            wait.until(ExpectedConditions.visibilityOf(confirmLoginWindow));
+//            confirmLogin_YES_button.click();
+//            commonUtils.sleep(2000);
+//        } catch (Exception e) {
+//            System.out.println("Confirm Login window not displayed, proceeding with login.");
+//        }
     }
 
 

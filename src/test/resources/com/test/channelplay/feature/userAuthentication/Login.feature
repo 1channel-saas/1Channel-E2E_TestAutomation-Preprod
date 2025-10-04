@@ -1,11 +1,11 @@
-@CRMPortal
+@web @E2E
 @userAuthentication
-@E2E
+@login
 Feature: CRM Portal User Authentication
 
 
   Background:
-    Given User launches 1Channel CRM
+    Given User launches 1Channel CRM portal
 
 
   # UI

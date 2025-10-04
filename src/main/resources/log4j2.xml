@@ -13,31 +13,41 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingFile>
+        <RollingFile name="HtmlFileAppender" fileName="appLogger.html" filePattern="logs/app-%d{yyyy-MM-dd}-%i.html.gz">
+            <HTMLLayout title="Test Automation Execution Logs" locationInfo="true"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="Console"/>
-<!--            <AppenderRef ref="RollingFileAppender"/>-->
+            <AppenderRef ref="RollingFileAppender"/>
         </Root>
 
-        <Logger name="com.test.channelplay.feature" level="INFO" additivity="false">
+        <Logger name="com.test.channelplay" level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="HtmlFileAppender"/>
         </Logger>
-        <Logger name="com.test.channelplay.stepDefinition" level="INFO" additivity="false">
+        <Logger name="utilities_API" level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="HtmlFileAppender"/>
         </Logger>
-        <Logger name="com.test.channelplay.object" level="TRACE" additivity="false">
+        <Logger name="resources_API" level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="HtmlFileAppender"/>
         </Logger>
-        <Logger name="com.test.channelplay.stepDefinition.Hooks" level="TRACE" additivity="false">
+        <Logger name="stepDefinitions_API" level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="com.test" level="INFO" additivity="false">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="HtmlFileAppender"/>
         </Logger>
         <Logger name="com.test.channelplay.utils" level="TRACE" additivity="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="HtmlFileAppender"/>
         </Logger>
 
 

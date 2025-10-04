@@ -28,7 +28,7 @@ public class Hooks extends DriverBase {
         try {
             clearCacheForBrowser(System.getProperty("browser", "chrome"));
             driver = initialize(System.getProperty("browser"));
-            logger.info("Driver initialized: {}", driver);
+            logger.info("Web driver initialized: {}", driver);
         } catch (Exception e) {
             logger.error("Failed to initialize Web driver: {}", e.getMessage());
             throw new RuntimeException("Web driver initialization failed, NullPointerException", e);

@@ -10,10 +10,9 @@ import org.testng.annotations.DataProvider;
 //@RunWith(Cucumber.class)
 @CucumberOptions (
 		features = {"src/test/resources/com/test/channelplay/feature"},
-//		glue = {"com/test/channelplay/stepDefinition", "com.test.channelplay.stepDefinition_Mobile", "stepDefinitions_API"},
 		glue = {"com.test.channelplay.stepDefinition", "com.test.channelplay.stepDefinition_Mobile", "stepDefinitions_API"},
 		//tags = "not @skip and (@INB and @E2E)",
-		tags = "@useCase_Scenarios or @offsiteActivity",
+		tags = "@E2E",
 		dryRun = false,
 		plugin = {"pretty", "rerun:target/rerun.txt", "timeline:target/timeline",
 				"html:target/htmlReports/cucumber-reports.html", "json:target/jsonReports/cucumber-reports.json",

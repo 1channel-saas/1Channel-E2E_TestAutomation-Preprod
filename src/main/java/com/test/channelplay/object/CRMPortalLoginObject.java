@@ -44,6 +44,7 @@ public class CRMPortalLoginObject extends DriverBase {
         PageFactory.initElements(getDriver(), this);
     }
 
+
     public void loginToCRM(String uid, String pass) {
         webDriverUtils.until(ExpectedConditions.visibilityOf(login_username));
         login_username.clear();
@@ -55,15 +56,11 @@ public class CRMPortalLoginObject extends DriverBase {
         SignIn.click();
         commonUtils.sleep(1000);
 
-    /*    if (confirmLogin_window.isDisplayed()) {
-            confirmLogin_YES_button.click();
-            commonUtils.sleep(2000);
-        }
-    */
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
             wait.until(ExpectedConditions.visibilityOf(confirmLogin_window));
             confirmLogin_YES_button.click();
+            commonUtils.sleep(1000);
         } catch (Exception e) {
             log.info("Confirm Login popup not displayed. Proceeding...");
         }
@@ -77,8 +74,5 @@ public class CRMPortalLoginObject extends DriverBase {
         UIAuthToken = commonUtils.getAuthTokenFromUI();
         AuthManager_API.setAuthToken(UIAuthToken);
     }
-
-
-
 
 }

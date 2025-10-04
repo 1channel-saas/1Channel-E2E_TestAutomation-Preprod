@@ -27,13 +27,13 @@
     "path" : "templates\\manual_captured_images\\offsiteActivity_contacts_field.png",
     "hash" : "000000fffefeff00",
     "elementName" : "offsiteActivity_contacts_field",
-    "created" : 1759228670024,
+    "created" : 1759532334563,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_performDate_field.png",
     "hash" : "000000ffffffff00",
     "elementName" : "offsiteActivity_performDate_field",
-    "created" : 1759228670149,
+    "created" : 1759532334691,
     "version" : 1
   }, {
     "path" : "templates\\screens\\current/offsiteactivity_performdate_field_auto.png",
@@ -51,19 +51,19 @@
     "path" : "templates\\manual_captured_images\\offsiteActivity_bottonBar.png",
     "hash" : "ffffbebebeffffff",
     "elementName" : "offsiteActivity_bottonBar",
-    "created" : 1759228669980,
+    "created" : 1759532334521,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_description_field.png",
     "hash" : "3fffffff7fffffff",
     "elementName" : "offsiteActivity_description_field",
-    "created" : 1759228670078,
+    "created" : 1759532334631,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer.png",
     "hash" : "7fbffffffefeffff",
     "elementName" : "offsiteActivity_selectCustomer",
-    "created" : 1759228670184,
+    "created" : 1759532334724,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_image_field.png",
@@ -75,13 +75,13 @@
     "path" : "templates\\manual_captured_images\\offsiteActivity_image_field.png",
     "hash" : "7fffffffefffff80",
     "elementName" : "offsiteActivity_image_field",
-    "created" : 1759228670106,
+    "created" : 1759532334654,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_title_field.png",
     "hash" : "000000ff7fffff00",
     "elementName" : "offsiteActivity_title_field",
-    "created" : 1759228670215,
+    "created" : 1759532334756,
     "version" : 1
   }, {
     "path" : "templates\\screens\\current/performdate_calendar_today_date_auto.png",
@@ -111,7 +111,7 @@
     "templates\\manual_captured_images" : {
       "sizeMB" : 0,
       "created" : 1758294053502,
-      "lastModified" : 1759228670219
+      "lastModified" : 1759532334759
     },
     "templates\\screens\\current" : {
       "sizeMB" : 0,

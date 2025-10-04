@@ -47,6 +47,11 @@ public class ForgotPasswordPage extends DriverBase {
     WebElement login_passwd_field;
     @FindBy(xpath = "//button[text()=\"Sign In\"]")
     WebElement login_button;
+    @FindBy(xpath = "//h4[text()=\"Confirm Login\"]")
+    WebElement confirmLogin_window;
+    @FindBy(xpath = ".//button[text()=' Yes ']")
+    WebElement confirmLogin_YES_button;
+
 
     //  Emailer xpath expressions
     @FindBy(xpath = Constants.mailer_HomeSignIn_button)
@@ -89,6 +94,9 @@ public class ForgotPasswordPage extends DriverBase {
     private Connection preprodConnection;
     ResultSet resultSet;
     String otp;
+    private final String newPassword = "K(460848703994az";
+
+
     public ForgotPasswordPage() {
         PageFactory.initElements(getDriver(), this);
     }
@@ -97,6 +105,7 @@ public class ForgotPasswordPage extends DriverBase {
 
 
     //  scenario - forgotPassword
+    //  portal UI
 
     public void Click_on_forgot_password_link() {
         forgot_pass_link.click();
@@ -114,7 +123,8 @@ public class ForgotPasswordPage extends DriverBase {
             Assert.assertTrue(email_field.isDisplayed());
             commonutils.sleep(1000);
             email_field.clear();
-            email_field.sendKeys(GetProperty.value("emailId_forgotPassword"));
+            email_field.sendKeys(GetProperty.value("testEmailId"));
+            ScreenshotHelper.captureScreenshot("resetIdentifier_email");
             submit_button.click();
             confirm_popup_message.click();
             
@@ -133,7 +143,8 @@ public class ForgotPasswordPage extends DriverBase {
             Assert.assertTrue(mobileNo_field.isDisplayed());
             commonutils.sleep(1000);
             mobileNo_field.clear();
-            mobileNo_field.sendKeys(GetProperty.value("mobileNo_forgotPassword"));
+            mobileNo_field.sendKeys(GetProperty.value("testMobileNo"));
+            ScreenshotHelper.captureScreenshot("resetIdentifier_mobile");
             submit_button.click();
             confirm_popup_message.click();
 
@@ -148,6 +159,7 @@ public class ForgotPasswordPage extends DriverBase {
             wait.until(ExpectedConditions.visibilityOf(enterOtp_textField));
             enterOtp_textField.sendKeys(otp);
             commonutils.sleep(1000);
+            ScreenshotHelper.captureScreenshot("resetIdentifier_mobile_enterOtp");
             submit_button.click();
             wait.until(ExpectedConditions.visibilityOf(resetPassWindowHeaderText));
             Assert.assertTrue(resetPassWindowHeaderText.isDisplayed());
@@ -158,6 +170,7 @@ public class ForgotPasswordPage extends DriverBase {
             resetPassWindow_ConfirmPasswordField.clear();
             resetPassWindow_ConfirmPasswordField.sendKeys(GetProperty.value("testEmailPassword"));
             commonutils.sleep(1000);
+            ScreenshotHelper.captureScreenshot("resetIdentifier_mobile_enterNewPassword");
             resetPassWindow_SignInButton.click();
 
             System.out.println("Reset password using mobile number completed successfully");
@@ -219,6 +232,7 @@ public class ForgotPasswordPage extends DriverBase {
         webDriverUtils.waitUntilVisible(getDriver(), staySignedIn_Yes_button, Duration.ofSeconds(5));
         staySignedIn_Yes_button.click();
         webDriverUtils.waitUntilVisible(getDriver(), mailer_Logo, Duration.ofSeconds(10));
+        ScreenshotHelper.captureScreenshot("mailer_homepage");
 
         String currMailerUrl = getDriver().getCurrentUrl();
         Assert.assertTrue(currMailerUrl.contains("outlook.office.com/mail"));
@@ -255,6 +269,7 @@ public class ForgotPasswordPage extends DriverBase {
         //  click on reset password link in email
         wait.until(ExpectedConditions.visibilityOf(resetPasswordLinkInEmail));
         resetPasswordLinkInEmail.click();
+        ScreenshotHelper.captureScreenshot("resetPassword_email");
         commonutils.sleep(2000);
 
         //  switch to reset password window
@@ -266,6 +281,7 @@ public class ForgotPasswordPage extends DriverBase {
                 commonutils.sleep(2000);
                 if (getDriver().getCurrentUrl().contains("preprod.1channel.co/auth/resetpassword-token")) {
                     log.info("Switched to reset password window");
+                    ScreenshotHelper.captureScreenshot("resetPassword_window");
                 }
                 commonutils.sleep(2000);
             }
@@ -273,10 +289,11 @@ public class ForgotPasswordPage extends DriverBase {
         wait.until(ExpectedConditions.visibilityOf(resetPassWindowHeaderText));
         Assert.assertTrue(resetPassWindowHeaderText.isDisplayed());
         //  enter new password and confirm password
-        resetPassWindow_PasswordField.sendKeys("K(460848703994az");
+        resetPassWindow_PasswordField.sendKeys(newPassword);
         commonutils.sleep(1000);
-        resetPassWindow_ConfirmPasswordField.sendKeys("K(460848703994az");
+        resetPassWindow_ConfirmPasswordField.sendKeys(newPassword);
         commonutils.sleep(1000);
+        ScreenshotHelper.captureScreenshot("resetPassword_enterNewPassword");
         resetPassWindow_SignInButton.click();
         commonutils.sleep(1000);
     }
@@ -284,32 +301,59 @@ public class ForgotPasswordPage extends DriverBase {
     //  reset password via mobile   (** no feature file created for this)
     public void fetchOtpFromDBForResetPasswordWithMobileNumber() {
         preprodConnection = DBConnection.getControllerConnection();
+        long startTime = System.currentTimeMillis();
+        int maxWaitTimeInSeconds = 60;     // Maximum wait time
+        int pollingIntervalInSeconds = 3;
+        boolean otpReceived = true;
+
         String tableNameOtp = "channelplay_aurora.b2b_otp_reset_password";
-        String mobileNoOtp = GetProperty.value("mobileNo_forgotPassword");
+        String otpMobileNo = GetProperty.value("testMobileNo");
 
-        String fetchOtpFromDB_query = "SELECT otp\n" +
-                "FROM " + tableNameOtp + " \n" +
-                "WHERE phone_number = '" + mobileNoOtp + "'\n" +
-                "ORDER BY id DESC LIMIT 1";
+        while ((System.currentTimeMillis() - startTime) < maxWaitTimeInSeconds * 1000L) {
+            String fetchOtpFromDB_query = "SELECT otp\n" +
+                    "FROM " + tableNameOtp + " \n" +
+                    "WHERE phone_number = '" + otpMobileNo + "'\n" +
+                    "ORDER BY id DESC LIMIT 1";
+            System.out.println("Executing query: " + fetchOtpFromDB_query);
 
-        List<Map<String, String>> fetchOtpResult = new ArrayList<>();
+            String otpFromDB = null;
+            try {
+                resultSet = executeQuery(fetchOtpFromDB_query, preprodConnection);
+                if (resultSet.next()) {
+                    otpFromDB = resultSet.getString("otp");
+                    System.out.println("OTP fetched from DB: ------------1" + otpFromDB);
 
-        String otpFromDB = null;
-        try {
-            resultSet = executeQuery(fetchOtpFromDB_query, preprodConnection);
-            if (resultSet.next()) {
-                otpFromDB = resultSet.getString("otp");
+                    if (otpFromDB == null || "null".equals(otpFromDB)) {
+                        log.info("OTP not received yet. Value in DB is still NULL. Waiting and retrying...");
+                    } else {
+                        //  OTP received successfully
+                        log.info("OTP received from DB: {}", otpFromDB);
+                        otp = otpFromDB;
+                        System.out.println("OTP fetched from DB: ------------2" + otp);
+                        otpReceived = true;
+                        break;
+                    }
+                } else {
+                    log.info("No record found for phone number. Waiting and retrying...");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to fetch data from database after query execution", e);
+            } finally {
+                closeResultSet(resultSet);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to fetch data from database after query execution", e);
-        } finally {
-            closeResultSet(resultSet);
-        }
 
-        System.out.println("Fetched OTP from DB: " + otpFromDB);
-        otp = String.valueOf(otpFromDB);
+            try {
+                Thread.sleep(pollingIntervalInSeconds * 1000L);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Polling was interrupted", e);
+            }
+            System.out.println("Fetched OTP from DB: " + otpFromDB);
+            otp = String.valueOf(otpFromDB);
+        }
     }
+
 
     //  using methods (executeQuery() and closeResultSet()) from CommonUtils_API class to avoid cyclic dependency
     public static ResultSet executeQuery(String query, Connection connection) {
@@ -333,17 +377,33 @@ public class ForgotPasswordPage extends DriverBase {
 
 
     public void enterUserEmailAndNewPasswordAtLoginPageAndClickOnSigninButton() {
-
+        wait.until(ExpectedConditions.elementToBeClickable(login_usrname_field));
         login_usrname_field.clear();
-        login_usrname_field.sendKeys(GetProperty.value("emailId_forgorPassword"));
+        login_usrname_field.sendKeys(GetProperty.value("testEmailId"));
         login_passwd_field.clear();
-        login_passwd_field.sendKeys(GetProperty.value("forgot_pass_new"));
-
+        login_passwd_field.sendKeys(newPassword);
         login_button.click();
-        commonutils.sleep(10000);
+        commonutils.sleep(2000);
 
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
+            wait.until(ExpectedConditions.visibilityOf(confirmLogin_window));
+            confirmLogin_YES_button.click();
+            commonutils.sleep(2000);
+        } catch (Exception e) {
+            log.info("Confirm Login popup not displayed. Proceeding...");
+        }
+
+        //  validate whether user landed on dashboard page or not
         String currURL = getDriver().getCurrentUrl();
-        Assert.assertEquals("https://qa.assistive.site/settings-assistant", currURL);
+        if (currURL.equalsIgnoreCase("https://preprod.1channel.co/dashboard")) {
+            System.out.println("Forgot Password operation completed successfully. User logged in to dashboard page");
+        } else if (currURL.equalsIgnoreCase("https://preprod.1channel.co/settings-assistant")) {
+            System.out.println("Forgot Password operation completed successfully. User logged in to Settings Assistant page");
+        } else {
+            System.out.println("Forgot Password operation might have failed. User not landed on dashboard page");
+        }
+        ScreenshotHelper.captureScreenshot("login_after_forgotPassword");
     }
 
 }

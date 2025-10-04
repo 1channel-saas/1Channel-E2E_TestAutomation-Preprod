@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.test.channelplay.utils.DriverBase;
+import com.test.channelplay.utils.ScreenshotHelper;
+import com.test.channelplay.utils.WebTestFlowScreenshotManager;
 
 import java.io.ByteArrayInputStream;
 
@@ -22,11 +24,15 @@ public class AllureHooks extends DriverBase {
     private static final Logger log = LoggerFactory.getLogger(AllureHooks.class);
     private WebDriver driver;
 
-    // Temporarily disabled to avoid UUID conflicts with Allure Cucumber plugin
-    // @Before(value = "@web and not @mobile", order = 10)
+    @Before(value = "@web and not @mobile", order = 10)
     public void beforeScenario(Scenario scenario) {
-        // Disabled - Using Allure Cucumber plugin instead
-        log.info("Starting scenario: {}", scenario.getName());
+        // Initialize test flow folder (for HTML report only)
+        String folderName = WebTestFlowScreenshotManager.initializeScenario(scenario.getName());
+
+        // Set folder for manual screenshots too
+        ScreenshotHelper.setScenarioFolder(folderName);
+
+        log.info("Starting web scenario: {}", scenario.getName());
     }
 
     // Temporarily disabled to avoid conflicts with Allure Cucumber plugin

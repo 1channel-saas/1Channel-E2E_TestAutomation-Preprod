@@ -1,5 +1,5 @@
 @INB
-@E2E
+#@E2E
 Feature: Upload customers from excel from 'Bulk Upload' option under Add button dropdown for CRM -> Customers for INB
 
 
