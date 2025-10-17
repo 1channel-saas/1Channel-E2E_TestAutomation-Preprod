@@ -1,11 +1,11 @@
 {
   "templatePath" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer.png",
-  "hash" : "0111111110111111111111111111111111111110111111101111111111111111",
-  "width" : 995,
-  "height" : 255,
-  "aspectRatio" : 3.9019607843137254,
+  "hash" : "0111111111111111111111111111111111111110111111111111111111111111",
+  "width" : 990,
+  "height" : 238,
+  "aspectRatio" : 4.159663865546219,
   "elementType" : "Manual",
-  "capturedDate" : 1758319350977,
+  "capturedDate" : 1760572213636,
   "elementName" : "offsiteActivity_selectCustomer",
   "dominantColors" : [ "#FFFFFF", "#F5F7FD", "#181818" ],
   "relativePosition" : null,
@@ -13,8 +13,46 @@
   "hasText" : false,
   "hasIcon" : false,
   "aliases" : [ "offsiteactivity_selectcustomer", "offsite_activity_select_customer", "offsiteactivitySelectcustomer" ],
-  "successCount" : 0,
+  "successCount" : 8,
   "failureCount" : 0,
-  "lastUsed" : 1758319350977,
-  "successRate" : 0.0
+  "lastUsed" : 1760705798988,
+  "successRate" : 1.0,
+  "usage" : {
+    "totalAttempts" : 8,
+    "successCount" : 0,
+    "failureCount" : 0,
+    "successRate" : 0.0,
+    "lastUsed" : 0,
+    "usageFrequency" : "medium",
+    "avgMatchTime" : 913
+  },
+  "performance" : {
+    "xpathSuccessRate" : 0.0,
+    "opencvSuccessRate" : 1.0,
+    "ocrFallbackRate" : 0.0,
+    "avgConfidence" : 0.9991692006587982,
+    "lastConfidence" : 0.9991716146469116,
+    "confidenceHistory" : [ 0.999161958694458, 0.9991716146469116, 0.9991716146469116, 0.999161958694458, 0.9991716146469116, 0.9991716146469116, 0.9991716146469116, 0.9991716146469116 ],
+    "xpathAttempts" : 0,
+    "xpathSuccess" : 0,
+    "opencvAttempts" : 8,
+    "opencvSuccess" : 8,
+    "ocrAttempts" : 0
+  },
+  "health" : {
+    "status" : "healthy",
+    "needsRecapture" : false,
+    "staleness" : 0.0,
+    "lastHealthCheck" : 1760705798996,
+    "warnings" : [ ]
+  },
+  "context" : {
+    "elementType" : "Manual",
+    "screenName" : "",
+    "fieldType" : "",
+    "relatedFields" : [ ],
+    "testScenarios" : [ ]
+  },
+  "tags" : [ ],
+  "summary" : "Template: offsiteActivity_selectCustomer | Success: 100.0% (8/8) | Confidence: 1.00 | Status: healthy | Last used: Fri Oct 17 18:26:38 IST 2025"
 }

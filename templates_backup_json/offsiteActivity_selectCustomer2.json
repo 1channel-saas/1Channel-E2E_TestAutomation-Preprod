@@ -1,0 +1,20 @@
+{
+  "templatePath" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer2.png",
+  "hash" : "1111111110111111100111111011111111111111111111111111111111111111",
+  "width" : 1015,
+  "height" : 68,
+  "aspectRatio" : 14.926470588235293,
+  "elementType" : "Manual",
+  "capturedDate" : 1760422950636,
+  "elementName" : "offsiteActivity_selectCustomer2",
+  "dominantColors" : [ "#F5F7FD", "#181818", "#E2DFFF" ],
+  "relativePosition" : null,
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "offsiteactivity_selectcustomer2", "offsite_activity_select_customer2", "offsiteactivitySelectcustomer2" ],
+  "successCount" : 0,
+  "failureCount" : 0,
+  "lastUsed" : 1760422950636,
+  "successRate" : 0.0
+}

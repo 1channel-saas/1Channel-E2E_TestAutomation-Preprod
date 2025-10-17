@@ -21,11 +21,20 @@ public class CustomerBulkUpload_Steps extends DriverBase {
     CommonUtils commonUtils = new CommonUtils();
 
 
+
+
+    //  scenario - customerBulkUpload_IGSSL-Collection
+
     @Given("user loggedIn to 1Channel project for INB")
     public void userLoggedInTo1ChannelProjectForINB() {
         getDriver().get(GetProperty.value("appUrl"));
         commonUtils.validatePage("Assistive");
         login.loginToCRM(GetProperty.value("username"),GetProperty.value("password"));
+    }
+
+    @And("verify user is on IGSSL Collection project for INB")
+    public void verifyUserIsOnIGSSLCollectionProjectForINB() {
+        custBulkUpload.verifyUserIsOnIGSSLCollectionProjectForINB();
     }
 
     @When("user clicks on menu CRM and submenu Customers for INB")
@@ -78,4 +87,5 @@ public class CustomerBulkUpload_Steps extends DriverBase {
         custBulkUploadAPI.getAPISoftAssert().assertAll();
         //custBulkUploadAPI.getAPISoftAssert2();*/
     }
+
 }

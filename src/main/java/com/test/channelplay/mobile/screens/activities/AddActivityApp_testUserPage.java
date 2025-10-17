@@ -1,6 +1,6 @@
 package com.test.channelplay.mobile.screens.activities;
 
-import com.test.channelplay.mobile.screens.config_Helper.*;
+import com.test.channelplay.mobile.config_Helper.*;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.MobileTestBase;
 import com.test.channelplay.utils.SharedTestData;
@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
+import java.time.Duration;
 import java.util.List;
 
 public class AddActivityApp_testUserPage extends MobileTestBase {
@@ -89,7 +90,7 @@ public class AddActivityApp_testUserPage extends MobileTestBase {
         if (!initialized && getDriver() != null) {
             driver = getDriver();
             PageFactory.initElements(driver, this);
-            wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(30));
+            wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             xpathHelper = new FlutterXPathHelper(driver);
             xpathHelper.enableAutoTemplates(true);
             validator = new ValidationStrategy(xpathHelper);
@@ -151,20 +152,20 @@ public class AddActivityApp_testUserPage extends MobileTestBase {
     private void openCustomerDropdown() {
         String[] dropdownXpaths = {SelectCustomer_dropdown};
         xpathHelper.smartFindElementWithAI(
-            "offsiteActivity_SelectCustomer",
-             dropdownXpaths,
-            "templates/manual_captured_images/offsiteActivity_selectCustomer.png",
-            "Select Customer",
-            "click",
-            null
+                "offsiteActivity_SelectCustomer",
+                dropdownXpaths,
+                "templates/manual_captured_images/offsiteActivity_selectCustomer.png",
+                "Select Customer",
+                "click",
+                null
         );
         commonUtils.sleep(1000);
         Assert.assertTrue(SelectCustomerFrameHeader.isDisplayed());
-        commonUtils.sleep(1000);
     }
 
     public void clicksOnOKButtonOnCustomerSelectionFrame() {
         setupPageElements();
+        wait.until(ExpectedConditions.elementToBeClickable(SelectCustomer_OK_button));
         SelectCustomer_OK_button.click();
         commonUtils.sleep(2000);
         System.out.println("Clicked on OK button at Select Customer frame");
@@ -335,7 +336,7 @@ public class AddActivityApp_testUserPage extends MobileTestBase {
             if (imageEditHeader.isDisplayed()) {
                 commonUtils.sleep(1000);
                 imageEdit_No_button.click();
-                log.info("Clicked No on Image Edit screen");
+                System.out.println("Clicked on Image Edit screen");
             }
         } catch (Exception e) {
             log.info("Image Edit screen not displayed, proceeding");
@@ -356,13 +357,14 @@ public class AddActivityApp_testUserPage extends MobileTestBase {
 
     public void verifyActivityIsShowingInListAndFetchActivityDetailsForValidation(String customerName) {
         setupPageElements();
-        wait.until(ExpectedConditions.visibilityOf(ActivitiesPageHeader));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(ActivitiesPageHeader)));
         commonUtils.sleep(1000);
 
         try {
             // Get all offsite activities from the list
+            commonUtils.waitForFlutterStability();
             List<WebElement> offsiteActNameList = driver.findElements(By.xpath("//android.view.View[contains(@content-desc, 'Offsite Activity')]"));
-            System.out.println("Found" + offsiteActNameList.size() + "offsite activities in the list");
+            System.out.println("Found! " + offsiteActNameList.size() + " offsite activities in the list");
 
             WebElement lastMatchingActivity = null;
             int lastMatchIndex = -1;

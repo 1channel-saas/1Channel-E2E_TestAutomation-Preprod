@@ -279,15 +279,19 @@
                             </includes>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
-                        <!-- Clean test flow screenshots -->
+                        <!-- Clean entire screenshots directory (all test-generated files) -->
                         <fileset>
-                            <directory>screenshots/test_flow</directory>
+                            <directory>screenshots</directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
+                            <excludes>
+                                <exclude>README.md</exclude>
+                                <exclude>**/README.md</exclude>
+                            </excludes>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
-                        <!-- Clean HTML log file -->
+                        <!-- Clean HTML log files -->
                         <fileset>
                             <directory>${project.basedir}</directory>
                             <includes>

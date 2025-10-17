@@ -6,13 +6,11 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.test.channelplay.utils.MobileDriverManager;
-import com.test.channelplay.utils.MobileTestBase;
 import com.test.channelplay.utils.ScreenshotHelper;
-import com.test.channelplay.mobile.screens.config_Helper.MobileTestFlowScreenshotManager;
+import com.test.channelplay.mobile.config_Helper.MobileTestFlowScreenshotManager;
 
 import java.io.ByteArrayInputStream;
 

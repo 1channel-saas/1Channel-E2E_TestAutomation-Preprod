@@ -228,7 +228,7 @@ public class TestFlowHtmlReportGenerator {
         html.append("            <h3>Quick Jump</h3>\n");
         html.append("            <div class=\"nav-links\">\n");
 
-        for (int i = 0; i < Math.min(scenarios.size(), 3); i++) {  // Show max 3 scenarios in side nav
+        for (int i = 0; i < scenarios.size(); i++) {  // Generate all scenarios for scrolling
             TestScenario scenario = scenarios.get(i);
             String scenarioName = scenario.name.replaceAll("^\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}-\\d{2}_", "");
             if (scenarioName.length() > 25) {
@@ -238,10 +238,6 @@ public class TestFlowHtmlReportGenerator {
             html.append("                    <span class=\"nav-num\">").append(i + 1).append("</span>\n");
             html.append("                    <span class=\"nav-text\">").append(scenarioName).append("</span>\n");
             html.append("                </a>\n");
-        }
-
-        if (scenarios.size() > 3) {
-            html.append("                <div class=\"nav-more\">+").append(scenarios.size() - 3).append(" more...</div>\n");
         }
 
         html.append("            </div>\n");
@@ -382,13 +378,13 @@ public class TestFlowHtmlReportGenerator {
             "}\n" +
             ".scenario-links {\n" +
             "    display: grid;\n" +
-            "    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));\n" +
+            "    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));\n" +
             "    gap: 15px;\n" +
             "    margin-top: 20px;\n" +
             "}\n" +
             ".scenario-link {\n" +
             "    display: flex;\n" +
-            "    align-items: center;\n" +
+            "    align-items: flex-start;\n" +
             "    padding: 12px 15px;\n" +
             "    background: #f8f9fa;\n" +
             "    border: 2px solid #e9ecef;\n" +
@@ -396,6 +392,7 @@ public class TestFlowHtmlReportGenerator {
             "    text-decoration: none;\n" +
             "    color: #333;\n" +
             "    transition: all 0.3s ease;\n" +
+            "    min-height: 50px;\n" +
             "}\n" +
             ".scenario-link:hover {\n" +
             "    background: #e9ecef;\n" +
@@ -420,6 +417,9 @@ public class TestFlowHtmlReportGenerator {
             "    flex: 1;\n" +
             "    font-weight: 500;\n" +
             "    margin-right: 10px;\n" +
+            "    word-wrap: break-word;\n" +
+            "    overflow-wrap: break-word;\n" +
+            "    line-height: 1.4;\n" +
             "}\n" +
             ".scenario-time {\n" +
             "    color: #999;\n" +
@@ -606,15 +606,15 @@ public class TestFlowHtmlReportGenerator {
             "}\n" +
             ".side-nav {\n" +
             "    position: fixed;\n" +
-            "    top: 50%;\n" +
+            "    top: 120px;\n" +
             "    left: 20px;\n" +
-            "    transform: translateY(-50%);\n" +
             "    z-index: 998;\n" +
             "    background: white;\n" +
             "    border-radius: 12px;\n" +
             "    box-shadow: 0 4px 15px rgba(0,0,0,0.1);\n" +
             "    transition: all 0.3s ease;\n" +
             "    max-width: 280px;\n" +
+            "    max-height: calc(100vh - 140px);\n" +
             "}\n" +
             ".side-nav.collapsed {\n" +
             "    width: auto;\n" +
@@ -644,33 +644,55 @@ public class TestFlowHtmlReportGenerator {
             "    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);\n" +
             "}\n" +
             ".nav-content {\n" +
-            "    padding: 20px;\n" +
-            "    padding-right: 30px;\n" +
+            "    padding: 12px 15px;\n" +
+            "    padding-right: 20px;\n" +
+            "    display: flex;\n" +
+            "    flex-direction: column;\n" +
+            "    max-height: calc(100vh - 160px);\n" +
+            "    overflow: hidden;\n" +
             "}\n" +
             ".nav-content h3 {\n" +
             "    color: #333;\n" +
-            "    margin-bottom: 15px;\n" +
-            "    font-size: 16px;\n" +
+            "    margin-bottom: 8px;\n" +
+            "    font-size: 14px;\n" +
             "    border-bottom: 2px solid transparent;\n" +
             "    border-image: linear-gradient(90deg, #667eea 0%, #764ba2 100%);\n" +
             "    border-image-slice: 1;\n" +
-            "    padding-bottom: 8px;\n" +
+            "    padding-bottom: 5px;\n" +
             "}\n" +
             ".nav-links {\n" +
             "    display: flex;\n" +
             "    flex-direction: column;\n" +
-            "    gap: 8px;\n" +
+            "    gap: 5px;\n" +
+            "    overflow-y: auto;\n" +
+            "    overflow-x: hidden;\n" +
+            "    max-height: 150px;\n" +
+            "    padding-right: 5px;\n" +
+            "}\n" +
+            ".nav-links::-webkit-scrollbar {\n" +
+            "    width: 6px;\n" +
+            "}\n" +
+            ".nav-links::-webkit-scrollbar-track {\n" +
+            "    background: #f1f1f1;\n" +
+            "    border-radius: 10px;\n" +
+            "}\n" +
+            ".nav-links::-webkit-scrollbar-thumb {\n" +
+            "    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n" +
+            "    border-radius: 10px;\n" +
+            "}\n" +
+            ".nav-links::-webkit-scrollbar-thumb:hover {\n" +
+            "    background: linear-gradient(135deg, #5568d3 0%, #65408b 100%);\n" +
             "}\n" +
             ".nav-link {\n" +
             "    display: flex;\n" +
             "    align-items: center;\n" +
-            "    gap: 10px;\n" +
-            "    padding: 8px 12px;\n" +
+            "    gap: 8px;\n" +
+            "    padding: 6px 10px;\n" +
             "    background: #f8f9fa;\n" +
             "    border-radius: 6px;\n" +
             "    text-decoration: none;\n" +
             "    color: #333;\n" +
-            "    font-size: 13px;\n" +
+            "    font-size: 12px;\n" +
             "    transition: all 0.2s ease;\n" +
             "}\n" +
             ".nav-link:hover {\n" +
@@ -681,12 +703,12 @@ public class TestFlowHtmlReportGenerator {
             "    display: flex;\n" +
             "    align-items: center;\n" +
             "    justify-content: center;\n" +
-            "    width: 24px;\n" +
-            "    height: 24px;\n" +
+            "    width: 20px;\n" +
+            "    height: 20px;\n" +
             "    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n" +
             "    color: white;\n" +
             "    border-radius: 50%;\n" +
-            "    font-size: 11px;\n" +
+            "    font-size: 10px;\n" +
             "    font-weight: bold;\n" +
             "    flex-shrink: 0;\n" +
             "}\n" +
@@ -826,14 +848,8 @@ public class TestFlowHtmlReportGenerator {
             "        firstContent.classList.add('active');\n" +
             "    }\n" +
             "    \n" +
-            "    // Initialize side nav as collapsed on smaller screens\n" +
-            "    if (window.innerWidth < 1400) {\n" +
-            "        const sideNav = document.getElementById('sideNav');\n" +
-            "        if (sideNav) {\n" +
-            "            sideNav.classList.add('collapsed');\n" +
-            "            sideNavCollapsed = true;\n" +
-            "        }\n" +
-            "    }\n" +
+            "    // Quick Jump stays open by default on all screen sizes\n" +
+            "    // User can toggle it manually if needed\n" +
             "});";
     }
 

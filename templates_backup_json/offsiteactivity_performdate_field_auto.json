@@ -1,0 +1,25 @@
+{
+  "templatePath" : "templates\\screens\\current/offsiteactivity_performdate_field_auto.png",
+  "hash" : "1111111111111111111111110110111011011100111110001111111111111111",
+  "width" : 252,
+  "height" : 58,
+  "aspectRatio" : 4.344827586206897,
+  "elementType" : "XPath",
+  "capturedDate" : 1760022729640,
+  "elementName" : "offsiteActivity_performDate_field",
+  "dominantColors" : [ "#F5F7FD", "#181818", "#68696B" ],
+  "relativePosition" : {
+    "x" : 0.04722222222222222,
+    "y" : 0.75125,
+    "width" : 0.23333333333333334,
+    "height" : 0.024166666666666666
+  },
+  "pixelDensity" : 0,
+  "hasText" : false,
+  "hasIcon" : false,
+  "aliases" : [ "offsite_activity_perform_date_field", "offsiteactivity_performdate_field", "offsiteactivityPerformdateField" ],
+  "successCount" : 0,
+  "failureCount" : 0,
+  "lastUsed" : 1760022729640,
+  "successRate" : 0.0
+}

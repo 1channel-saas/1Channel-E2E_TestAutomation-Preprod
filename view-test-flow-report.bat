@@ -1,3 +1,0 @@
-@echo off
-echo Opening Test Flow Visual Report...
-start "" "target\test-flow-reports\test_flow_report_latest.html"

@@ -1,6 +1,6 @@
 package com.test.channelplay.stepDefinition_Mobile;
 
-import com.test.channelplay.mobile.screens.config_Helper.MobileTestFlowScreenshotManager;
+import com.test.channelplay.mobile.config_Helper.MobileTestFlowScreenshotManager;
 import com.test.channelplay.utils.MobileTestBase;
 import com.test.channelplay.utils.MobileDriverManager;
 import com.test.channelplay.utils.GetProperty;
@@ -55,7 +55,7 @@ public class Hooks_Mobile extends MobileTestBase {
                     appPath = System.getProperty("user.dir") + "/apps/app-debug.ipa";
                 }
                 String platformVersion = GetProperty.value("ios.platform.version");
-                if (platformVersion == null) platformVersion = "15.0";
+                if (platformVersion == null) platformVersion = GetProperty.value("platformVersion");
                 MobileDriverManager.initializeIOSDriver(appPath, deviceName, platformVersion);
             }
             

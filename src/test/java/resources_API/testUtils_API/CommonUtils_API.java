@@ -40,7 +40,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class CommonUtils_API {
-    RequestSpecification commonRequest;
+    RequestSpecification commonRequest, fileUploadRequest;
     ResponseSpecification commonResponse;
     int statusCode;
     Response response;
@@ -66,7 +66,8 @@ public class CommonUtils_API {
 
 
 
-//    ** method for RequestSpecification
+
+    //  ** method for RequestSpecification
     public RequestSpecification requestSpec(String API_log) {
         if (commonRequest == null) {
             try {
@@ -78,7 +79,8 @@ public class CommonUtils_API {
             commonRequest = new RequestSpecBuilder().setBaseUri(GetProperty_API.value("baseURL"))
                     .addFilter(RequestLoggingFilter.logRequestTo(logStream))
                     .addFilter(new ResponseLoggingFilter(LogDetail.ALL, logStream)) //Log all response details to file
-                    .setContentType(ContentType.JSON).build();
+                    .setContentType(ContentType.JSON)
+                    .build();
             return commonRequest;
         }
         else {
@@ -88,9 +90,36 @@ public class CommonUtils_API {
     }
 
 
-//    ** method for ResponseSpecification
+    //  ** method for RequestSpecification for file uploads
+    public RequestSpecification requestSpecFileUpload(String API_log) {
+        if (fileUploadRequest == null) {
+            try {
+                if (logStream == null) {
+                    logStream = new PrintStream(new FileOutputStream("API_logstream.txt"));
+                }
+                logStream.println("INFO: File upload API request for: " + API_log);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException("Logging file could not be created", e);
+            }
+            fileUploadRequest = new RequestSpecBuilder()
+                    .setBaseUri(GetProperty_API.value("baseURL"))
+                    .addFilter(new FileUploadLoggingFilter(logStream))
+                    .build();
+            return fileUploadRequest;
+        }
+        else {
+            logStream.println("INFO: Continuing API requests for: " + API_log);
+        }
+        return fileUploadRequest;
+        }
+
+
+    //    ** method for ResponseSpecification
     public ResponseSpecification responseSpec() {
-        commonResponse = new ResponseSpecBuilder().expectResponseTime(lessThan(10000L)).expectContentType(ContentType.JSON).build();
+        commonResponse = new ResponseSpecBuilder()
+                .expectResponseTime(lessThan(10000L))
+                .expectContentType(ContentType.JSON)
+                .build();
         return commonResponse;
     }
 
@@ -99,9 +128,14 @@ public class CommonUtils_API {
     public void validateStatusCode() {
         response = getApiResponseObject.getResponse();
         statusCode = response.statusCode();
+        //  Safely extract status codes from response body
+        Integer bodyStatusCode = getJsonPath(response.asString(), "statusCode");
+        Integer bodyStatus = getJsonPath(response.asString(), "status");
+
         if ((statusCode == 200 || statusCode == 201 || statusCode == 204) ||
-                (response.statusLine().equals("HTTP/1.1 200") || getJsonPath(response.asString(),"statusCode")
-                        .equals(200) || getJsonPath(response.asString(),"statusCode").equals(201))) {
+                (response.statusLine().equals("HTTP/1.1 200") ||
+                        (bodyStatusCode != null && (bodyStatusCode.equals(200) || bodyStatusCode.equals(201))) ||
+                        (bodyStatus != null && (bodyStatus.equals(200) || bodyStatus.equals(201))))) {
             Log.info("API response is successful with status code: {}", statusCode);
         } else {
             Map<Integer, String> statusMessages = Map.of(

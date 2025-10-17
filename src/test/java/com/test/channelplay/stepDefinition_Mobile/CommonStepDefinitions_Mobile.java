@@ -1,16 +1,18 @@
 package com.test.channelplay.stepDefinition_Mobile;
 
 import com.test.channelplay.mobile.CRMAppLoginObject;
+import com.test.channelplay.mobile.config_Helper.TemplateAnalytics;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.GetProperty;
 import com.test.channelplay.utils.MobileTestBase;
 import io.cucumber.java.en.Given;
 
+import io.cucumber.java.en.Then;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import resources_API.payload_API.Login.Login_Payload;
+import resources_API.payload_API.login.Login_Payload;
 import resources_API.testUtils_API.CommonUtils_API;
 import resources_API.testUtils_API.Endpoints;
 import resources_API.testUtils_API.GetApiResponseObject;
@@ -90,6 +92,14 @@ public class CommonStepDefinitions_Mobile extends MobileTestBase {
         //  close Hamburger Menu
         appLogin.closeHamburgerMenu();
         commonUtils.sleep(1000);
+    }
+
+
+    //  gherkin: print template analytics report
+    @Then("print template analytics report")
+    public void printTemplateAnalyticsReport() {
+        TemplateAnalytics.printReport();
+        TemplateAnalytics.saveReport("target/template_health_report_" + System.currentTimeMillis() + ".txt");
     }
 
 }

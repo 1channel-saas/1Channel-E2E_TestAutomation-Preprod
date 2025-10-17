@@ -4,10 +4,6 @@
 Feature: Create Linked field with field type - Date on activity module
 
 
-  Background:
-    Given User launches 1Channel CRM portal
-
-
   @useCase_Scenario_b2b-2943
   Scenario: To validate whether user able to create linked field of Date type in Activity module
 
@@ -27,6 +23,8 @@ Feature: Create Linked field with field type - Date on activity module
   Then validate createActivitiesSettings response
 
 #  UI
+  Given User launches 1Channel CRM portal
   When User logs in with test credentials
   Then User clicks on Admin menu and Activities submenu and navigates to Activities page
-  And Enter into "custom Activity" page and clicks on Add Field button to create a new date type linked field
+  And Enter into custom Activity "customActivity" page and clicks on Add Field button to create a new date type linked field
+  Then delete the custom activity after validation is complete for b2b-2943

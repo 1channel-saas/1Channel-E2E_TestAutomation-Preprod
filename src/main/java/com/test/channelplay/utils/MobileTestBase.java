@@ -1,6 +1,7 @@
 package com.test.channelplay.utils;
 
-import com.test.channelplay.mobile.screens.config_Helper.FlutterFinderUtils;
+import com.test.channelplay.mobile.config_Helper.FlutterFinderUtils;
+import com.test.channelplay.mobile.config_Helper.TemplateUsageTracker;
 import io.appium.java_client.AppiumDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +64,11 @@ public class MobileTestBase {
             
             driver = MobileDriverManager.getDriver();
             flutterFinder = new FlutterFinderUtils(driver);
-            
+
+            // Enable template usage tracking for enhanced metadata
+            TemplateUsageTracker.setEnabled(true);
+            log.info("Template usage tracking enabled");
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to initialize mobile driver: " + e.getMessage());

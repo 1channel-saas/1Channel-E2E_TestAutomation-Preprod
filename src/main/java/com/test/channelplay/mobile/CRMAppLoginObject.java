@@ -1,6 +1,6 @@
 package com.test.channelplay.mobile;
 
-import com.test.channelplay.mobile.screens.config_Helper.FlutterXPathHelper;
+import com.test.channelplay.mobile.config_Helper.FlutterXPathHelper;
 import com.test.channelplay.utils.CommonUtils;
 import com.test.channelplay.utils.MobileTestBase;
 import org.openqa.selenium.By;

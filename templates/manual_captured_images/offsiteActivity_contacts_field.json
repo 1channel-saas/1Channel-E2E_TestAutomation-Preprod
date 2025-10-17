@@ -5,7 +5,7 @@
   "height" : 246,
   "aspectRatio" : 4.069105691056911,
   "elementType" : "Manual",
-  "capturedDate" : 1758483980914,
+  "capturedDate" : 1760572213293,
   "elementName" : "offsiteActivity_contacts_field",
   "dominantColors" : [ "#FFFFFF", "#F5F7FD", "#9E9FA3" ],
   "relativePosition" : null,
@@ -15,6 +15,44 @@
   "aliases" : [ "offsite_activity_contacts_field", "offsiteactivityContactsField", "offsiteactivity_contacts_field" ],
   "successCount" : 0,
   "failureCount" : 0,
-  "lastUsed" : 1758483980914,
-  "successRate" : 0.0
+  "lastUsed" : 1760572213293,
+  "successRate" : 0.0,
+  "usage" : {
+    "totalAttempts" : 0,
+    "successCount" : 0,
+    "failureCount" : 0,
+    "successRate" : 0.0,
+    "lastUsed" : 0,
+    "usageFrequency" : "never",
+    "avgMatchTime" : 0
+  },
+  "performance" : {
+    "xpathSuccessRate" : 0.0,
+    "opencvSuccessRate" : 0.0,
+    "ocrFallbackRate" : 0.0,
+    "avgConfidence" : 0.0,
+    "lastConfidence" : 0.0,
+    "confidenceHistory" : [ ],
+    "xpathAttempts" : 0,
+    "xpathSuccess" : 0,
+    "opencvAttempts" : 0,
+    "opencvSuccess" : 0,
+    "ocrAttempts" : 0
+  },
+  "health" : {
+    "status" : "unknown",
+    "needsRecapture" : false,
+    "staleness" : 0.0,
+    "lastHealthCheck" : 0,
+    "warnings" : [ ]
+  },
+  "context" : {
+    "elementType" : "Manual",
+    "screenName" : "",
+    "fieldType" : "",
+    "relatedFields" : [ ],
+    "testScenarios" : [ ]
+  },
+  "tags" : [ ],
+  "summary" : "Template: offsiteActivity_contacts_field | Success: 0.0% (0/0) | Confidence: 0.00 | Status: unknown | Last used: Thu Oct 16 05:20:13 IST 2025"
 }

@@ -1,20 +1,58 @@
 {
-  "templatePath" : "templates\\manual_captured_images\\Screenshot_1758315325.png",
+  "templatePath" : "templates\\manual_captured_images\\offsiteActivity_description_field.png",
   "hash" : "0011111111111111111111111111111101111111111111111111111111111111",
   "width" : 1003,
   "height" : 487,
   "aspectRatio" : 2.059548254620123,
   "elementType" : "Manual",
-  "capturedDate" : 1758315552346,
-  "elementName" : "Screenshot_1758315325",
+  "capturedDate" : 1760572213403,
+  "elementName" : "offsiteActivity_description_field",
   "dominantColors" : [ "#FFFFFF", "#F5F7FD" ],
   "relativePosition" : null,
   "pixelDensity" : 0,
   "hasText" : false,
   "hasIcon" : false,
-  "aliases" : [ "screenshot_1758315325", "screenshot1758315325", "offsiteactivity_description_field" ],
-  "successCount" : 1,
+  "aliases" : [ "offsite_activity_description_field", "offsiteactivityDescriptionField", "offsiteactivity_description_field" ],
+  "successCount" : 7,
   "failureCount" : 0,
-  "lastUsed" : 1758315618798,
-  "successRate" : 1.0
+  "lastUsed" : 1760705827260,
+  "successRate" : 1.0,
+  "usage" : {
+    "totalAttempts" : 7,
+    "successCount" : 0,
+    "failureCount" : 0,
+    "successRate" : 0.0,
+    "lastUsed" : 0,
+    "usageFrequency" : "medium",
+    "avgMatchTime" : 815
+  },
+  "performance" : {
+    "xpathSuccessRate" : 0.0,
+    "opencvSuccessRate" : 1.0,
+    "ocrFallbackRate" : 0.0,
+    "avgConfidence" : 0.9983032260622297,
+    "lastConfidence" : 0.9982808828353882,
+    "confidenceHistory" : [ 0.9982808828353882, 0.9982982873916626, 0.9983156323432922, 0.9983156323432922, 0.9983156323432922, 0.9983156323432922, 0.9982808828353882 ],
+    "xpathAttempts" : 0,
+    "xpathSuccess" : 0,
+    "opencvAttempts" : 7,
+    "opencvSuccess" : 7,
+    "ocrAttempts" : 0
+  },
+  "health" : {
+    "status" : "healthy",
+    "needsRecapture" : false,
+    "staleness" : 0.0,
+    "lastHealthCheck" : 1760705827261,
+    "warnings" : [ ]
+  },
+  "context" : {
+    "elementType" : "Manual",
+    "screenName" : "",
+    "fieldType" : "",
+    "relatedFields" : [ ],
+    "testScenarios" : [ ]
+  },
+  "tags" : [ ],
+  "summary" : "Template: offsiteActivity_description_field | Success: 100.0% (7/7) | Confidence: 1.00 | Status: healthy | Last used: Fri Oct 17 18:27:07 IST 2025"
 }

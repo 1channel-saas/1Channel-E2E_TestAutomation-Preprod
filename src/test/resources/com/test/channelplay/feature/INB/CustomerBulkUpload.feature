@@ -1,9 +1,10 @@
+@web @E2E
 @INB
-#@E2E
+@bulkUpload
 Feature: Upload customers from excel from 'Bulk Upload' option under Add button dropdown for CRM -> Customers for INB
 
 
-  @customerBulkUpload
+  @customerBulkUpload_IGSSL-Collection
   Scenario Outline: Add Customer through Bulk Upload for project IGSSL Collection (projectId - 433)
 
 ##    API
@@ -13,6 +14,7 @@ Feature: Upload customers from excel from 'Bulk Upload' option under Add button 
     Then fetch projectId from login response for INB
 ##    UI
     Given user loggedIn to 1Channel project for INB
+    And verify user is on IGSSL Collection project for INB
     When user clicks on menu CRM and submenu Customers for INB
     Then user is on Customers page for INB
     And clicks on dropdown under Add button and then click on Bulk Upload option for INB
@@ -38,4 +40,4 @@ Feature: Upload customers from excel from 'Bulk Upload' option under Add button 
 
     Examples:
       |username               |password        |projectIdInUse|assignedUserId|AccNo1    |AccNo2    |AccNo3    |AccNo4    |AccNo5    |uploadDateTime     |uploadDate|
-      |testemailqa@1channel.co|K(460848703994az|433           |7709          |91102001  |91102003  |7189786   |7189788   |7189790   |2025-02-12 02:53:08|20250401  |
+      |testemailqa@1channel.co|K(460848703994az|433           |7709          |91102001  |91102003  |7189786   |          |          |2025-02-12 02:53:08|20250401  |

@@ -23,6 +23,8 @@ public class CommonStepDefinitions_API {
     }
 
 
+
+
 //    gherkin: validate token is generated
     @When("validate token is generated")
     public void validateTokenIsGenerated() {
@@ -35,7 +37,6 @@ public class CommonStepDefinitions_API {
     public void apiCallIsSuccessWithStatusCode200() {
         commonUtilsApi.validateStatusCode();
     }
-
 
 
 //    gherkin: validate ApiResponse execution time

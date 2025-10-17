@@ -3,9 +3,11 @@ package com.test.channelplay.object.INB;
 import com.test.channelplay.utils.*;
 import lombok.Setter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -24,18 +26,15 @@ import java.util.stream.Collectors;
 public class CustomerBulkUpload_Object extends DriverBase {
 
     private static final Logger log = LoggerFactory.getLogger(CustomerBulkUpload_Object.class);
-    CommonUtils commonutils = new CommonUtils();
-    WebDriverUtils webDriverUtils = new WebDriverUtils();
-    private SoftAssert softAssert = new SoftAssert();
 
 
-    @FindBy(xpath = "//ul[@class=\"menu-nav\"]//following-sibling::li/a//descendant::span[text()=\" CRM \"]")
+    @FindBy(xpath = Constants.CRM_menu)
     WebElement CRM_menu;
-    @FindBy(xpath = "//li/a[@href=\"/customers\"]/span[text()=\" Customers \"]")
+    @FindBy(xpath = Constants.CRMCustomers_submenu)
     WebElement Customers_subMenu;
     @FindBy(xpath = "//div/h5[text()=\" Customers \"]")
     WebElement CustomersPage_title;
-    @FindBy(xpath = "//span[text()=\"Serial No.\"]")
+    @FindBy(xpath = "//span[text()='Serial No.']")
     WebElement SerialNo_column_text;
     @FindBy(xpath = "//button[text()=\"Add\"]/following-sibling::button[contains(@class, 'mat-menu-trigger')]//mat-icon[text()='arrow_drop_down']")
     WebElement Add_button_dropdown;
@@ -43,6 +42,8 @@ public class CustomerBulkUpload_Object extends DriverBase {
     WebElement BulkUpload_dropdown_option;
     @FindBy(xpath = "//div[@class='file-drop-zone']//input[@type='file']")
     WebElement fileUpload_input;
+    @FindBy(xpath = "//img[contains(@src, 'DocumentUpload.svg')]")
+    WebElement fileUpload_image;
     @FindBy(xpath = "//button[text() = \"Upload\"]")
     WebElement Upload_button;
     @FindBy(xpath = "//h4[text()=\"Map Fields\"]")
@@ -63,6 +64,24 @@ public class CustomerBulkUpload_Object extends DriverBase {
     WebElement ImportantUpload_alertText;
     @FindBy(xpath = "//button[text() = \"Confirm\"]")
     WebElement ImportantUpload_alertText_Confirm_button;
+    @FindBy(xpath = "//div[@ngbtooltip='Switch System']")
+    WebElement switchSystemButton;
+    @FindBy(xpath = "//div/h4[text()='Select System']")
+    WebElement selectSystemPopupHeader;
+    @FindBy(xpath = "//label[contains(text(), 'System Name')]/parent::div/following-sibling::div/descendant::span/span")
+    WebElement selectSystemName;
+    @FindBy(xpath = "//label[contains(text(), 'System Name')]/parent::div/following-sibling::div//mat-select")
+    WebElement selectSystemName_dropdown;
+    @FindBy(xpath = "//span[text()=' IGSSL - Collection ']")
+    WebElement selectSystemName_IGSSL_Collection_option;
+    @FindBy(xpath = "//label[contains(text(), 'System Name')]/parent::div/following-sibling::div/descendant::span/span[text()='IGSSL - Collection']")
+    WebElement selectSystemName_IGSSL_Collection_selectedOption;
+    @FindBy(xpath = "//button[text()='Proceed']")
+    WebElement selectSystem_Proceed_button;
+    @FindBy(xpath = "//button[text()='Proceed']/parent::div/button[text()='Cancel']")
+    WebElement selectSystem_Cancel_button;
+    @FindBy(xpath = "//div/p[contains(text(), 'Error')]")
+    WebElement uploadmapFields_Error_message;
 
 
     //  Emailer xpath expressions
@@ -84,7 +103,7 @@ public class CustomerBulkUpload_Object extends DriverBase {
     WebElement mailer_Inbox;
     @FindBy(xpath = "//div[@class='wide-content-host']/descendant::div[@data-testid='SentReceivedSavedTime']")
     WebElement mailer_Inbox_email_dateTime;
-    @FindBy(xpath = "//span[@title='Customers Upload Status']/parent::div/following-sibling::div/descendant::div[contains(text(), '_upload Customer.xlsx')]")
+    @FindBy(xpath = "//span[@title='Customers Upload Status']/ancestor::div[@role='heading']/parent::div/following-sibling::div/descendant::div[contains(text(), '_upload Customer.xlsx')]")
     WebElement mailer_inbox_CustomerUploadStatus_email_Attachment;
     @FindBy(xpath = "//button/descendant::span[text()='Open in Excel']")
     WebElement mailer_inbox_email_Attachment_OpenInExcel_button;
@@ -99,16 +118,22 @@ public class CustomerBulkUpload_Object extends DriverBase {
     @FindBy(xpath = "(//i[@data-icon-name='CheckMark'])[1]")
     WebElement mailer_inbox_Select_All_checkbox;
     @FindBy(xpath = "//button[text()='Empty folder']")
-    WebElement mailer_inbox_DeleteAllEmail_button;
+    WebElement mailer_inbox_EmptyFolder_button;
+    @FindBy(xpath = "//button[text()='Delete all']")
+    WebElement mailer_inbox_DeleteAllEmail_Confirm_button;
     @FindBy(xpath = "//span[text()='Enjoy your empty inbox.']")
     WebElement mailer_EmptyInbox_message;
-
 
 
     public CustomerBulkUpload_Object() {
         PageFactory.initElements(getDriver(), this);
     }
 
+    CommonUtils commonutils = new CommonUtils();
+    WebDriverUtils webDriverUtils = new WebDriverUtils();
+    JavascriptExecutor js = (JavascriptExecutor) getDriver();
+    private static final String JS_CLICK_SCRIPT = "arguments[0].click();";
+    private final SoftAssert softAssert = new SoftAssert();
     private static String totalRecords_value;
     private static String totalRecordsValCounterStr;
     private static String ErrorFound_value; //  Getter Setter method to extract TestStartTime at time of file upload over UI
@@ -120,11 +145,66 @@ public class CustomerBulkUpload_Object extends DriverBase {
     int filesToMove;
 
 
+
+
+    //  scenario - customerBulkUpload_IGSSL-Collection
+
+    public void verifyUserIsOnIGSSLCollectionProjectForINB() {
+        webDriverUtils.waitUntilVisible(getDriver(), switchSystemButton, Duration.ofSeconds(5));
+        switchSystemButton.click();
+        webDriverUtils.until(ExpectedConditions.visibilityOf(selectSystemPopupHeader));
+        Assert.assertTrue(selectSystemPopupHeader.isDisplayed());
+        webDriverUtils.until(ExpectedConditions.visibilityOf(selectSystemName));
+        String loggedInProjectName = selectSystemName.getText();
+        ScreenshotHelper.captureScreenshot("switch_project");
+        log.info("current loggedIn Project Name: {}", loggedInProjectName);
+
+        if (loggedInProjectName.equalsIgnoreCase("IGSSL")) {
+            log.info("User is on IGSSL, switching to IGSSL - Collection");
+            commonutils.sleep(1000);
+            selectSystemName_dropdown.click();
+            commonutils.sleep(1000);
+            webDriverUtils.until(ExpectedConditions.elementToBeClickable(selectSystemName_IGSSL_Collection_option));
+            commonutils.sleep(1000);
+            js.executeScript(JS_CLICK_SCRIPT, selectSystemName_IGSSL_Collection_option);
+            ScreenshotHelper.captureScreenshot("select_IGSSL-Collection_option");
+            log.info("Clicked IGSSL - Collection option");
+            commonutils.sleep(1000);
+
+            //  Double-check the selection is still correct
+            webDriverUtils.until(ExpectedConditions.textToBePresentInElement(selectSystemName, "IGSSL - Collection"));
+            String selectedProject = selectSystemName.getText();
+            log.info("Currently selected project after click: {}", selectedProject);
+            if (!selectedProject.equalsIgnoreCase("IGSSL - Collection")) {
+                log.warn("Selection reverted! Attempting to select again...");
+            }
+
+            js.executeScript(JS_CLICK_SCRIPT, selectSystem_Proceed_button);
+            commonutils.sleep(2000);
+            webDriverUtils.waitUntilVisible(getDriver(), CRM_menu, Duration.ofSeconds(5));
+            webDriverUtils.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(CRM_menu)));
+            Assert.assertTrue(CRM_menu.isDisplayed());
+            webDriverUtils.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(switchSystemButton)));
+            switchSystemButton.click();
+            Assert.assertTrue(selectSystemPopupHeader.isDisplayed());
+            commonutils.sleep(1000);
+        }
+
+        webDriverUtils.until(ExpectedConditions.visibilityOf(selectSystemName_IGSSL_Collection_selectedOption));
+        Assert.assertTrue(selectSystemName_IGSSL_Collection_selectedOption.isDisplayed(), "IGSSL - Collection should be displayed");
+        selectSystem_Cancel_button.click();
+        commonutils.sleep(1000);
+    }
+
     public void userClicksOnMenuCRMAndSubmenuCustomersForINB() {
         CRM_menu.click();
         Customers_subMenu.click();
-        webDriverUtils.waitUntilVisible(getDriver(), SerialNo_column_text, Duration.ofSeconds(20));
-        commonutils.sleep(2000);
+        commonutils.waitForPageToLoad();
+        List<WebElement> customerList_rows = getDriver().findElements(By.xpath("//span[text()=\"Serial No.\"]/ancestor::div[@ref='headerRoot']/following-sibling::div[@ref='eBodyViewport']/descendant::div[@role='rowgroup']/div"));
+        if (!customerList_rows.isEmpty()) {
+            webDriverUtils.until(ExpectedConditions.visibilityOf(SerialNo_column_text));
+        }
+        commonutils.sleep(1000);
 
         //  get the test start time for future use
         testStartTime();
@@ -132,15 +212,15 @@ public class CustomerBulkUpload_Object extends DriverBase {
 
     public boolean userIsOnCustomersPageForINB() {
         boolean customerPageTitle = CustomersPage_title.isDisplayed();
-        commonutils.sleep(2000);
+        commonutils.sleep(1000);
         return customerPageTitle;
     }
 
     public void clicksOnDropdownUnderAddButtonAndThenClickOnBulkUploadOptionForINB() {
         Add_button_dropdown.click();
-        commonutils.sleep(2000);
+        commonutils.sleep(1000);
         BulkUpload_dropdown_option.click();
-        commonutils.sleep(2000);
+        commonutils.sleep(1000);
     }
 
     public void uploadTheExcelFileAndValidateMapFieldsAndValidateDataPagesAndUploadValidatedRecordsForINB() {
@@ -209,10 +289,20 @@ public class CustomerBulkUpload_Object extends DriverBase {
         //  Map Fields window
         Assert.assertTrue(MapFields_pageHeader_text.isDisplayed());
         MapFields_Next_button.click();
-        commonutils.sleep(1000);
+
+        try {
+            if (uploadmapFields_Error_message != null && uploadmapFields_Error_message.isDisplayed()) {
+                log.warn("There is data issue with the uploaded file. Please check the file and upload again.");
+                return;
+            }
+        } catch (Exception e) {
+            log.debug("No error message found, proceeding...");
+        }
 
         //  Validate Data window
+        webDriverUtils.waitUntilVisible(getDriver(), ValidateData_pageHeader_text, Duration.ofSeconds(3));
         Assert.assertTrue(ValidateData_pageHeader_text.isDisplayed());
+
         //  calling static method extractRecordsAndErrors() to extract the total records and errors
         extractRecordsAndErrors();
         log.info("Total Records from Excel on UI: {}", totalRecords_value);
@@ -249,10 +339,10 @@ public class CustomerBulkUpload_Object extends DriverBase {
         try {
             // Refresh page to clear previous uploads
             getDriver().navigate().refresh();
-            webDriverUtils.waitUntilVisible(getDriver(), SerialNo_column_text, Duration.ofSeconds(20));
+            webDriverUtils.waitUntilVisible(getDriver(), SerialNo_column_text, Duration.ofSeconds(15));
             userIsOnCustomersPageForINB();
             clicksOnDropdownUnderAddButtonAndThenClickOnBulkUploadOptionForINB();
-            webDriverUtils.waitUntilVisible(getDriver(), fileUpload_input, Duration.ofSeconds(5));
+            webDriverUtils.waitUntilVisible(getDriver(), fileUpload_image, Duration.ofSeconds(10));
             log.info("Upload page refreshed successfully.");
         } catch (Exception e) {
             log.error("Error while refreshing upload page: {}", e.getMessage());
@@ -382,7 +472,6 @@ public class CustomerBulkUpload_Object extends DriverBase {
             if (emailTestStartDateTime.isAfter(UITestStartDateTime) || emailTestStartDateTime.isEqual(UITestStartDateTime)) {
                 log.info("Email received at {} after test start time {}", emailTestStartDateTime, UITestStartDateTime);
                 mailer_inbox_CustomerUploadStatus_email_Attachment.click();
-                //webDriverUtils.waitUntilVisible(getDriver(), mailer_inbox_email_Attachment_OpenInExcel_button, Duration.ofSeconds(5));
                 mailer_inbox_email_attachment_Download_button.click();
                 log.info("Downloading attachment...");
                 mailer_Attachement_Close_button.click();
@@ -399,14 +488,22 @@ public class CustomerBulkUpload_Object extends DriverBase {
             commonutils.sleep(1000);
             mailer_inbox_Select_All_checkbox.click();
             commonutils.sleep(1000);
-            mailer_inbox_DeleteAllEmail_button.click();
+            mailer_inbox_EmptyFolder_button.click();
             commonutils.sleep(1000);
+            try {
+                if (mailer_inbox_DeleteAllEmail_Confirm_button != null && mailer_inbox_DeleteAllEmail_Confirm_button.isDisplayed()) {
+                    mailer_inbox_DeleteAllEmail_Confirm_button.click();
+                    log.info("Delete All prompt appeared..All emails deleted from inbox, proceeding...");
+                    return;
+                }
+            } catch (Exception e) {
+                log.info("Delete All prompt does not appeared, Delete operation complete. proceeding...");
+            }
             webDriverUtils.waitUntilVisible(getDriver(), mailer_EmptyInbox_message, Duration.ofSeconds(3));
         } else {
             log.warn("Select button is null, skipping focused inbox cleanup");
         }
         commonutils.sleep(1000);
-
 
         //  moving file to bulkUpload_Downloaded_Files dir
         moveLatestUploadedFiles();

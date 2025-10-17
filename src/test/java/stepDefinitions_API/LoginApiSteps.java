@@ -4,7 +4,7 @@ import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import resources_API.payload_API.Login.Login_Payload;
+import resources_API.payload_API.login.Login_Payload;
 import resources_API.testUtils_API.CommonUtils_API;
 import resources_API.testUtils_API.Endpoints;
 import resources_API.testUtils_API.GetApiResponseObject;

@@ -21,9 +21,14 @@ public class LinkedField_DateSteps extends DriverBase {
         linkedFieldDateObject.userClicksOnAdminMenuAndActivitiesSubmenuAndNavigatesToActivitiesPage();
     }
 
-    @And("Enter into {string} page and clicks on Add Field button to create a new date type linked field")
-    public void enterIntoPageAndClicksOnAddFieldButtonToCreateANewDateTypeLinkedField(String customAct) {
-        linkedFieldDateObject.enterIntoOffsiteActivityPageAndClicksOnAddFieldButtonToCreateANewDateTypeLinkedField();
+    @And("Enter into custom Activity {string} page and clicks on Add Field button to create a new date type linked field")
+    public void enterIntoCustomActivityPageAndClicksOnAddFieldButtonToCreateANewDateTypeLinkedField(String customAct) {
+        linkedFieldDateObject.enterIntoCustomActivityPageAndClicksOnAddFieldButtonToCreateANewDateTypeLinkedField();
+    }
+
+    @Then("delete the custom activity after validation is complete for b2b-2943")
+    public void deleteTheCustomActivityAfterValidationIsCompleteForBB() {
+        linkedFieldDateObject.deleteTheCustomActivityAfterValidationIsCompleteForBB();
     }
 
 }

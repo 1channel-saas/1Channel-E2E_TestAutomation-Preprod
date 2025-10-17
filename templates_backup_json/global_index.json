@@ -1,0 +1,146 @@
+{
+  "templates" : [ {
+    "path" : "templates\\screens\\current/offsiteactivity_selectcustomer_auto.png",
+    "hash" : "ffffe7dbdbe7ffff",
+    "elementName" : "offsiteActivity_SelectCustomer",
+    "created" : 1760423004651,
+    "version" : 1
+  }, {
+    "path" : "templates\\AI_images\\current/offsiteactivity_description_field_ai.png",
+    "hash" : "0000ffffffffffff",
+    "elementName" : "offsiteActivity_description_field",
+    "created" : 1758406781683,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer.png",
+    "hash" : "7ffffffffeffffff",
+    "elementName" : "offsiteActivity_selectCustomer",
+    "created" : 1760571541682,
+    "version" : 1
+  }, {
+    "path" : "templates\\screens\\current/offsiteactivity_title_field_auto.png",
+    "hash" : "ffff3be0f8f0ffff",
+    "elementName" : "offsiteActivity_title_field",
+    "created" : 1758408659114,
+    "version" : 1
+  }, {
+    "path" : "templates\\AI_images\\current/offsiteactivity_description_field_ai.png",
+    "hash" : "0000007e7e000000",
+    "elementName" : "offsiteActivity_description_field",
+    "created" : 1758295187388,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_contacts_field.png",
+    "hash" : "000000fffefeff00",
+    "elementName" : "offsiteActivity_contacts_field",
+    "created" : 1760571541644,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_performDate_field.png",
+    "hash" : "000000ffffffff00",
+    "elementName" : "offsiteActivity_performDate_field",
+    "created" : 1760571541673,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\Screenshot_1760398335.png",
+    "hash" : "000000ffffffffff",
+    "elementName" : "Screenshot_1760398335",
+    "created" : 1760571541728,
+    "version" : 1
+  }, {
+    "path" : "templates\\screens\\current/offsiteactivity_performdate_field_auto.png",
+    "hash" : "ffff7fe0dcf8ffff",
+    "elementName" : "offsiteActivity_performDate_field",
+    "created" : 1758479744079,
+    "version" : 1
+  }, {
+    "path" : "templates\\AI_images\\current/offsiteactivity_performdate_field_ai.png",
+    "hash" : "00003c7e7e7e0000",
+    "elementName" : "offsiteActivity_performDate_field",
+    "created" : 1758507730571,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer2.png",
+    "hash" : "ffbf9fbfffffffff",
+    "elementName" : "offsiteActivity_selectCustomer2",
+    "created" : 1760571541704,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_bottonBar.png",
+    "hash" : "ffffbebebeffffff",
+    "elementName" : "offsiteActivity_bottonBar",
+    "created" : 1760571541634,
+    "version" : 1
+  }, {
+    "path" : "templates\\screens\\current/offsiteactivity_performdate_field_auto.png",
+    "hash" : "ffffff6edcf8ffff",
+    "elementName" : "offsiteActivity_performDate_field",
+    "created" : 1760022729599,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_description_field.png",
+    "hash" : "3fffffff7fffffff",
+    "elementName" : "offsiteActivity_description_field",
+    "created" : 1760571541658,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer1.png",
+    "hash" : "ff5fffffffffffff",
+    "elementName" : "offsiteActivity_selectCustomer1",
+    "created" : 1760571541695,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_image_field.png",
+    "hash" : "0000ffbf3fbfff00",
+    "elementName" : "offsiteActivity_image_field",
+    "created" : 1758722272478,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_image_field.png",
+    "hash" : "7fffffffefffff80",
+    "elementName" : "offsiteActivity_image_field",
+    "created" : 1760571541664,
+    "version" : 1
+  }, {
+    "path" : "templates\\manual_captured_images\\offsiteActivity_title_field.png",
+    "hash" : "000000ff7fffff00",
+    "elementName" : "offsiteActivity_title_field",
+    "created" : 1760571541716,
+    "version" : 1
+  }, {
+    "path" : "templates\\screens\\current/performdate_calendar_today_date_auto.png",
+    "hash" : "e7818111098181e7",
+    "elementName" : "performDate_calendar_today_date",
+    "created" : 1758505566485,
+    "version" : 1
+  }, {
+    "path" : "templates\\AI_images\\current/offsiteactivity_description_field_ai.png",
+    "hash" : "00ffffff7ffffffb",
+    "elementName" : "offsiteActivity_description_field",
+    "created" : 1760400108356,
+    "version" : 1
+  }, {
+    "path" : "templates\\AI_images\\current/offsiteactivity_title_field_ai.png",
+    "hash" : "00000000ffffffff",
+    "elementName" : "offsiteActivity_title_field",
+    "created" : 1758408661533,
+    "version" : 1
+  } ],
+  "folderStats" : {
+    "templates\\AI_images\\current" : {
+      "sizeMB" : 0,
+      "created" : 1758294148658,
+      "lastModified" : 1760400108358
+    },
+    "templates\\manual_captured_images" : {
+      "sizeMB" : 0,
+      "created" : 1758294053502,
+      "lastModified" : 1760571541729
+    },
+    "templates\\screens\\current" : {
+      "sizeMB" : 0,
+      "created" : 1758106774219,
+      "lastModified" : 1760423004654
+    }
+  }
+}

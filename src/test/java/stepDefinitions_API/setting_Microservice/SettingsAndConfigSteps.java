@@ -8,7 +8,7 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.Getter;
 import lombok.Setter;
-import resources_API.payload_API.Setting.CompanySettings_AccSetUp_payload;
+import resources_API.payload_API.setting.CompanySettings_AccSetUp_payload;
 import resources_API.testUtils_API.CommonUtils_API;
 import resources_API.testUtils_API.Endpoints;
 import resources_API.testUtils_API.GetApiResponseObject;
@@ -56,6 +56,7 @@ public class SettingsAndConfigSteps extends CommonUtils_API {
         getCompanySettingsResp = reqspec.when().header("Authorization", "Bearer " + bearerToken)
                 .post(endpoints.getValOfEndpoint()).then().spec(resspec).extract().response();
 
+        getApiResponseObject.setResponse(getCompanySettingsResp);
         getCompanySettingsResponse = getCompanySettingsResp.asString();
     }
 

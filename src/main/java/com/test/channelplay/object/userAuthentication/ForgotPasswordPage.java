@@ -146,6 +146,9 @@ public class ForgotPasswordPage extends DriverBase {
             mobileNo_field.sendKeys(GetProperty.value("testMobileNo"));
             ScreenshotHelper.captureScreenshot("resetIdentifier_mobile");
             submit_button.click();
+            commonutils.sleep(1000);
+            wait.until(ExpectedConditions.elementToBeClickable(confirm_popup_message));
+            ScreenshotHelper.captureScreenshot("resetIdentifier_mobile_confirmPopup");
             confirm_popup_message.click();
 
             //  Capture the time when moble otp is sent
@@ -286,7 +289,7 @@ public class ForgotPasswordPage extends DriverBase {
                 commonutils.sleep(2000);
             }
         }
-        wait.until(ExpectedConditions.visibilityOf(resetPassWindowHeaderText));
+        wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(resetPassWindowHeaderText)));
         Assert.assertTrue(resetPassWindowHeaderText.isDisplayed());
         //  enter new password and confirm password
         resetPassWindow_PasswordField.sendKeys(newPassword);

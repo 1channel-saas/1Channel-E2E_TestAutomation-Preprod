@@ -29,7 +29,10 @@ public class Constants {
 
 
     //  # CRM SubMenu
+    public static final String CRMCustomers_submenu = "(//span[contains(text(), 'Customers') or contains(text(), 'Retailers') or contains(text(), 'Leads')])[1]";
     public static final String CRMActivities_subMenu = "(//span[text()=' Activities '])[1]";
+
+
 
 
     //  Emailer xpath

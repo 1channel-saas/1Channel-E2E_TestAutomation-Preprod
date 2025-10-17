@@ -5,7 +5,7 @@
   "height" : 242,
   "aspectRatio" : 4.140495867768595,
   "elementType" : "Manual",
-  "capturedDate" : 1758408567502,
+  "capturedDate" : 1760572213920,
   "elementName" : "offsiteActivity_title_field",
   "dominantColors" : [ "#FFFFFF", "#F5F7FD", "#9E9E9E" ],
   "relativePosition" : null,
@@ -13,8 +13,46 @@
   "hasText" : false,
   "hasIcon" : false,
   "aliases" : [ "offsiteactivity_title_field", "offsite_activity_title_field", "offsiteactivityTitleField" ],
-  "successCount" : 0,
+  "successCount" : 7,
   "failureCount" : 0,
-  "lastUsed" : 1758408567502,
-  "successRate" : 0.0
+  "lastUsed" : 1760705833815,
+  "successRate" : 1.0,
+  "usage" : {
+    "totalAttempts" : 7,
+    "successCount" : 0,
+    "failureCount" : 0,
+    "successRate" : 0.0,
+    "lastUsed" : 0,
+    "usageFrequency" : "medium",
+    "avgMatchTime" : 732
+  },
+  "performance" : {
+    "xpathSuccessRate" : 0.0,
+    "opencvSuccessRate" : 1.0,
+    "ocrFallbackRate" : 0.0,
+    "avgConfidence" : 0.9926555752754211,
+    "lastConfidence" : 0.9926555752754211,
+    "confidenceHistory" : [ 0.9926555752754211, 0.9926555752754211, 0.9926555752754211, 0.9926555752754211, 0.9926555752754211, 0.9926555752754211, 0.9926555752754211 ],
+    "xpathAttempts" : 0,
+    "xpathSuccess" : 0,
+    "opencvAttempts" : 7,
+    "opencvSuccess" : 7,
+    "ocrAttempts" : 0
+  },
+  "health" : {
+    "status" : "healthy",
+    "needsRecapture" : false,
+    "staleness" : 0.0,
+    "lastHealthCheck" : 1760705833816,
+    "warnings" : [ ]
+  },
+  "context" : {
+    "elementType" : "Manual",
+    "screenName" : "",
+    "fieldType" : "",
+    "relatedFields" : [ ],
+    "testScenarios" : [ ]
+  },
+  "tags" : [ ],
+  "summary" : "Template: offsiteActivity_title_field | Success: 100.0% (7/7) | Confidence: 0.99 | Status: healthy | Last used: Fri Oct 17 18:27:13 IST 2025"
 }

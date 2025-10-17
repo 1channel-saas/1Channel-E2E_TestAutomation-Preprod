@@ -1,6 +1,9 @@
 package com.test.channelplay.utils;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -53,7 +58,6 @@ public class CommonUtils extends DriverBase {
         throw new RuntimeException(lines.stream().collect(joining(lineSeparator())));
     }
 
-
     public String generateRandomString(int n){
         String alphaString = "abcdefghijklmnopqrstuvxyz0123456789";
         StringBuilder sb = new StringBuilder(n);
@@ -63,7 +67,6 @@ public class CommonUtils extends DriverBase {
         }
         return sb.toString();
     }
-
 
     public boolean emailPatternMatches(String email) {
         String regexPattern = "^[\\w!#$%&amp;'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&amp;'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -168,6 +171,196 @@ public class CommonUtils extends DriverBase {
                 }
             }
         }
+    }
+
+
+    //  Delay to let Flutter finish rebuilding
+    public void waitForFlutterStability() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+
+
+
+    //  ========== STALE ELEMENT RETRY UTILITIES ==========
+
+    /**
+     * Generic retry wrapper for actions that may encounter StaleElementReferenceException
+     * Retries finding the element and performing the action
+     *
+     * @param locator By locator to find the element
+     * @param action Consumer that performs action on the element (e.g., click, sendKeys)
+     * @param actionName Name of the action for logging (e.g., "click", "sendKeys")
+     * @param maxRetries Maximum number of retry attempts
+     * @param <T> Return type (use Void for actions that don't return)
+     */
+    public void retryOnStale(By locator, Consumer<WebElement> action, String actionName, int maxRetries) {
+        Exception lastException = null;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                WebElement element = getDriver().findElement(locator);
+                action.accept(element);
+                logger.debug("Successfully performed '{}' on element: {}", actionName, locator);
+                return; // Success - exit method
+
+            } catch (StaleElementReferenceException e) {
+                lastException = e;
+                if (attempt < maxRetries) {
+                    logger.warn("StaleElementReferenceException on '{}' (attempt {}/{}). Retrying...",
+                               actionName, attempt, maxRetries);
+                    try {
+                        Thread.sleep(200); // Brief pause before retry
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                } else {
+                    logger.error("Failed to perform '{}' after {} attempts", actionName, maxRetries);
+                }
+            }
+        }
+
+        // All retries exhausted
+        throw new RuntimeException(
+            String.format("Failed to perform '%s' on element '%s' after %d attempts",
+                         actionName, locator, maxRetries),
+            lastException
+        );
+    }
+
+
+    /**
+     * Generic retry wrapper for actions that return a value
+     *
+     * @param locator By locator to find the element
+     * @param function Function that performs action on element and returns value
+     * @param actionName Name of the action for logging
+     * @param maxRetries Maximum number of retry attempts
+     * @return Result of the function
+     */
+    public <T> T retryOnStaleWithReturn(By locator, Function<WebElement, T> function, String actionName, int maxRetries) {
+        Exception lastException = null;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                WebElement element = getDriver().findElement(locator);
+                T result = function.apply(element);
+                logger.debug("Successfully performed '{}' on element: {}", actionName, locator);
+                return result; // Success - return result
+
+            } catch (StaleElementReferenceException e) {
+                lastException = e;
+                if (attempt < maxRetries) {
+                    logger.warn("StaleElementReferenceException on '{}' (attempt {}/{}). Retrying...",
+                               actionName, attempt, maxRetries);
+                    try {
+                        Thread.sleep(200); // Brief pause before retry
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                } else {
+                    logger.error("Failed to perform '{}' after {} attempts", actionName, maxRetries);
+                }
+            }
+        }
+
+        // All retries exhausted
+        throw new RuntimeException(
+            String.format("Failed to perform '%s' on element '%s' after %d attempts",
+                         actionName, locator, maxRetries),
+            lastException
+        );
+    }
+
+
+    // ========== CONVENIENCE METHODS FOR COMMON ACTIONS ==========
+
+    /**
+     * Click with automatic retry on stale element (default 3 retries)
+     */
+    public void clickWithRetry(By locator) {
+        clickWithRetry(locator, 3);
+    }
+    //  Helper method of clickWithRetry()
+    public void clickWithRetry(By locator, int maxRetries) {
+        retryOnStale(locator, WebElement::click, "click", maxRetries);
+    }
+
+
+    /**
+     * Send keys with automatic retry on stale element (default 3 retries)
+     */
+    public void sendKeysWithRetry(By locator, String text) {
+        sendKeysWithRetry(locator, text, 3);
+    }
+    //  Helper method of sendKeysWithRetry()
+    public void sendKeysWithRetry(By locator, String text, int maxRetries) {
+        retryOnStale(locator, element -> element.sendKeys(text), "sendKeys", maxRetries);
+    }
+
+
+    /**
+     * Clear field with automatic retry on stale element (default 3 retries)
+     */
+    public void clearWithRetry(By locator) {
+        clearWithRetry(locator, 3);
+    }
+    //  Helper method of clearWithRetry()
+    public void clearWithRetry(By locator, int maxRetries) {
+        retryOnStale(locator, WebElement::clear, "clear", maxRetries);
+    }
+
+
+    /**
+     * Get text with automatic retry on stale element (default 3 retries)
+     */
+    public String getTextWithRetry(By locator) {
+        return getTextWithRetry(locator, 3);
+    }
+    //  Helper method of getTextWithRetry()
+    public String getTextWithRetry(By locator, int maxRetries) {
+        return retryOnStaleWithReturn(locator, WebElement::getText, "getText", maxRetries);
+    }
+
+
+    /**
+     * Get attribute with automatic retry on stale element (default 3 retries)
+     */
+    public String getAttributeWithRetry(By locator, String attributeName) {
+        return getAttributeWithRetry(locator, attributeName, 3);
+    }
+    //  Helper method of getAttributeWithRetry()
+    public String getAttributeWithRetry(By locator, String attributeName, int maxRetries) {
+        return retryOnStaleWithReturn(locator, element -> element.getAttribute(attributeName),
+                                      "getAttribute(" + attributeName + ")", maxRetries);
+    }
+
+
+    /**
+     * Check if element is displayed with automatic retry on stale element (default 3 retries)
+     */
+    public boolean isDisplayedWithRetry(By locator) {
+        return isDisplayedWithRetry(locator, 3);
+    }
+    //  Helper method of isDisplayedWithRetry()
+    public boolean isDisplayedWithRetry(By locator, int maxRetries) {
+        return retryOnStaleWithReturn(locator, WebElement::isDisplayed, "isDisplayed", maxRetries);
+    }
+
+
+    /**
+     * Check if element is enabled with automatic retry on stale element (default 3 retries)
+     */
+    public boolean isEnabledWithRetry(By locator) {
+        return isEnabledWithRetry(locator, 3);
+    }
+    //  Helper method of isEnabledWithRetry()
+    public boolean isEnabledWithRetry(By locator, int maxRetries) {
+        return retryOnStaleWithReturn(locator, WebElement::isEnabled, "isEnabled", maxRetries);
     }
 
 
