@@ -493,11 +493,11 @@ public class CustomerBulkUpload_Object extends DriverBase {
             try {
                 if (mailer_inbox_DeleteAllEmail_Confirm_button != null && mailer_inbox_DeleteAllEmail_Confirm_button.isDisplayed()) {
                     mailer_inbox_DeleteAllEmail_Confirm_button.click();
-                    log.info("Delete All prompt appeared..All emails deleted from inbox, proceeding...");
+                    log.info("'Delete All' prompt appeared..All emails deleted from inbox, proceeding...");
                     return;
                 }
             } catch (Exception e) {
-                log.info("Delete All prompt does not appeared, Delete operation complete. proceeding...");
+                log.info("'Delete All' prompt does not appeared, Delete operation complete. proceeding...");
             }
             webDriverUtils.waitUntilVisible(getDriver(), mailer_EmptyInbox_message, Duration.ofSeconds(3));
         } else {

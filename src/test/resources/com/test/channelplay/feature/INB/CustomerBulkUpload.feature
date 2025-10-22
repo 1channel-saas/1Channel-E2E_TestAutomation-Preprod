@@ -40,4 +40,4 @@ Feature: Upload customers from excel from 'Bulk Upload' option under Add button 
 
     Examples:
       |username               |password        |projectIdInUse|assignedUserId|AccNo1    |AccNo2    |AccNo3    |AccNo4    |AccNo5    |uploadDateTime     |uploadDate|
-      |testemailqa@1channel.co|K(460848703994az|433           |7709          |91102001  |91102003  |7189786   |          |          |2025-02-12 02:53:08|20250401  |
+      |testemailqa@1channel.co|K(460848703994az|433           |11290         |91102001  |91102003  |7189786   |          |          |2025-02-12 02:53:08|          |

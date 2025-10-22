@@ -288,6 +288,8 @@
                             <excludes>
                                 <exclude>README.md</exclude>
                                 <exclude>**/README.md</exclude>
+                                <!-- Preserve debug match metadata (JSON files kept for 7 days) -->
+                                <exclude>debug_matches_metadata/**</exclude>
                             </excludes>
                             <followSymlinks>false</followSymlinks>
                         </fileset>

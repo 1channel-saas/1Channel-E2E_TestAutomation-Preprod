@@ -310,9 +310,16 @@ public class CustomerBulkUpload_APISteps extends CommonUtils_API {
 
     @Then("validate whether bulk upload performed by {string} saved under {string} table with testAccounts {string} {string} {string} {string} {string} and {string} {string} for INB")
     public void validateWhetherBulkUploadPerformedBySavedUnderTableWithtesTAccountsAndForINB(String assignedUserId, String tableName, String AccNo1, String AccNo2, String AccNo3, String AccNo4, String AccNo5, String uploadDateTime, String uploadDate) {
+        //  Check if uploadDate is provided in Feature
+        if (uploadDate == null || uploadDate.isEmpty()) {
+            log.info("'UploadDate' parameter not provided in feature, skipping test account validation");
+            return;
+        }
+
         preprodConnection = DBConnection.getPreprodConnection();
 
-        String uploadDataInStage_query = "SELECT project_id, is_active, trans_created_on, serial_no, trans_updated_int\n" +
+        String uploadDataInStage_query = null;
+        uploadDataInStage_query = "SELECT project_id, is_active, trans_created_on, serial_no, trans_updated_int\n" +
                 "FROM " + tableName + "\n" +
                 "WHERE updated_by = " + assignedUserId + "\n" +
                 "AND response_data ->> 'F68721' = ANY(ARRAY['" + AccNo1 + "', '" + AccNo2 + "', '" + AccNo3 + "', '" + AccNo4 + "', '" + AccNo5 + "'])\n" +

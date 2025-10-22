@@ -1,0 +1,24 @@
+[
+  {
+    "filename": "opencv_offsiteActivity_selectCustomer_match_1.00_1760823636814.png",
+    "path": "Add_OffSide_Activity_Test_through_App_and_verify_i/success/opencv_offsiteActivity_selectCustomer_match_1.00_1760823636814.png",
+    "method": "opencv",
+    "status": "success",
+    "confidence": 1.0,
+    "strategy": "TM_CCOEFF_NORMED",
+    "element": "offsiteActivity_selectCustomer",
+    "timestamp": "21:40:36.814",
+    "scenario": "Add_OffSide_Activity_Test_through_App_and_verify_i"
+  },
+  {
+    "filename": "opencv_offsiteActivity_title_field_match_0.99_1760823644721.png",
+    "path": "Add_OffSide_Activity_Test_through_App_and_verify_i/success/opencv_offsiteActivity_title_field_match_0.99_1760823644721.png",
+    "method": "opencv",
+    "status": "success",
+    "confidence": 0.99,
+    "strategy": "TM_CCOEFF_NORMED",
+    "element": "offsiteActivity_title_field",
+    "timestamp": "21:40:44.721",
+    "scenario": "Add_OffSide_Activity_Test_through_App_and_verify_i"
+  }
+]

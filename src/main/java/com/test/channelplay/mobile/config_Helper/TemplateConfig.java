@@ -19,6 +19,11 @@ public class TemplateConfig {
     private static final String DUPLICATE_DETECTION_ENABLED = "template.duplicate.detection.enabled";
     private static final String VISUAL_SIMILARITY_THRESHOLD = "template.visual.similarity.threshold";
     private static final String CLEANUP_AGE_DAYS = "template.cleanup.age.days";
+    private static final String DEBUG_MODE_ENABLED = "template.debug.mode.enabled";
+    private static final String DEBUG_FOLDER = "template.debug.folder";
+    private static final String DEBUG_ORGANIZE_BY_SCENARIO = "template.debug.organize.by.scenario";
+    private static final String DEBUG_VIEWER_AUTO_GENERATE = "template.debug.viewer.auto.generate";
+    private static final String DEBUG_VIEWER_OUTPUT_PATH = "template.debug.viewer.output.path";
 
     // Default values
     private static final boolean DEFAULT_AUTO_CAPTURE_ENABLED = true;
@@ -28,6 +33,11 @@ public class TemplateConfig {
     private static final boolean DEFAULT_DUPLICATE_DETECTION = true;
     private static final double DEFAULT_SIMILARITY_THRESHOLD = 0.85;
     private static final int DEFAULT_CLEANUP_AGE_DAYS = 30;
+    private static final boolean DEFAULT_DEBUG_MODE = false;
+    private static final String DEFAULT_DEBUG_FOLDER = "screenshots/debug_matches";
+    private static final boolean DEFAULT_DEBUG_ORGANIZE_BY_SCENARIO = true;
+    private static final boolean DEFAULT_DEBUG_VIEWER_AUTO_GENERATE = true;
+    private static final String DEFAULT_DEBUG_VIEWER_OUTPUT_PATH = "screenshots/debug_matches_viewer.html";
 
     /**
      * Check if auto-capture is enabled
@@ -134,6 +144,61 @@ public class TemplateConfig {
     }
 
     /**
+     * Check if debug mode is enabled
+     */
+    public static boolean isDebugModeEnabled() {
+        String value = GetProperty.value(DEBUG_MODE_ENABLED);
+        if (value != null && !value.isEmpty()) {
+            return Boolean.parseBoolean(value);
+        }
+        return DEFAULT_DEBUG_MODE;
+    }
+
+    /**
+     * Get debug folder path
+     */
+    public static String getDebugFolder() {
+        String value = GetProperty.value(DEBUG_FOLDER);
+        if (value != null && !value.isEmpty()) {
+            return value;
+        }
+        return DEFAULT_DEBUG_FOLDER;
+    }
+
+    /**
+     * Check if debug images should be organized by scenario
+     */
+    public static boolean isDebugOrganizeByScenario() {
+        String value = GetProperty.value(DEBUG_ORGANIZE_BY_SCENARIO);
+        if (value != null && !value.isEmpty()) {
+            return Boolean.parseBoolean(value);
+        }
+        return DEFAULT_DEBUG_ORGANIZE_BY_SCENARIO;
+    }
+
+    /**
+     * Check if debug viewer should be auto-generated
+     */
+    public static boolean isDebugViewerAutoGenerate() {
+        String value = GetProperty.value(DEBUG_VIEWER_AUTO_GENERATE);
+        if (value != null && !value.isEmpty()) {
+            return Boolean.parseBoolean(value);
+        }
+        return DEFAULT_DEBUG_VIEWER_AUTO_GENERATE;
+    }
+
+    /**
+     * Get debug viewer output path
+     */
+    public static String getDebugViewerOutputPath() {
+        String value = GetProperty.value(DEBUG_VIEWER_OUTPUT_PATH);
+        if (value != null && !value.isEmpty()) {
+            return value;
+        }
+        return DEFAULT_DEBUG_VIEWER_OUTPUT_PATH;
+    }
+
+    /**
      * Log current configuration
      */
     public static void logConfiguration() {
@@ -145,5 +210,10 @@ public class TemplateConfig {
         log.info("  Duplicate detection enabled: {}", isDuplicateDetectionEnabled());
         log.info("  Visual similarity threshold: {}", getVisualSimilarityThreshold());
         log.info("  Cleanup age (days): {}", getCleanupAgeDays());
+        log.info("  Debug mode enabled: {}", isDebugModeEnabled());
+        log.info("  Debug folder: {}", getDebugFolder());
+        log.info("  Debug organize by scenario: {}", isDebugOrganizeByScenario());
+        log.info("  Debug viewer auto-generate: {}", isDebugViewerAutoGenerate());
+        log.info("  Debug viewer output path: {}", getDebugViewerOutputPath());
     }
 }

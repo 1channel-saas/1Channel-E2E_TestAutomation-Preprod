@@ -1,5 +1,5 @@
 {
-  "templatePath" : "templates\\manual_captured_images\\offsiteActivity_performDate_field.png",
+  "templatePath" : "templates/manual_captured_images/offsiteActivity_performDate_field.png",
   "hash" : "0000000000000000000000001111111111111111111111111111111100000000",
   "width" : 1005,
   "height" : 264,
@@ -13,18 +13,18 @@
   "hasText" : false,
   "hasIcon" : false,
   "aliases" : [ "offsite_activity_perform_date_field", "offsiteactivity_performdate_field", "offsiteactivityPerformdateField" ],
-  "successCount" : 7,
+  "successCount" : 24,
   "failureCount" : 0,
-  "lastUsed" : 1760705852528,
+  "lastUsed" : 1761114159587,
   "successRate" : 1.0,
   "usage" : {
-    "totalAttempts" : 7,
+    "totalAttempts" : 24,
     "successCount" : 0,
     "failureCount" : 0,
     "successRate" : 0.0,
     "lastUsed" : 0,
-    "usageFrequency" : "medium",
-    "avgMatchTime" : 728
+    "usageFrequency" : "high",
+    "avgMatchTime" : 1313
   },
   "performance" : {
     "xpathSuccessRate" : 0.0,
@@ -32,18 +32,18 @@
     "ocrFallbackRate" : 0.0,
     "avgConfidence" : 0.992830216884613,
     "lastConfidence" : 0.992830216884613,
-    "confidenceHistory" : [ 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613 ],
+    "confidenceHistory" : [ 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613 ],
     "xpathAttempts" : 0,
     "xpathSuccess" : 0,
-    "opencvAttempts" : 7,
-    "opencvSuccess" : 7,
+    "opencvAttempts" : 24,
+    "opencvSuccess" : 24,
     "ocrAttempts" : 0
   },
   "health" : {
     "status" : "healthy",
     "needsRecapture" : false,
     "staleness" : 0.0,
-    "lastHealthCheck" : 1760705852529,
+    "lastHealthCheck" : 1761114159591,
     "warnings" : [ ]
   },
   "context" : {
@@ -54,5 +54,5 @@
     "testScenarios" : [ ]
   },
   "tags" : [ ],
-  "summary" : "Template: offsiteActivity_performDate_field | Success: 100.0% (7/7) | Confidence: 0.99 | Status: healthy | Last used: Fri Oct 17 18:27:32 IST 2025"
+  "summary" : "Template: offsiteActivity_performDate_field | Success: 100.0% (24/24) | Confidence: 0.99 | Status: healthy | Last used: Wed Oct 22 11:52:39 IST 2025"
 }

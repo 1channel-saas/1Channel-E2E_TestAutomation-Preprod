@@ -5,8 +5,8 @@ Feature: Add Activity Test to verify user is able to add activity successfully f
 
 
 
-  @offsiteActivity
-  Scenario Outline: Add OffSide Activity Test
+  @offsiteActivity_UI
+  Scenario Outline: Add OffSide Activity from App and verify in Portal
 
 ##    AppUI (submit activity from mobile)
     Given User logIn to CRM mobile App with testUser creds
@@ -21,7 +21,7 @@ Feature: Add Activity Test to verify user is able to add activity successfully f
     And add image in image field for offsiteActivity
     Then click on Save to submit offsite activity
     And verify Activity is showing with "<Customer_Name>" in list and fetch activity details for validation for offsiteActivity
-    Then print template analytics report
+#    Then print template analytics report
 
 ##    PortalUI (verify created activity in portal)
     Given User launches 1Channel CRM portal
@@ -29,6 +29,16 @@ Feature: Add Activity Test to verify user is able to add activity successfully f
     Then User clicks on CRM menu and Activities submenu to validate offsiteActivity
     Then clicks on Filter and search with serialNo of offsiteActivity fetched from App
     Then clicks on Edit activity and validate data then delete the activity
+
+    Examples:
+      |Customer_Name|titleField|performDate|
+      |rest@3       |Title     |           |
+
+
+
+
+    @offsiteActivity_API_DB
+    Scenario: Add OffSide Activity from API and verify in DB
 
 ##    API (submit activity from api)
     Given user submit "loginAPI" with "POST" request for login with testUser creds
@@ -54,7 +64,3 @@ Feature: Add Activity Test to verify user is able to add activity successfully f
     Then validate API call is success with status code 200 or handle error
     And validate "message" is "SUCCESS" in responseBody
     And validate "responseData" contains partialText "deleted successfully" in responseBody
-
-    Examples:
-      |Customer_Name|titleField|performDate|
-      |rest@3       |Title     |           |

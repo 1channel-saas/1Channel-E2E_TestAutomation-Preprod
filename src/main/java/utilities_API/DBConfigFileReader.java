@@ -8,6 +8,7 @@ public class DBConfigFileReader {
     private static final Properties properties;
     private DBConfigFileReader() {}
 
+
     static {
         try {
             FileInputStream fileInputStream = new FileInputStream("database.properties");
@@ -18,6 +19,7 @@ public class DBConfigFileReader {
             throw new RuntimeException("Failed to load Database configuration file");
         }
     }
+
     public static String get(String key) {
         return properties.getProperty(key);
     }

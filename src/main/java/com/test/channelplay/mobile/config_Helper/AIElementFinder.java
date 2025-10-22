@@ -29,10 +29,29 @@ public class AIElementFinder {
     private static final Logger log = LoggerFactory.getLogger(AIElementFinder.class);
     private final AppiumDriver driver;
     private final Tesseract tesseract;
+    private static String currentScenario = "unknown";
 
     static {
         // Load OpenCV native library
         nu.pattern.OpenCV.loadShared();
+    }
+
+    /**
+     * Set current test scenario name for debug image organization
+     * @param scenarioName Name of the test scenario
+     */
+    public static void setCurrentScenario(String scenarioName) {
+        // Sanitize and shorten to prevent Windows MAX_PATH issues (260 char limit)
+        String sanitized = scenarioName.replaceAll("[^a-zA-Z0-9_-]", "_");
+
+        // Truncate to max 50 characters to keep paths short
+        if (sanitized.length() > 50) {
+            currentScenario = sanitized.substring(0, 50);
+        } else {
+            currentScenario = sanitized;
+        }
+
+        log.debug("Current scenario set to: {}", currentScenario);
     }
 
     public AIElementFinder(AppiumDriver driver) {
@@ -57,6 +76,7 @@ public class AIElementFinder {
     public Point findElementByImage(String templateImagePath, double threshold) {
         long startTime = System.currentTimeMillis();
         double bestConfidence = 0.0;
+        MatchResult bestResult = null;
 
         try {
             // Take screenshot
@@ -81,11 +101,19 @@ public class AIElementFinder {
             MatchResult result = tryTemplateMatchingWithConfidence(screenProcessed, templateProcessed, Imgproc.TM_CCOEFF_NORMED, threshold, false);
             if (result.point != null) {
                 log.info("SUCCESS: Template matched via OpenCV Strategy 1 (TM_CCOEFF_NORMED) at ({}, {})", result.point.x, result.point.y);
+
+                // Save debug image with rectangle (Phase 1)
+                saveDebugImage(screenProcessed, templateProcessed, result.matchLocation, templateImagePath, result.confidence, "TM_CCOEFF_NORMED");
+
                 long matchTime = System.currentTimeMillis() - startTime;
                 TemplateUsageTracker.recordOpenCVSuccess(templateImagePath, result.confidence, matchTime);
                 return result.point;
             }
-            bestConfidence = Math.max(bestConfidence, result.confidence);
+            // Track best result for failure debug (Phase 3)
+            if (result.confidence > bestConfidence) {
+                bestConfidence = result.confidence;
+                bestResult = result;
+            }
             log.info("OpenCV Strategy 1 failed, trying next strategy");
 
             // Strategy 2: Normalized Cross-Correlation (better for brightness variations)
@@ -93,11 +121,19 @@ public class AIElementFinder {
             result = tryTemplateMatchingWithConfidence(screenProcessed, templateProcessed, Imgproc.TM_CCORR_NORMED, threshold * 0.9, false);
             if (result.point != null) {
                 log.info("SUCCESS: Template matched via OpenCV Strategy 2 (TM_CCORR_NORMED) at ({}, {})", result.point.x, result.point.y);
+
+                // Save debug image with rectangle (Phase 1)
+                saveDebugImage(screenProcessed, templateProcessed, result.matchLocation, templateImagePath, result.confidence, "TM_CCORR_NORMED");
+
                 long matchTime = System.currentTimeMillis() - startTime;
                 TemplateUsageTracker.recordOpenCVSuccess(templateImagePath, result.confidence, matchTime);
                 return result.point;
             }
-            bestConfidence = Math.max(bestConfidence, result.confidence);
+            // Track best result for failure debug (Phase 3)
+            if (result.confidence > bestConfidence) {
+                bestConfidence = result.confidence;
+                bestResult = result;
+            }
             log.info("OpenCV Strategy 2 failed, trying next strategy");
 
             // Strategy 3: Normalized Squared Difference (better for exact pixel matching)
@@ -105,14 +141,27 @@ public class AIElementFinder {
             result = tryTemplateMatchingWithConfidence(screenProcessed, templateProcessed, Imgproc.TM_SQDIFF_NORMED, 0.2, true);
             if (result.point != null) {
                 log.info("SUCCESS: Template matched via OpenCV Strategy 3 (TM_SQDIFF_NORMED) at ({}, {})", result.point.x, result.point.y);
+
+                // Save debug image with rectangle (Phase 1)
+                saveDebugImage(screenProcessed, templateProcessed, result.matchLocation, templateImagePath, result.confidence, "TM_SQDIFF_NORMED");
+
                 long matchTime = System.currentTimeMillis() - startTime;
                 TemplateUsageTracker.recordOpenCVSuccess(templateImagePath, result.confidence, matchTime);
                 return result.point;
             }
-            bestConfidence = Math.max(bestConfidence, result.confidence);
+            // Track best result for failure debug (Phase 3)
+            if (result.confidence > bestConfidence) {
+                bestConfidence = result.confidence;
+                bestResult = result;
+            }
             log.info("OpenCV Strategy 3 failed");
 
             log.warn("Template '{}' not found via any OpenCV strategy (best confidence: {})", templateImagePath, bestConfidence);
+
+            // Save debug image for failure with best attempt (Phase 3)
+            if (bestResult != null && bestResult.matchLocation != null) {
+                saveDebugFailure(screenProcessed, templateProcessed, bestResult.matchLocation, templateImagePath, bestConfidence);
+            }
 
             // Record failure
             long matchTime = System.currentTimeMillis() - startTime;
@@ -149,19 +198,24 @@ public class AIElementFinder {
                      getMethodName(method), confidence, threshold, isMatch);
 
             if (isMatch) {
-                // Return center of matched area with confidence
+                // Return center of matched area with confidence and match location
                 Point center = new Point(
                     matchLocation.x + templateMat.cols() / 2,
                     matchLocation.y + templateMat.rows() / 2
                 );
-                return new MatchResult(center, confidence);
+                return new MatchResult(center, matchLocation, confidence);
             }
 
-            return new MatchResult(null, confidence);
+            // Even for failures, return the best match location found (for debug visualization)
+            Point center = new Point(
+                matchLocation.x + templateMat.cols() / 2,
+                matchLocation.y + templateMat.rows() / 2
+            );
+            return new MatchResult(null, matchLocation, confidence);
 
         } catch (Exception e) {
             log.debug("Template matching failed for method {}: {}", getMethodName(method), e.getMessage());
-            return new MatchResult(null, 0.0);
+            return new MatchResult(null, null, 0.0);
         }
     }
 
@@ -205,11 +259,13 @@ public class AIElementFinder {
      * Inner class to hold match result with confidence
      */
     private static class MatchResult {
-        Point point;
+        Point point;           // Center point (for clicking)
+        Point matchLocation;   // Top-left corner (for drawing rectangle)
         double confidence;
 
-        MatchResult(Point point, double confidence) {
+        MatchResult(Point point, Point matchLocation, double confidence) {
             this.point = point;
+            this.matchLocation = matchLocation;
             this.confidence = confidence;
         }
     }
@@ -520,12 +576,23 @@ public class AIElementFinder {
                         int targetY = wordBounds.y + 20;  // Small offset from top of detected hint text
 
                         log.debug("Two-pass OCR: Found hint text '{}' below '{}' at ({}, {})", firstPart, searchText, targetX, targetY);
-                        return new Point(targetX, targetY);
+
+                        // Save debug image (OCR debug)
+                        Point clickPoint = new Point(targetX, targetY);
+                        saveDebugOCR(screenshot, searchText, labelWord.getBoundingBox(), wordBounds, null, clickPoint, "Two-pass_OCR", true);
+
+                        return clickPoint;
                     }
                 }
             }
 
             log.debug("Two-pass OCR: No hint text found below '{}'", searchText);
+
+            // Save debug image for failure (OCR debug)
+            if (labelWord != null) {
+                saveDebugOCR(screenshot, searchText, labelWord.getBoundingBox(), null, null, null, "Two-pass_OCR", false);
+            }
+
             return null;
 
         } catch (Exception e) {
@@ -599,10 +666,22 @@ public class AIElementFinder {
                 }
 
                 log.debug("Color-based: Found colored region for '{}' at ({}, {})", searchText, targetX, targetY);
-                return new Point(targetX, targetY);
+
+                // Save debug image (OCR debug) with color region
+                Point clickPoint = new Point(targetX, targetY);
+                Rectangle colorRegion = new Rectangle(startX, coloredRegionTop, searchWidth, fieldHeight);
+                saveDebugOCR(screenshot, searchText, labelBounds, null, colorRegion, clickPoint, "Color-based", true);
+
+                return clickPoint;
             }
 
             log.debug("Color-based: No color change found below '{}'", searchText);
+
+            // Save debug image for failure (OCR debug)
+            if (labelWord != null) {
+                saveDebugOCR(screenshot, searchText, labelBounds, null, null, null, "Color-based", false);
+            }
+
             return null;
 
         } catch (Exception e) {
@@ -680,10 +759,21 @@ public class AIElementFinder {
             // Ensure coordinates are within screen bounds
             if (targetY < screenshot.getHeight() && targetX < screenshot.getWidth()) {
                 log.debug("Smart offset: Calculated position ({}, {}) for '{}'", targetX, targetY, searchText);
-                return new Point(targetX, targetY);
+
+                // Save debug image (OCR debug)
+                Point clickPoint = new Point(targetX, targetY);
+                saveDebugOCR(screenshot, searchText, bounds, null, null, clickPoint, "Smart_offset", true);
+
+                return clickPoint;
             }
 
             log.debug("Smart offset: Coordinates out of bounds for '{}'", searchText);
+
+            // Save debug image for failure (OCR debug)
+            if (labelWord != null) {
+                saveDebugOCR(screenshot, searchText, bounds, null, null, null, "Smart_offset", false);
+            }
+
             return null;
 
         } catch (Exception e) {
@@ -706,6 +796,323 @@ public class AIElementFinder {
 
         int diff = Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
         return diff > threshold;
+    }
+
+    /**
+     * Save debug image with rectangle showing matched region (Phase 1 + 2)
+     * @param screenMat Original screen image
+     * @param templateMat Template image that was matched
+     * @param matchLoc Top-left point of match location
+     * @param templatePath Path to template file
+     * @param confidence Match confidence score
+     * @param method Matching method name
+     */
+    private void saveDebugImage(Mat screenMat, Mat templateMat, Point matchLoc,
+                                String templatePath, double confidence, String method) {
+        if (!TemplateConfig.isDebugModeEnabled()) {
+            return;
+        }
+
+        try {
+            // Clone screen image for drawing
+            Mat debugImage = screenMat.clone();
+
+            // Convert from grayscale back to color for colored rectangle
+            if (debugImage.channels() == 1) {
+                Mat colorImage = new Mat();
+                Imgproc.cvtColor(debugImage, colorImage, Imgproc.COLOR_GRAY2BGR);
+                debugImage = colorImage;
+            }
+
+            // Calculate rectangle bounds
+            Point topLeft = matchLoc;
+            Point bottomRight = new Point(
+                matchLoc.x + templateMat.cols(),
+                matchLoc.y + templateMat.rows()
+            );
+
+            // Color based on confidence: Green (high), Yellow (medium), Red (low)
+            Scalar color = confidence >= 0.9 ? new Scalar(0, 255, 0) :  // Green
+                          confidence >= 0.8 ? new Scalar(0, 255, 255) : // Yellow
+                                             new Scalar(0, 0, 255);      // Red
+
+            // Draw rectangle (thickness 3)
+            Imgproc.rectangle(debugImage, topLeft, bottomRight, color, 3);
+
+            // Add text label with method and confidence
+            String label = String.format("%s: %.2f", method, confidence);
+            Imgproc.putText(debugImage, label,
+                           new Point(topLeft.x, topLeft.y - 10),
+                           Imgproc.FONT_HERSHEY_SIMPLEX, 0.7, color, 2);
+
+            // Add center crosshair
+            Point center = new Point(
+                matchLoc.x + templateMat.cols() / 2,
+                matchLoc.y + templateMat.rows() / 2
+            );
+            Imgproc.drawMarker(debugImage, center, color, Imgproc.MARKER_CROSS, 20, 2);
+
+            // Determine subfolder based on confidence
+            String subfolder = confidence >= 0.8 ? "success" : "failures";
+
+            // Build file path
+            String filename = new File(templatePath).getName().replace(".png", "");
+            String debugPath;
+
+            if (TemplateConfig.isDebugOrganizeByScenario()) {
+                // Option 2: Organize by scenario
+                debugPath = String.format("%s/%s/%s/opencv_%s_match_%.2f_%d.png",
+                                        TemplateConfig.getDebugFolder(),
+                                        currentScenario,
+                                        subfolder,
+                                        filename,
+                                        confidence,
+                                        System.currentTimeMillis());
+            } else {
+                // Option 1: Flat structure
+                debugPath = String.format("%s/%s/opencv_%s_match_%.2f_%d.png",
+                                        TemplateConfig.getDebugFolder(),
+                                        subfolder,
+                                        filename,
+                                        confidence,
+                                        System.currentTimeMillis());
+            }
+
+            // Create directories and save
+            File debugFile = new File(debugPath);
+            debugFile.getParentFile().mkdirs();
+            boolean success = Imgcodecs.imwrite(debugFile.getAbsolutePath(), debugImage);
+
+            if (success) {
+                log.info("Debug match image saved: {}", debugFile.getAbsolutePath());
+            } else {
+                log.error("FAILED to save debug image: {} (imwrite returned false)", debugFile.getAbsolutePath());
+            }
+
+        } catch (Exception e) {
+            log.warn("Failed to save debug image: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Save debug image for failed match showing best attempt (Phase 3)
+     * @param screenMat Original screen image
+     * @param templateMat Template image that failed to match
+     * @param bestMatchLoc Best match location found (even though confidence was too low)
+     * @param templatePath Path to template file
+     * @param bestConfidence Best confidence score achieved
+     */
+    private void saveDebugFailure(Mat screenMat, Mat templateMat, Point bestMatchLoc,
+                                  String templatePath, double bestConfidence) {
+        if (!TemplateConfig.isDebugModeEnabled()) {
+            return;
+        }
+
+        try {
+            // Clone screen image for drawing
+            Mat debugImage = screenMat.clone();
+
+            // Ensure image is in BGR format (3 channels) for OpenCV imwrite
+            if (debugImage.channels() == 1) {
+                // Grayscale -> BGR
+                Mat colorImage = new Mat();
+                Imgproc.cvtColor(debugImage, colorImage, Imgproc.COLOR_GRAY2BGR);
+                debugImage.release();  // Release old Mat
+                debugImage = colorImage;
+            } else if (debugImage.channels() == 4) {
+                // BGRA -> BGR (remove alpha channel which can cause imwrite issues)
+                Mat bgrImage = new Mat();
+                Imgproc.cvtColor(debugImage, bgrImage, Imgproc.COLOR_BGRA2BGR);
+                debugImage.release();  // Release old Mat
+                debugImage = bgrImage;
+            }
+
+            // Calculate rectangle bounds
+            Point topLeft = bestMatchLoc;
+            Point bottomRight = new Point(
+                bestMatchLoc.x + templateMat.cols(),
+                bestMatchLoc.y + templateMat.rows()
+            );
+
+            // Red color for failures
+            Scalar color = new Scalar(0, 0, 255);
+
+            // Draw rectangle (thickness 3)
+            Imgproc.rectangle(debugImage, topLeft, bottomRight, color, 3);
+
+            // Add text label indicating failure with best confidence
+            String label = String.format("FAIL: Best=%.2f", bestConfidence);
+            Imgproc.putText(debugImage, label,
+                           new Point(topLeft.x, topLeft.y - 10),
+                           Imgproc.FONT_HERSHEY_SIMPLEX, 0.7, color, 2);
+
+            // Add center crosshair
+            Point center = new Point(
+                bestMatchLoc.x + templateMat.cols() / 2,
+                bestMatchLoc.y + templateMat.rows() / 2
+            );
+            Imgproc.drawMarker(debugImage, center, color, Imgproc.MARKER_CROSS, 20, 2);
+
+            // Build file path (always goes to failures folder)
+            String filename = new File(templatePath).getName().replace(".png", "");
+            String debugPath;
+
+            if (TemplateConfig.isDebugOrganizeByScenario()) {
+                // Option 2: Organize by scenario
+                debugPath = String.format("%s/%s/failures/opencv_%s_fail_%.2f_%d.png",
+                                        TemplateConfig.getDebugFolder(),
+                                        currentScenario,
+                                        filename,
+                                        bestConfidence,
+                                        System.currentTimeMillis());
+            } else {
+                // Option 1: Flat structure
+                debugPath = String.format("%s/failures/opencv_%s_fail_%.2f_%d.png",
+                                        TemplateConfig.getDebugFolder(),
+                                        filename,
+                                        bestConfidence,
+                                        System.currentTimeMillis());
+            }
+
+            // Create directories and save
+            File debugFile = new File(debugPath);
+            debugFile.getParentFile().mkdirs();
+            boolean success = Imgcodecs.imwrite(debugFile.getAbsolutePath(), debugImage);
+
+            if (success) {
+                log.info("Debug failure image saved: {}", debugFile.getAbsolutePath());
+            } else {
+                log.error("FAILED to save debug failure image: {} (imwrite returned false)", debugFile.getAbsolutePath());
+            }
+
+        } catch (Exception e) {
+            log.warn("Failed to save debug failure image: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Save debug image for OCR detection showing bounding boxes and click point
+     * @param screenshot Original screenshot as BufferedImage
+     * @param searchText Text being searched for
+     * @param labelBounds Bounding box of the label text (can be null)
+     * @param hintBounds Bounding box of the hint/value text (can be null)
+     * @param colorRegion Colored region detected by color-based strategy (can be null)
+     * @param clickPoint Final calculated click coordinates
+     * @param strategy Strategy name that found the element
+     * @param success Whether OCR successfully found and clicked the element
+     */
+    private void saveDebugOCR(BufferedImage screenshot, String searchText,
+                             java.awt.Rectangle labelBounds, java.awt.Rectangle hintBounds,
+                             java.awt.Rectangle colorRegion, Point clickPoint,
+                             String strategy, boolean success) {
+        if (!TemplateConfig.isDebugModeEnabled()) {
+            return;
+        }
+
+        try {
+            // Convert BufferedImage to OpenCV Mat for drawing
+            Mat debugImage = bufferedImageToMat(screenshot);
+
+            // Convert from BGR to color if needed
+            if (debugImage.channels() == 1) {
+                Mat colorImage = new Mat();
+                Imgproc.cvtColor(debugImage, colorImage, Imgproc.COLOR_GRAY2BGR);
+                debugImage = colorImage;
+            } else if (debugImage.channels() == 3) {
+                // Already in BGR format, ensure it's color
+                Mat colorImage = new Mat();
+                Imgproc.cvtColor(debugImage, colorImage, Imgproc.COLOR_RGB2BGR);
+                debugImage = colorImage;
+            }
+
+            // Draw label bounding box (Blue)
+            if (labelBounds != null) {
+                Point topLeft = new Point(labelBounds.x, labelBounds.y);
+                Point bottomRight = new Point(labelBounds.x + labelBounds.width,
+                                             labelBounds.y + labelBounds.height);
+                Scalar blueColor = new Scalar(255, 0, 0); // Blue in BGR
+                Imgproc.rectangle(debugImage, topLeft, bottomRight, blueColor, 2);
+                Imgproc.putText(debugImage, "LABEL",
+                               new Point(topLeft.x, topLeft.y - 5),
+                               Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, blueColor, 2);
+            }
+
+            // Draw hint/value text bounding box (Green)
+            if (hintBounds != null) {
+                Point topLeft = new Point(hintBounds.x, hintBounds.y);
+                Point bottomRight = new Point(hintBounds.x + hintBounds.width,
+                                             hintBounds.y + hintBounds.height);
+                Scalar greenColor = new Scalar(0, 255, 0); // Green in BGR
+                Imgproc.rectangle(debugImage, topLeft, bottomRight, greenColor, 2);
+                Imgproc.putText(debugImage, "HINT",
+                               new Point(topLeft.x, topLeft.y - 5),
+                               Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, greenColor, 2);
+            }
+
+            // Draw color-detected region (Orange)
+            if (colorRegion != null) {
+                Point topLeft = new Point(colorRegion.x, colorRegion.y);
+                Point bottomRight = new Point(colorRegion.x + colorRegion.width,
+                                             colorRegion.y + colorRegion.height);
+                Scalar orangeColor = new Scalar(0, 165, 255); // Orange in BGR
+                Imgproc.rectangle(debugImage, topLeft, bottomRight, orangeColor, 2);
+                Imgproc.putText(debugImage, "COLOR REGION",
+                               new Point(topLeft.x, topLeft.y - 5),
+                               Imgproc.FONT_HERSHEY_SIMPLEX, 0.5, orangeColor, 2);
+            }
+
+            // Draw click point with crosshair (Red for success, Dark red for failure)
+            if (clickPoint != null) {
+                Scalar clickColor = success ? new Scalar(0, 0, 255) : new Scalar(0, 0, 139); // Red/Dark red
+                Imgproc.drawMarker(debugImage, clickPoint, clickColor,
+                                  Imgproc.MARKER_CROSS, 30, 3);
+
+                // Add strategy label
+                String label = String.format("%s: %s", strategy, success ? "SUCCESS" : "FAIL");
+                Imgproc.putText(debugImage, label,
+                               new Point(clickPoint.x - 50, clickPoint.y - 40),
+                               Imgproc.FONT_HERSHEY_SIMPLEX, 0.7, clickColor, 2);
+            }
+
+            // Determine subfolder
+            String subfolder = success ? "success" : "failures";
+
+            // Sanitize search text for filename
+            String sanitizedName = searchText.replaceAll("[^a-zA-Z0-9_-]", "_").toLowerCase();
+
+            // Build file path
+            String debugPath;
+            if (TemplateConfig.isDebugOrganizeByScenario()) {
+                debugPath = String.format("%s/%s/%s/ocr_%s_%s_%d.png",
+                                        TemplateConfig.getDebugFolder(),
+                                        currentScenario,
+                                        subfolder,
+                                        sanitizedName,
+                                        strategy.replaceAll(" ", "_"),
+                                        System.currentTimeMillis());
+            } else {
+                debugPath = String.format("%s/%s/ocr_%s_%s_%d.png",
+                                        TemplateConfig.getDebugFolder(),
+                                        subfolder,
+                                        sanitizedName,
+                                        strategy.replaceAll(" ", "_"),
+                                        System.currentTimeMillis());
+            }
+
+            // Create directories and save
+            File debugFile = new File(debugPath);
+            debugFile.getParentFile().mkdirs();
+            boolean writeSuccess = Imgcodecs.imwrite(debugFile.getAbsolutePath(), debugImage);
+
+            if (writeSuccess) {
+                log.info("Debug OCR image saved: {}", debugFile.getAbsolutePath());
+            } else {
+                log.error("FAILED to save debug OCR image: {} (imwrite returned false)", debugFile.getAbsolutePath());
+            }
+
+        } catch (Exception e) {
+            log.warn("Failed to save debug OCR image: {}", e.getMessage());
+        }
     }
 
     /**
