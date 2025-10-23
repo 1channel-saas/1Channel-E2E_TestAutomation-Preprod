@@ -21,7 +21,7 @@ Feature: Add Activity Test to verify user is able to add activity successfully f
     And add image in image field for offsiteActivity
     Then click on Save to submit offsite activity
     And verify Activity is showing with "<Customer_Name>" in list and fetch activity details for validation for offsiteActivity
-#    Then print template analytics report
+    Then print template analytics report
 
 ##    PortalUI (verify created activity in portal)
     Given User launches 1Channel CRM portal

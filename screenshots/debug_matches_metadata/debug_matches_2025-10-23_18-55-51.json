@@ -1,0 +1,57 @@
+[
+  {
+    "filename": "opencv_offsiteActivity_description_field_match_1.00_1761225791230.png",
+    "path": "Add_OffSide_Activity_from_App_and_verify_in_Portal/success/opencv_offsiteActivity_description_field_match_1.00_1761225791230.png",
+    "method": "opencv",
+    "status": "success",
+    "confidence": 1.0,
+    "strategy": "TM_CCOEFF_NORMED",
+    "element": "offsiteActivity_description_field",
+    "timestamp": "13:23:11.230",
+    "scenario": "Add_OffSide_Activity_from_App_and_verify_in_Portal"
+  },
+  {
+    "filename": "opencv_offsiteActivity_image_field_match_1.00_1761225835619.png",
+    "path": "Add_OffSide_Activity_from_App_and_verify_in_Portal/success/opencv_offsiteActivity_image_field_match_1.00_1761225835619.png",
+    "method": "opencv",
+    "status": "success",
+    "confidence": 1.0,
+    "strategy": "TM_CCOEFF_NORMED",
+    "element": "offsiteActivity_image_field",
+    "timestamp": "13:23:55.619",
+    "scenario": "Add_OffSide_Activity_from_App_and_verify_in_Portal"
+  },
+  {
+    "filename": "opencv_offsiteActivity_performDate_field_match_0.99_1761225822113.png",
+    "path": "Add_OffSide_Activity_from_App_and_verify_in_Portal/success/opencv_offsiteActivity_performDate_field_match_0.99_1761225822113.png",
+    "method": "opencv",
+    "status": "success",
+    "confidence": 0.99,
+    "strategy": "TM_CCOEFF_NORMED",
+    "element": "offsiteActivity_performDate_field",
+    "timestamp": "13:23:42.113",
+    "scenario": "Add_OffSide_Activity_from_App_and_verify_in_Portal"
+  },
+  {
+    "filename": "opencv_offsiteActivity_selectCustomer_match_1.00_1761225761289.png",
+    "path": "Add_OffSide_Activity_from_App_and_verify_in_Portal/success/opencv_offsiteActivity_selectCustomer_match_1.00_1761225761289.png",
+    "method": "opencv",
+    "status": "success",
+    "confidence": 1.0,
+    "strategy": "TM_CCOEFF_NORMED",
+    "element": "offsiteActivity_selectCustomer",
+    "timestamp": "13:22:41.289",
+    "scenario": "Add_OffSide_Activity_from_App_and_verify_in_Portal"
+  },
+  {
+    "filename": "opencv_offsiteActivity_title_field_match_0.99_1761225801284.png",
+    "path": "Add_OffSide_Activity_from_App_and_verify_in_Portal/success/opencv_offsiteActivity_title_field_match_0.99_1761225801284.png",
+    "method": "opencv",
+    "status": "success",
+    "confidence": 0.99,
+    "strategy": "TM_CCOEFF_NORMED",
+    "element": "offsiteActivity_title_field",
+    "timestamp": "13:23:21.284",
+    "scenario": "Add_OffSide_Activity_from_App_and_verify_in_Portal"
+  }
+]

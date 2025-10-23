@@ -1,6 +1,9 @@
 package com.test.channelplay.stepDefinition_Mobile;
 
+import com.test.channelplay.mobile.config_Helper.AIElementFinder;
 import com.test.channelplay.mobile.config_Helper.MobileTestFlowScreenshotManager;
+import com.test.channelplay.mobile.config_Helper.TemplateConfig;
+import com.test.channelplay.mobile.config_Helper.DebugMatchesViewerGenerator;
 import com.test.channelplay.utils.MobileTestBase;
 import com.test.channelplay.utils.MobileDriverManager;
 import com.test.channelplay.utils.GetProperty;
@@ -62,6 +65,10 @@ public class Hooks_Mobile extends MobileTestBase {
             driver = getDriver();  // Use inherited getDriver() method
             log.info("Mobile driver initialized for platform: {}, device: {}", platform, deviceName);
 
+            // Set current scenario for debug image organization
+            AIElementFinder.setCurrentScenario(scenario.getName());
+            log.info("Debug scenario tracking set to: {}", scenario.getName());
+
             // Initialize test flow screenshot manager
             testFlowManager = new MobileTestFlowScreenshotManager(driver);
             // Scenario initialization is handled by AllureHooks_Mobile to avoid duplicates
@@ -77,13 +84,13 @@ public class Hooks_Mobile extends MobileTestBase {
     @After("@mobile")
     public void tearDownMobile(Scenario scenario) {
         System.out.println("Ending mobile test scenario: " + scenario.getName());
-        
+
         // NOTE: Auto-captured templates are NOT cleaned up automatically
         // This allows the AI to learn from successful finds and build a template library
         // Templates persist across test runs for better AI fallback performance
         // To manually clean templates, call: xpathHelper.cleanupAutoTemplates()
         log.info("Preserving auto-captured templates for AI learning");
-        
+
         // Capture screenshot if scenario fails
         if (scenario.isFailed() && getDriver() != null) {
             try {
@@ -95,9 +102,22 @@ public class Hooks_Mobile extends MobileTestBase {
                 System.err.println("Failed to capture screenshot: " + e.getMessage());
             }
         }
-        
+
         // Clean up test flow tracking
         MobileTestFlowScreenshotManager.cleanupScenario(scenario.getName());
+
+        // Auto-generate debug viewer if configured
+        if (TemplateConfig.isDebugModeEnabled() && TemplateConfig.isDebugViewerAutoGenerate()) {
+            try {
+                String debugFolder = TemplateConfig.getDebugFolder();
+                log.info("Auto-generating debug matches viewer from: {}", debugFolder);
+                DebugMatchesViewerGenerator.generate(debugFolder);
+                log.info("Debug viewer generated successfully at: {}", TemplateConfig.getDebugViewerOutputPath());
+            } catch (Exception e) {
+                log.warn("Failed to auto-generate debug viewer: {}", e.getMessage());
+                // Don't fail the test if viewer generation fails
+            }
+        }
 
         // Tear down the mobile driver after each scenario
         try {

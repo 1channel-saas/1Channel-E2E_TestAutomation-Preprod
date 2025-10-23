@@ -1,5 +1,5 @@
 {
-  "templatePath" : "templates/manual_captured_images/offsiteActivity_description_field.png",
+  "templatePath" : "templates\\manual_captured_images\\offsiteActivity_description_field.png",
   "hash" : "0011111111111111111111111111111101111111111111111111111111111111",
   "width" : 1003,
   "height" : 487,
@@ -13,37 +13,37 @@
   "hasText" : false,
   "hasIcon" : false,
   "aliases" : [ "offsite_activity_description_field", "offsiteactivityDescriptionField", "offsiteactivity_description_field" ],
-  "successCount" : 26,
+  "successCount" : 33,
   "failureCount" : 1,
-  "lastUsed" : 1761114129925,
-  "successRate" : 0.9629629629629629,
+  "lastUsed" : 1761226675788,
+  "successRate" : 0.9705882352941176,
   "usage" : {
-    "totalAttempts" : 27,
+    "totalAttempts" : 34,
     "successCount" : 0,
     "failureCount" : 0,
     "successRate" : 0.0,
     "lastUsed" : 0,
     "usageFrequency" : "high",
-    "avgMatchTime" : 1312
+    "avgMatchTime" : 1367
   },
   "performance" : {
     "xpathSuccessRate" : 0.0,
-    "opencvSuccessRate" : 0.9629629629629629,
+    "opencvSuccessRate" : 0.9705882352941176,
     "ocrFallbackRate" : 0.0,
-    "avgConfidence" : 0.898466694355011,
+    "avgConfidence" : 0.9982930481433868,
     "lastConfidence" : 0.9982808828353882,
-    "confidenceHistory" : [ 0.9983156323432922, 0.9983156323432922, 0.0, 0.9983156323432922, 0.9983156323432922, 0.9982808828353882, 0.9982808828353882, 0.9982808828353882, 0.9982808828353882, 0.9982808828353882 ],
+    "confidenceHistory" : [ 0.9982808828353882, 0.9982808828353882, 0.9982808828353882, 0.9982982873916626, 0.9982808828353882, 0.9983156323432922, 0.9983156323432922, 0.9983156323432922, 0.9982808828353882, 0.9982808828353882 ],
     "xpathAttempts" : 0,
     "xpathSuccess" : 0,
-    "opencvAttempts" : 27,
-    "opencvSuccess" : 26,
+    "opencvAttempts" : 34,
+    "opencvSuccess" : 33,
     "ocrAttempts" : 0
   },
   "health" : {
     "status" : "healthy",
     "needsRecapture" : false,
     "staleness" : 0.0,
-    "lastHealthCheck" : 1761114129930,
+    "lastHealthCheck" : 1761226675792,
     "warnings" : [ ]
   },
   "context" : {
@@ -54,5 +54,5 @@
     "testScenarios" : [ ]
   },
   "tags" : [ ],
-  "summary" : "Template: offsiteActivity_description_field | Success: 96.3% (26/27) | Confidence: 0.90 | Status: healthy | Last used: Wed Oct 22 11:52:09 IST 2025"
+  "summary" : "Template: offsiteActivity_description_field | Success: 97.1% (33/34) | Confidence: 1.00 | Status: healthy | Last used: Thu Oct 23 19:07:55 IST 2025"
 }

@@ -15,7 +15,7 @@
     "path" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer.png",
     "hash" : "7ffffffffeffffff",
     "elementName" : "offsiteActivity_selectCustomer",
-    "created" : 1761114084141,
+    "created" : 1761226627757,
     "version" : 1
   }, {
     "path" : "templates\\screens\\current/offsiteactivity_title_field_auto.png",
@@ -27,13 +27,13 @@
     "path" : "templates\\manual_captured_images\\offsiteActivity_contacts_field.png",
     "hash" : "000000fffefeff00",
     "elementName" : "offsiteActivity_contacts_field",
-    "created" : 1761114083998,
+    "created" : 1761226627620,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_performDate_field.png",
     "hash" : "000000ffffffff00",
     "elementName" : "offsiteActivity_performDate_field",
-    "created" : 1761114084113,
+    "created" : 1761226627731,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\Screenshot_1760398335.png",
@@ -57,13 +57,13 @@
     "path" : "templates\\manual_captured_images\\offsiteActivity_bottonBar.png",
     "hash" : "ffffbebebeffffff",
     "elementName" : "offsiteActivity_bottonBar",
-    "created" : 1761114083960,
+    "created" : 1761226627587,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_description_field.png",
     "hash" : "3fffffff7fffffff",
     "elementName" : "offsiteActivity_description_field",
-    "created" : 1761114084058,
+    "created" : 1761226627677,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_selectCustomer1.png",
@@ -75,13 +75,13 @@
     "path" : "templates\\manual_captured_images\\offsiteActivity_image_field.png",
     "hash" : "7fffffffefffff80",
     "elementName" : "offsiteActivity_image_field",
-    "created" : 1761114084081,
+    "created" : 1761226627698,
     "version" : 1
   }, {
     "path" : "templates\\manual_captured_images\\offsiteActivity_title_field.png",
     "hash" : "000000ff7fffff00",
     "elementName" : "offsiteActivity_title_field",
-    "created" : 1761114084165,
+    "created" : 1761226627789,
     "version" : 1
   }, {
     "path" : "templates\\AI_images\\current/offsiteactivity_title_field_ai.png",
@@ -99,7 +99,7 @@
     "templates\\manual_captured_images" : {
       "sizeMB" : 0,
       "created" : 1760572212690,
-      "lastModified" : 1761114084170
+      "lastModified" : 1761226627793
     },
     "templates\\screens\\current" : {
       "sizeMB" : 0,

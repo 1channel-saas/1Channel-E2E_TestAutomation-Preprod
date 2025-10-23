@@ -1,5 +1,5 @@
 {
-  "templatePath" : "templates/manual_captured_images/offsiteActivity_performDate_field.png",
+  "templatePath" : "templates\\manual_captured_images\\offsiteActivity_performDate_field.png",
   "hash" : "0000000000000000000000001111111111111111111111111111111100000000",
   "width" : 1005,
   "height" : 264,
@@ -13,37 +13,37 @@
   "hasText" : false,
   "hasIcon" : false,
   "aliases" : [ "offsite_activity_perform_date_field", "offsiteactivity_performdate_field", "offsiteactivityPerformdateField" ],
-  "successCount" : 24,
+  "successCount" : 31,
   "failureCount" : 0,
-  "lastUsed" : 1761114159587,
+  "lastUsed" : 1761226707699,
   "successRate" : 1.0,
   "usage" : {
-    "totalAttempts" : 24,
+    "totalAttempts" : 31,
     "successCount" : 0,
     "failureCount" : 0,
     "successRate" : 0.0,
     "lastUsed" : 0,
     "usageFrequency" : "high",
-    "avgMatchTime" : 1313
+    "avgMatchTime" : 1308
   },
   "performance" : {
     "xpathSuccessRate" : 0.0,
     "opencvSuccessRate" : 1.0,
     "ocrFallbackRate" : 0.0,
-    "avgConfidence" : 0.992830216884613,
+    "avgConfidence" : 0.9928309738636016,
     "lastConfidence" : 0.992830216884613,
-    "confidenceHistory" : [ 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613 ],
+    "confidenceHistory" : [ 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.992830216884613, 0.9928377866744995, 0.992830216884613, 0.992830216884613, 0.992830216884613 ],
     "xpathAttempts" : 0,
     "xpathSuccess" : 0,
-    "opencvAttempts" : 24,
-    "opencvSuccess" : 24,
+    "opencvAttempts" : 31,
+    "opencvSuccess" : 31,
     "ocrAttempts" : 0
   },
   "health" : {
     "status" : "healthy",
     "needsRecapture" : false,
     "staleness" : 0.0,
-    "lastHealthCheck" : 1761114159591,
+    "lastHealthCheck" : 1761226707701,
     "warnings" : [ ]
   },
   "context" : {
@@ -54,5 +54,5 @@
     "testScenarios" : [ ]
   },
   "tags" : [ ],
-  "summary" : "Template: offsiteActivity_performDate_field | Success: 100.0% (24/24) | Confidence: 0.99 | Status: healthy | Last used: Wed Oct 22 11:52:39 IST 2025"
+  "summary" : "Template: offsiteActivity_performDate_field | Success: 100.0% (31/31) | Confidence: 0.99 | Status: healthy | Last used: Thu Oct 23 19:08:27 IST 2025"
 }

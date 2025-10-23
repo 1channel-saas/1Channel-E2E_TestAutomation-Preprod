@@ -1,4 +1,4 @@
-@web @mobile @E2E
+#@web @mobile @E2E
 @JSW
 @addPurchaseForOther
 Feature:
